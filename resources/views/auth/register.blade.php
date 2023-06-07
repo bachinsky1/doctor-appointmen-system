@@ -44,8 +44,8 @@
 
 
                             <div class="col-md-6">
-                                <select id="role" class="form-control" name="role">
-                                    <option value="patient">{{ __('Patient') }}</option>
+                                <select id="role" class="form-control form-select" name="role">
+                                    <option selected value="patient">{{ __('Patient') }}</option>
                                     <option value="health-professional">{{ __('Health Professional') }}</option>
                                 </select>
 
