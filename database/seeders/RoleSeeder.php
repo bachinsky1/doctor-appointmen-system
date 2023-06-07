@@ -19,10 +19,10 @@ class RoleSeeder extends Seeder
         $admin->slug = 'administrator';
         $admin->save();
 
-        $medact = new Role();
-        $medact->name = 'Medical actor';
-        $medact->slug = 'medical-actor';
-        $medact->save();
+        $healthProfessional = new Role();
+        $healthProfessional->name = 'Health professional';
+        $healthProfessional->slug = 'health-professional';
+        $healthProfessional->save();
 
         $patient = new Role();
         $patient->name = 'Patient';

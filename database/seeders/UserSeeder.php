@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $adminRole = Role::where('slug', 'administrator')->first();
-        $medactRole = Role::where('slug', 'medical-actor')->first();
+        $healthProfessionalRole = Role::where('slug', 'health-professional')->first();
         $patientRole = Role::where('slug','patient')->first();
         
         $manageUsers = Permission::where('slug','manage-users')->first();
@@ -32,14 +32,14 @@ class UserSeeder extends Seeder
         $admin->roles()->attach($adminRole);
         $admin->permissions()->attach($manageUsers);
 
-        $medact = new User();
-        $medact->name = 'Lee Van Cliff';
-        $medact->email = 'lee.van.cliff@mail.com';
-        $medact->password = bcrypt('secret');
-        $medact->save();
-        $medact->roles()->attach($medactRole);
-        $medact->permissions()->attach($createAppointments);
-        $medact->permissions()->attach($manageAppointments);
+        $healthProfessional = new User();
+        $healthProfessional->name = 'Lee Van Cliff';
+        $healthProfessional->email = 'lee.van.cliff@mail.com';
+        $healthProfessional->password = bcrypt('secret');
+        $healthProfessional->save();
+        $healthProfessional->roles()->attach($healthProfessionalRole);
+        $healthProfessional->permissions()->attach($createAppointments);
+        $healthProfessional->permissions()->attach($manageAppointments);
 
         $patient = new User();
         $patient->name = 'Elly Wallah';
