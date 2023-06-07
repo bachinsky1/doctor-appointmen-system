@@ -1,23 +1,37 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+
+@auth
+
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+        <div class="col-md-12">
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif 
-                    {{ __('You are logged in as:') }} {{ $role->name }} [ {{ $role->slug }} ]
-
-                </div>
+            @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
             </div>
+            @endif
+
+
+            @if($role->slug == 'administrator')
+            <!-- Load data for Administrator -->
+            @include('partials.users')
+
+            @elseif($role->slug == 'health-professional')
+            <!-- Load data for Health Professional -->
+            <p>Container for Health proffesional data</p>
+            @else
+            <!-- Load data for Patient -->
+            <p>Container for Patient data</p>
+
+            @endif
+
         </div>
     </div>
 </div>
+
+@endauth
+
 @endsection
