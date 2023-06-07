@@ -15,5 +15,5 @@ RUN apt-get update && \
     libzip-dev \
     zip \
     libonig-dev \ 
-    && docker-php-ext-install pdo_mysql mysqli mbstring intl zip exif pcntl bcmath soap gd \
+    && docker-php-ext-install pdo_mysql mysqli mbstring intl zip exif pcntl bcmath soap gd opcache \
     && rm -rf /var/lib/apt/lists/*
