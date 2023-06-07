@@ -18,9 +18,10 @@
         </tr>
     </thead>
 
-    {{-- Create a table body with rows for each user in $allUsers --}}
+    {{-- Create a table body with rows for each user in $users --}}
+
     <tbody>
-        @foreach($allUsers as $user)
+        @foreach($users as $user)
         <tr>
             <th scope="row">{{$user->id}}</th>
             <td>{{$user->name}}</td>
@@ -40,11 +41,11 @@
     </tbody>
 
     {{-- If there is more than one page of users, show a table footer with pagination links --}}
-    @if ($allUsers->lastPage() > 1)
+    @if ($users->lastPage() > 1)
     <tfoot>
         <tr>
             <td colspan="9">
-                @include('partials.pagination', ['data' => $allUsers])
+                @include('partials.pagination', ['data' => $users])
             </td>
         </tr>
     </tfoot>

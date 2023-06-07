@@ -35,10 +35,13 @@
 
                     <!-- Right Side Of Navbar -->
                     @auth
-
-                    <span class="navbar-text">
-                        {{ __('You are logged in as:') }} {{ $role->name }} [ {{ $role->slug }} ]
-                    </span>
+                    <span>{{ __('You are logged in as:') }}</span>
+                    @foreach($roles as $role)
+                        <span class="navbar-text">
+                            &nbsp;{{ $role->name }} [ {{ $role->slug }} ]
+                        </span>
+                    @endforeach
+                    
                     @endauth
 
                     <ul class="navbar-nav ms-auto">
