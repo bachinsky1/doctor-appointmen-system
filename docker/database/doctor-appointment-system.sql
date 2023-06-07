@@ -133,7 +133,7 @@ DELETE FROM `roles`;
 /*!40000 ALTER TABLE `roles` DISABLE KEYS */;
 INSERT INTO `roles` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
 	(1, 'Administrator', 'administrator', '2023-06-07 12:10:00', '2023-06-07 12:10:00'),
-	(2, 'Medical actor', 'health-professional', '2023-06-07 12:10:00', '2023-06-07 12:10:00'),
+	(2, 'Health Professional', 'health-professional', '2023-06-07 12:10:00', '2023-06-07 12:10:00'),
 	(3, 'Patient', 'patient', '2023-06-07 12:10:00', '2023-06-07 12:10:00');
 /*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 
