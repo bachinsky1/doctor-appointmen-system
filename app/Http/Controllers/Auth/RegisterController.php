@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\RegistersUsers; 
+use Illuminate\Support\Facades\Hash; 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use RuntimeException;
@@ -53,11 +52,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $slugs = Role::pluck('slug')->reject(function ($slug) {
+            return $slug === 'administrator';
+        })->toArray();
+
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'string', Rule::in(['health-professional', 'patient'])],
+            'role' => ['required', 'string', Rule::in($slugs)],
         ]);
     }
 
