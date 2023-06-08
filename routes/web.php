@@ -8,6 +8,8 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\StatisticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +40,8 @@ Route::group(['middleware' => 'role:administrator,health-professional,patient'],
     Route::group(['middleware' => 'role:health-professional'], function () { 
         Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda');
         Route::get('/billing', [BillingController::class, 'index'])->name('billing');
+        Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
+        Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
     });
 
     Route::group(['middleware' => 'role:administrator'], function () {

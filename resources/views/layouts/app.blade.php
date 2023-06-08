@@ -118,6 +118,21 @@
                         {{ __('Billing') }}
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('tasks') }}" class="nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#grid" /></svg>
+                        {{ __('Tasks') }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('statistics') }}" class="nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#gear-fill" /></svg>
+
+                        {{ __('Statistics') }}
+                    </a>
+                </li>
 
                 @endrole
 
