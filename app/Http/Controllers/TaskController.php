@@ -13,7 +13,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('partials.tasks');
+        return view('tasks');
     }
 
     /**

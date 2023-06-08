@@ -17,7 +17,7 @@ class MedicalestablishmentController extends Controller
             ->withTrashed() 
             ->paginate(10);
 
-        return view('partials.medicalestablishments', [
+        return view('medicalestablishments', [
             'medests' => $medests,
         ]);
     }

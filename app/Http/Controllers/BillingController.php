@@ -13,7 +13,7 @@ class BillingController extends Controller
      */
     public function index()
     {
-        return view('partials.billing');
+        return view('billing');
     }
 
     /**

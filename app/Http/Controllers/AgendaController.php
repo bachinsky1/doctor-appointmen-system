@@ -13,7 +13,7 @@ class AgendaController extends Controller
      */
     public function index()
     {
-        return view('partials.agenda');
+        return view('agenda');
     }
 
     /**

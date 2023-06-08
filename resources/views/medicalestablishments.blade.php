@@ -68,7 +68,7 @@
     <tfoot>
         <tr>
             <td colspan="8">
-                @include('partials.pagination', ['data' => $medests])
+                @include('pagination', ['data' => $medests])
             </td>
         </tr>
     </tfoot>
