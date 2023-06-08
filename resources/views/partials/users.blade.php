@@ -37,10 +37,21 @@
             <td>{{$user->created_at}}</td>
             <td>{{$user->updated_at}}</td>
             <td>{{$user->deleted_at}}</td>
-            <td><button class="btn btn-sm btn-danger">{{ __('Delete') }}</button></td>
+            <td>
+                @if($user->deleted_at)
+                    <span class="btn btn-warning disabled">{{ __('User deleted') }}</span>
+                @else
+                <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">{{ __('Delete') }}</button>
+                </form>
+                @endif
+            </td>
+
         </tr>
         @endforeach
-        
+
     </tbody>
 
     {{-- If there is more than one page of users, show a table footer with pagination links --}}
@@ -65,5 +76,3 @@
 </div>
 
 @endif
-
-

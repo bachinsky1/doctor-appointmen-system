@@ -83,7 +83,21 @@
         </nav>
 
         <main class="pt-3">
-            @yield('content')
+
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        @if(session('message'))
+                        <div class="alert lert-dismissible fade show alert-{{ session('class', 'info') }}" role="alert">
+                            {{ session('message') }}
+                            <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        @endif
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
 </body>
