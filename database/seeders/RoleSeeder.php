@@ -10,6 +10,7 @@
 namespace Database\Seeders;
 
 use App\Models\Role;
+use App\ROLES;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -24,19 +25,19 @@ class RoleSeeder extends Seeder
         // Create a new Role instance for an administrator
         $admin = new Role();
         $admin->name = 'Administrator';
-        $admin->slug = 'administrator';
+        $admin->slug = ROLES::ADMIN;
         $admin->save();
 
         // Create a new Role instance for a health professional
         $healthProfessional = new Role();
         $healthProfessional->name = 'Health professional';
-        $healthProfessional->slug = 'health-professional';
+        $healthProfessional->slug = ROLES::HEALTH_PROFESSIONAL;
         $healthProfessional->save();
 
         // Create a new Role instance for a patient
         $patient = new Role();
         $patient->name = 'Patient';
-        $patient->slug = 'patient';
+        $patient->slug = ROLES::PATIENT;
         $patient->save();
     }
 }

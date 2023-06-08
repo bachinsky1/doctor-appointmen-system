@@ -17,6 +17,7 @@ namespace Database\Seeders;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Permission;
+use App\ROLES;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 
@@ -29,9 +30,9 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $adminRole = Role::where('slug', 'administrator')->first();
-        $healthProfessionalRole = Role::where('slug', 'health-professional')->first();
-        $patientRole = Role::where('slug','patient')->first();
+        $adminRole = Role::where('slug', ROLES::ADMIN)->first();
+        $healthProfessionalRole = Role::where('slug', ROLES::HEALTH_PROFESSIONAL)->first();
+        $patientRole = Role::where('slug', ROLES::PATIENT)->first();
         
         $manageUsers = Permission::where('slug','manage-users')->first();
         $createAppointments = Permission::where('slug','create-appointments')->first();

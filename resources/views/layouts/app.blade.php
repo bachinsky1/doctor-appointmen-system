@@ -156,7 +156,6 @@
 
                     </a>
                 </li>
-
                 @endrole
             </ul>
             <hr>
