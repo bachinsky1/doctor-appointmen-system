@@ -37,7 +37,7 @@
                     <!-- Right Side Of Navbar -->
                     @auth
                     <span>{{ __('You are logged in as:') }}</span>
-                    @foreach($roles as $role)
+                    @foreach(Auth::user()->roles as $role)
                         <span class="navbar-text">
                             &nbsp;{{ $role->name }} [ {{ $role->slug }} ]
                         </span>
