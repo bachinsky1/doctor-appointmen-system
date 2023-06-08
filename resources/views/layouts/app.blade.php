@@ -105,11 +105,20 @@
                     <a href="{{ route('agenda') }}" class="nav-link text-white">
 
                         <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#table" /></svg>
+                            <use xlink:href="#calendar3" /></svg>
                         {{ __('Agenda') }}
 
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('billing') }}" class="nav-link text-white">
+
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#collection" /></svg>
+                        {{ __('Billing') }}
+                    </a>
+                </li>
+
                 @endrole
 
 

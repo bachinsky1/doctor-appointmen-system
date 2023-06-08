@@ -7,6 +7,7 @@ use App\Http\Controllers\MedicalestablishmentController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AgendaController;
+use App\Http\Controllers\BillingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,7 @@ Route::group(['middleware' => 'role:administrator,health-professional,patient'],
 
     Route::group(['middleware' => 'role:health-professional'], function () { 
         Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda');
+        Route::get('/billing', [BillingController::class, 'index'])->name('billing');
     });
 
     Route::group(['middleware' => 'role:administrator'], function () {

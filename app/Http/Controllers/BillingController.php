@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Agenda;
+use App\Models\Billing;
 use Illuminate\Http\Request;
 
-class AgendaController extends Controller
+class BillingController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * 
      */
     public function index()
     {
-        return view('partials.agenda');
+        return view('partials.billing');
     }
 
     /**
@@ -40,10 +40,10 @@ class AgendaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Agenda  $agenda
+     * @param  \App\Models\Billing  $billing
      * @return \Illuminate\Http\Response
      */
-    public function show(Agenda $agenda)
+    public function show(Billing $billing)
     {
         //
     }
@@ -51,10 +51,10 @@ class AgendaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Agenda  $agenda
+     * @param  \App\Models\Billing  $billing
      * @return \Illuminate\Http\Response
      */
-    public function edit(Agenda $agenda)
+    public function edit(Billing $billing)
     {
         //
     }
@@ -63,10 +63,10 @@ class AgendaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Agenda  $agenda
+     * @param  \App\Models\Billing  $billing
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Agenda $agenda)
+    public function update(Request $request, Billing $billing)
     {
         //
     }
@@ -74,10 +74,10 @@ class AgendaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Agenda  $agenda
+     * @param  \App\Models\Billing  $billing
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Agenda $agenda)
+    public function destroy(Billing $billing)
     {
         //
     }
