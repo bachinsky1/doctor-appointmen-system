@@ -140,21 +140,19 @@
 
         @endauth
         <div class="container-fluid">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center mt-2">
                 <div class="col-md-12">
                     @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
                     </div>
                     @endif
-                    {{-- @include('partials.users') --}}
+                    
                     @yield('content')
 
                 </div>
             </div>
         </div>
-
-        
 
         </main>
     </div>
