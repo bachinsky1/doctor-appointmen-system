@@ -84,8 +84,9 @@
         <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                 <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap" /></svg>
-                <span class="fs-4">Sidebar</span>
+                    <use xlink:href="#bootstrap" />
+                </svg>
+                <span class="fs-4">{{ __('Application name') }}</span>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
@@ -93,11 +94,24 @@
                     <a href="{{ route('dashboard') }}" class="nav-link text-white">
 
                         <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2" /></svg>
+                            <use xlink:href="#speedometer2" />
+                        </svg>
                         {{ __('Dashboard') }}
+                    </a>
+                </li>
+
+                @role('health-professional')
+                <li>
+                    <a href="{{ route('agenda') }}" class="nav-link text-white">
+
+                        <svg class="bi me-2" width="16" height="16">
+                            <use xlink:href="#table" /></svg>
+                        {{ __('Agenda') }}
 
                     </a>
                 </li>
+                @endrole
+
 
                 @role('administrator')
                 <li>
@@ -129,13 +143,20 @@
 
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="{{ route('settings') }}">Settings</a></li>
 
-                    <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
+                    @role('patient')
+                    <li><a class="dropdown-item" href="{{ route('settings') }}">{{ __('Settings') }}</a></li>
+                    @endrole
 
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+                    @role('health-professional')
+                    <li><a class="dropdown-item" href="{{ route('settings') }}">{{ __('Settings') }}</a></li>
+                    @endrole
+
+                    <li><a class="dropdown-item" href="{{ route('profile') }}">{{ __('Profile') }}</a></li>
+
+
+                    <li><hr class="dropdown-divider"></li>
+
                     <li>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
