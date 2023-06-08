@@ -15,6 +15,7 @@ class CreateMedicalestablishmentsTable extends Migration
             $table->unsignedBigInteger('type_id');
             $table->foreign('type_id')->references('id')->on('medicalestablishments')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('medicalestablishment_user', function (Blueprint $table) {

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MedicalestablishmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,7 @@ Route::group(['middleware' => 'role:administrator,health-professional,patient'],
     Route::group(['middleware' => 'role:administrator'], function () {
         Route::get('/users', [UserController::class, 'index'])->name('users');
         Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+        Route::get('/medicalestablishments', [MedicalestablishmentController::class, 'index'])->name('medicalestablishments');
+        Route::delete('/medicalestablishments/{id}', [MedicalestablishmentController::class]);
     });
 });
