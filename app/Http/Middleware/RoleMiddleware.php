@@ -26,8 +26,6 @@ class RoleMiddleware
             }
         }
 
-        // dd($roles, $permissions);
-
         if (count($roles) === 0) {
             abort(404);
         }

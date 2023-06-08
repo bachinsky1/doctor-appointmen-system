@@ -1,11 +1,12 @@
 {{-- Create a table with a hover effect --}}
-@role('administrator')
+@role('administrator') 
+@extends('layouts.app')
+@section('content')
+
 
 @if(!empty($users))
-
+<div>
 <table class="table table-hover table-dark table-striped">
-
-
     {{-- Create a table header row with column headings --}}
     <thead>
         <tr>
@@ -77,6 +78,10 @@
     {{__('No data')}}
 </div>
 
+</div>
+
 @endif
+@endsection
+
 @endrole
 

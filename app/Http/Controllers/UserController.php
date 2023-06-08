@@ -16,7 +16,7 @@ class UserController extends Controller
             ->whereNotIn('id', [Auth::user()->id])
             ->paginate(10);
 
-        return view('dashboard.admin', [
+        return view('partials.users', [
             'users' => $users,
         ]);
     }
@@ -30,12 +30,12 @@ class UserController extends Controller
             session()->flash('message', 'User has been deleted!');
             session()->flash('class', 'success'); 
 
-            return redirect()->route('dashboard');
+            return redirect()->route('users');
         } else {
             session()->flash('message', 'User not found!');
             session()->flash('class', 'warning');
             
-            return redirect()->route('dashboard');
+            return redirect()->route('users');
         }
     }
 }
