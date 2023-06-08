@@ -5,8 +5,8 @@
 
 
 @if(!empty($users))
-<div>
-<table class="table table-hover table-dark table-striped">
+
+<table class="table table-hover table-striped">
     {{-- Create a table header row with column headings --}}
     <thead>
         <tr>
@@ -47,7 +47,7 @@
                 <form action="{{ route('users.destroy', $user->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">{{ __('Delete') }}</button>
+                    <button type="submit" class="btn btn-sm btn-danger">{{ __('Delete') }}</button>
                 </form>
                 @endif
             </td>
@@ -78,7 +78,6 @@
     {{__('No data')}}
 </div>
 
-</div>
 
 @endif
 @endsection

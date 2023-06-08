@@ -29,6 +29,6 @@ Route::group(['middleware' => 'role:administrator,health-professional,patient'],
         Route::get('/users', [UserController::class, 'index'])->name('users');
         Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::get('/medicalestablishments', [MedicalestablishmentController::class, 'index'])->name('medicalestablishments');
-        Route::delete('/medicalestablishments/{id}', [MedicalestablishmentController::class]);
+        Route::delete('/medicalestablishments/{id}', [MedicalestablishmentController::class, 'destroy'])->name('medicalestablishments.destroy');;
     });
 });

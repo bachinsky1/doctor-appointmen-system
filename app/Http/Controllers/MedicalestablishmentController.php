@@ -13,7 +13,7 @@ class MedicalestablishmentController extends Controller
      */
     public function index()
     {
-        $medests = Medicalestablishment::select('id', 'name', 'type_id', 'created_at', 'updated_at', 'deleted_at') 
+        $medests = Medicalestablishment::select('id', 'name', 'address', 'type_id', 'created_at', 'updated_at', 'deleted_at') 
             ->withTrashed() 
             ->paginate(10);
 
@@ -83,8 +83,21 @@ class MedicalestablishmentController extends Controller
      * @param  \App\Models\Medicalestablishment  $medicalestablishment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Medicalestablishment $medicalestablishment)
+    public function destroy($id)
     {
-        //
+        $medest = Medicalestablishment::find($id);
+
+        if ($medest) {
+            $medest->delete();
+            session()->flash('message', 'Medicalestablishment has been deleted!');
+            session()->flash('class', 'success');
+
+            return redirect()->route('medicalestablishments');
+        } else {
+            session()->flash('message', 'Medicalestablishment not found!');
+            session()->flash('class', 'warning');
+
+            return redirect()->route('medicalestablishments');
+        }
     }
 }
