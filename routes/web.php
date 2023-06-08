@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MedicalestablishmentController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +26,8 @@ Auth::routes();
 
 Route::group(['middleware' => 'role:administrator,health-professional,patient'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
     Route::group(['middleware' => 'role:administrator'], function () {
         Route::get('/users', [UserController::class, 'index'])->name('users');

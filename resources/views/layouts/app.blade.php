@@ -129,8 +129,10 @@
 
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ route('settings') }}">Settings</a></li>
+
+                    <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
+
                     <li>
                         <hr class="dropdown-divider">
                     </li>
