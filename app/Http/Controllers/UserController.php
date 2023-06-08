@@ -16,7 +16,7 @@ class UserController extends Controller
             ->whereNotIn('id', [Auth::user()->id])
             ->paginate(10);
 
-        return view('users', [
+        return view('users.index', [
             'users' => $users,
         ]);
     }
