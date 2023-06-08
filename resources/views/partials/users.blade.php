@@ -1,7 +1,8 @@
 {{-- Create a table with a hover effect --}}
+@if(!empty($users))
 
+<table class="table table-hover table-dark table-striped">
 
-<table class="table table-hover">
 
     {{-- Create a table header row with column headings --}}
     <thead>
@@ -21,6 +22,7 @@
     {{-- Create a table body with rows for each user in $users --}}
 
     <tbody>
+
         @foreach($users as $user)
         <tr>
             <th scope="row">{{$user->id}}</th>
@@ -35,13 +37,15 @@
             <td>{{$user->created_at}}</td>
             <td>{{$user->updated_at}}</td>
             <td>{{$user->deleted_at}}</td>
-            <td><button class="btn btn-sm btn-warning">{{ __('Delete') }}</button></td>
+            <td><button class="btn btn-sm btn-danger">{{ __('Delete') }}</button></td>
         </tr>
         @endforeach
+        
     </tbody>
 
     {{-- If there is more than one page of users, show a table footer with pagination links --}}
     @if ($users->lastPage() > 1)
+
     <tfoot>
         <tr>
             <td colspan="9">
@@ -49,7 +53,17 @@
             </td>
         </tr>
     </tfoot>
+
     @endif
 
 </table>
+
+@else
+
+<div class="alert alert-warning" role="alert">
+    {{__('No data')}}
+</div>
+
+@endif
+
 

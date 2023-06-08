@@ -1,7 +1,7 @@
 {{-- Check if there is more than one page --}}
 @if ($data->lastPage() > 1)
 {{-- Create a navigation section with pagination --}}
-<nav aria-label="Page navigation example">
+<nav class="mt-3" aria-label="Page navigation example">
     {{-- Create an unordered list of pagination links, align to the right --}}
     <ul class="pagination justify-content-end">
 
@@ -34,7 +34,7 @@
         @else
         <li><a class="page-link" disabled aria-disabled="true"><span>&raquo;</span></a></li>
         @endif
-        
+
     </ul>
 </nav>
 @endif

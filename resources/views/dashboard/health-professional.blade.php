@@ -16,7 +16,7 @@
             </div>
             @endif
 
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-primary" role="alert">
                 This is a container for Health Professional's dashboard
             </div>
 
