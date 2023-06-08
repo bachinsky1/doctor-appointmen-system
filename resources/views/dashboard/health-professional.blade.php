@@ -1,3 +1,5 @@
+@role('health-professional')
+
 @extends('layouts.app')
 
 @section('content')
@@ -27,3 +29,6 @@
 @endauth
 
 @endsection
+
+@endrole
+

@@ -1,4 +1,6 @@
 {{-- Create a table with a hover effect --}}
+@role('administrator')
+
 @if(!empty($users))
 
 <table class="table table-hover table-dark table-striped">
@@ -76,3 +78,5 @@
 </div>
 
 @endif
+@endrole
+

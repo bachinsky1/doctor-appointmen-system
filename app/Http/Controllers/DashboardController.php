@@ -26,6 +26,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        
         // Load user and their roles
         $user = Auth::user()->load('roles');
 

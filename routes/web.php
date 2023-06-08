@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
- 
+Route::group(['middleware' => 'role:administrator,health-professional,patient'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+});

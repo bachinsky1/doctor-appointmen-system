@@ -1,3 +1,5 @@
+@role('patient')
+
 @extends('layouts.app')
 
 @section('content')
@@ -27,3 +29,5 @@
 @endauth
 
 @endsection
+@endrole
+
