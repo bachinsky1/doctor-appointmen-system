@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Address;
+use App\Models\Medicalestablishment;
+use App\Models\User;
 
 class AddressLinks extends Model
 {
     use HasFactory;
+
+    protected $table = 'address_links';
     
     protected $fillable = [
         'address_id',
@@ -20,14 +25,18 @@ class AddressLinks extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the medical institution that owns the given link.
-     */
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
     public function medicalestablishment()
     {
-        return $this->belongsTo('App\Medicalestablishment');
+        return $this->belongsTo(Medicalestablishment::class);
     }
+
+
 }

@@ -25,11 +25,14 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Traits\HasRolesAndPermissions;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\AddressLink;
+use App\Models\Medicalestablishment;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions, SoftDeletes;
-
+    
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *
@@ -69,12 +72,12 @@ class User extends Authenticatable
      */
     public function addressLinks()
     {
-        return $this->hasMany('App\Models\AddressLink');
+        return $this->hasMany(AddressLink::class);
     }
 
     public function medicalestablishments()
     {
-        return $this->hasMany('App\Models\Medicalestablishment');
+        return $this->hasMany(Medicalestablishment::class);
     }
 
 }

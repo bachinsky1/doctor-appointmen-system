@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\AddressLinks;
 
 class Medicalestablishment extends Model
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+
+    protected $table = 'medicalestablishments';
+    
     protected $fillable = ['name'];
 
     protected $dates = [
@@ -31,6 +35,6 @@ class Medicalestablishment extends Model
      */
     public function addressLinks()
     {
-        return $this->hasMany('App\AddressLink');
+        return $this->hasMany(AddressLinks::class);
     }
 }
