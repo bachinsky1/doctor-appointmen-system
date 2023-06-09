@@ -3,13 +3,13 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\MedicalestablishmentUser;
+use App\Models\MedicalestablishmentUsers;
 use App\Models\Medicalestablishment;
 use App\Models\User;
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MedicalestablishmentUser>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\MedicalestablishmentUsers>
  */
-class MedicalestablishmentUserFactory extends Factory
+class MedicalestablishmentUsersFactory extends Factory
 {
     /**
      * Define the model's default state.

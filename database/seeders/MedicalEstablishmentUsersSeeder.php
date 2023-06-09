@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\MedicalEstablishment;
 
-class MedicalEstablishmentUsersSeeder extends Seeder
+class MedicalestablishmentUserssSeeder extends Seeder
 {
     public function run()
     {
