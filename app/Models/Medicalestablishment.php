@@ -12,14 +12,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Medicalestablishment extends Model
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
-    protected $fillable = ['name', 'address'];
+    protected $fillable = ['name'];
 
     protected $dates = [
         'deleted_at'
     ];
 
+    /**
+     * Get all users
+     */
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    /**
+     * Get all address links.
+     */
+    public function addressLinks()
+    {
+        return $this->hasMany('App\AddressLink');
     }
 }

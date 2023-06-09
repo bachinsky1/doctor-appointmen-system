@@ -11,27 +11,19 @@ class CreateMedicalestablishmentsTable extends Migration
         Schema::create('medicalestablishments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('address');
+            $table->string('email')->unique();
+            $table->string('phone1')->unique();
+            $table->string('phone2')->nullable();
+            $table->string('fax')->nullable();
             $table->unsignedBigInteger('type_id');
-            $table->foreign('type_id')->references('id')->on('medicalestablishments')->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('medicalestablishment_types')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
-        });
-
-        Schema::create('medicalestablishment_user', function (Blueprint $table) {
-            $table->unsignedBigInteger('medicalestablishment_id');
-            $table->unsignedBigInteger('user_id');
-
-            $table->foreign('medicalestablishment_id')->references('id')->on('medicalestablishments')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            $table->primary(['medicalestablishment_id', 'user_id']);
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('medicalestablishment_user');
         Schema::dropIfExists('medicalestablishments');
     }
 }

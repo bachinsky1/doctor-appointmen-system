@@ -64,4 +64,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Get all user links.
+     */
+    public function addressLinks()
+    {
+        return $this->hasMany('App\Models\AddressLink');
+    }
+
+    public function medicalestablishments()
+    {
+        return $this->hasMany('App\Models\Medicalestablishment');
+    }
+
 }
