@@ -15,9 +15,14 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, ...$rolesAndPermissions)
     {
+        if (auth()->user() == null) {
+            return redirect('login');
+        }
+ 
+        $rolesAndPermissions = array_filter($rolesAndPermissions);
         $roles = [];
         $permissions = [];
-
+        
         foreach ($rolesAndPermissions as $roleOrPermission) {
             if (auth()->user()->hasRole($roleOrPermission)) {
                 $roles[] = $roleOrPermission;
