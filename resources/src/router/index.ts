@@ -3,6 +3,8 @@ import Agenda from '../views/Agenda.vue'
 import Billing from '../views/Billing.vue'
 import Tasks from '../views/Tasks.vue'
 import Statistics from '../views/Statistics.vue'
+import Profile from '../views/Profile.vue'
+import Settings from '../views/Settings.vue'
 import { useTestStore } from "../store/store"
 
 const routes = [
@@ -38,6 +40,22 @@ const routes = [
         path: "/statistics",
         name: "statistics",
         component: Statistics,
+        beforeEnter: (to: any, from: any, next: () => void) => {
+            next()
+        },
+    },
+    {
+        path: "/profile",
+        name: "profile",
+        component: Profile,
+        beforeEnter: (to: any, from: any, next: () => void) => {
+            next()
+        },
+    },
+    {
+        path: "/settings",
+        name: "settings",
+        component: Settings,
         beforeEnter: (to: any, from: any, next: () => void) => {
             next()
         },

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -67,8 +68,8 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Profile $profile)
-    {
-        //
+    { 
+        echo $request->input('email');
     }
 
     /**
