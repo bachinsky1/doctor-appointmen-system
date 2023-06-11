@@ -32,9 +32,9 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $adminRole = Role::where('slug', ROLES::ADMIN)->first();
-        $healthProfessionalRole = Role::where('slug', ROLES::HEALTH_PROFESSIONAL)->first();
-        $patientRole = Role::where('slug', ROLES::PATIENT)->first();
+        $adminRole = Role::where('slug', Roles::ADMIN)->first();
+        $healthProfessionalRole = Role::where('slug', Roles::HEALTH_PROFESSIONAL)->first();
+        $patientRole = Role::where('slug', Roles::PATIENT)->first();
         
         $manageUsers = Permission::where('slug','manage-users')->first();
         $createAppointments = Permission::where('slug','create-appointments')->first();

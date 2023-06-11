@@ -2,7 +2,7 @@
 
 namespace App;
 
-class ROLES
+class Roles
 {
     const ADMIN = "administrator";
     const HEALTH_PROFESSIONAL = "health-professional";

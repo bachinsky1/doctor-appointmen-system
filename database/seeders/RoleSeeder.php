@@ -25,19 +25,19 @@ class RoleSeeder extends Seeder
         // Create a new Role instance for an administrator
         $admin = new Role();
         $admin->name = 'Administrator';
-        $admin->slug = ROLES::ADMIN;
+        $admin->slug = Roles::ADMIN;
         $admin->save();
 
         // Create a new Role instance for a health professional
         $healthProfessional = new Role();
         $healthProfessional->name = 'Health professional';
-        $healthProfessional->slug = ROLES::HEALTH_PROFESSIONAL;
+        $healthProfessional->slug = Roles::HEALTH_PROFESSIONAL;
         $healthProfessional->save();
 
         // Create a new Role instance for a patient
         $patient = new Role();
         $patient->name = 'Patient';
-        $patient->slug = ROLES::PATIENT;
+        $patient->slug = Roles::PATIENT;
         $patient->save();
     }
 }
