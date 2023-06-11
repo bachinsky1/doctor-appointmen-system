@@ -1,10 +1,10 @@
 <template>
-    
+    <h2>Text from Vue: Agenda should be here</h2>
 </template>
 
 <script>
 export default {
-    name: 'Sidebar',
+    name: 'Agenda',
     data() {
         return {
 
@@ -20,7 +20,7 @@ export default {
 
     },
     mounted() {
-        console.log('Sidebar mounted.')
+        console.log('Agenda mounted.')
     }
 }
 </script>

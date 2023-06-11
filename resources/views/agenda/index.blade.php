@@ -2,7 +2,9 @@
 @auth
 @section('content')
 
-<h2>Agenda should be here</h2>
+<h2>Text from Blade: Place for Health Professional Agenda</h2>
+
+
 
 @endauth
 @endsection

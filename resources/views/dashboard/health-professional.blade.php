@@ -12,6 +12,9 @@
 </div>
 @endif
 
+<h2>Text from Blade: Place for Health Professional Dashboard</h2>
+
+
 <div class="row">
     <div class="col-6">
         <next-appointments-component></next-appointments-component>

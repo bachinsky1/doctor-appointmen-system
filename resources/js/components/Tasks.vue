@@ -1,10 +1,11 @@
 <template>
-    
+    <h2>Text from Vue: Tasks should be here</h2>
 </template>
 
 <script>
 export default {
-    name: 'Sidebar',
+    name: 'Tasks',  
+    props: ['message'],
     data() {
         return {
 
@@ -17,10 +18,10 @@ export default {
 
     },
     computed: {
-
+        
     },
     mounted() {
-        console.log('Sidebar mounted.')
+        console.log('Tasks mounted.')
     }
 }
 </script>

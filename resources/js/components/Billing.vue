@@ -1,10 +1,11 @@
 <template>
-    
+    <h2>Text from Vue: Billing should be here</h2>
 </template>
 
 <script>
 export default {
-    name: 'Sidebar',
+    name: 'Billing',
+    props: ['message'],
     data() {
         return {
 
@@ -20,7 +21,7 @@ export default {
 
     },
     mounted() {
-        console.log('Sidebar mounted.')
+        console.log('Billing mounted.')
     }
 }
 </script>
