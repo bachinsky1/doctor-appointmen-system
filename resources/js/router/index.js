@@ -1,8 +1,8 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Agenda from './../components/Agenda.vue'
-import Billing from './../components/Billing.vue'
-import Tasks from './../components/Tasks.vue'
-import Statistics from './../components/Statistics.vue'
+import Agenda from './../views/Agenda.vue'
+import Billing from './../views/Billing.vue'
+import Tasks from './../views/Tasks.vue'
+import Statistics from './../views/Statistics.vue'
 import { useTestStore } from "../store/store"
 
 const routes = [
