@@ -1,10 +1,11 @@
 <template>
-    <h2>Text from Vue: Agenda should be here</h2>
+    <h2>Text from Vue: Tasks should be here</h2>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-    name: 'Agenda',
+    name: 'Tasks',  
+    props: ['message'],
     data() {
         return {
 
@@ -17,10 +18,10 @@ export default {
 
     },
     computed: {
-
+        
     },
     mounted() {
-        console.log('Agenda mounted.')
+        console.log('Tasks mounted.')
     }
 }
 </script>

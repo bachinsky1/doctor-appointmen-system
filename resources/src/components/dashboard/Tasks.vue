@@ -1,14 +1,14 @@
 <template>
     <div class="card min-vh-100 mb-5">
-        <div class="card-header">Text from Vue:  Next appointments </div>
+        <div class="card-header">Text from Vue:  Tasks </div>
         <div class="card-body">
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-    name: 'NextAppointments',
+    name: 'Tasks',
     data() {
         return {
 
@@ -24,7 +24,7 @@ export default {
 
     },
     mounted() {
-        console.log('Next appointments block mounted.')
+        console.log('Tasks block mounted.')
     }
 }
 </script>

@@ -2,7 +2,7 @@
     <h2>Text from Vue: Billing should be here</h2>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     name: 'Billing',
     props: ['message'],

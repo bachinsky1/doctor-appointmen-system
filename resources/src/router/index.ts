@@ -1,8 +1,8 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Agenda from './../views/Agenda.vue'
-import Billing from './../views/Billing.vue'
-import Tasks from './../views/Tasks.vue'
-import Statistics from './../views/Statistics.vue'
+import Agenda from '../views/Agenda.vue'
+import Billing from '../views/Billing.vue'
+import Tasks from '../views/Tasks.vue'
+import Statistics from '../views/Statistics.vue'
 import { useTestStore } from "../store/store"
 
 const routes = [
@@ -10,7 +10,7 @@ const routes = [
         path: "/agenda",
         name: "agenda",
         component: Agenda,
-        beforeEnter: (to, from, next) => {
+        beforeEnter: (to: any, from: any, next: () => void) => {
             if (useTestStore().data) {
                 console.log(`Data from store: ${useTestStore().data}`)
                 next()
@@ -22,7 +22,7 @@ const routes = [
         path: "/billing",
         name: "billing",
         component: Billing,
-        beforeEnter: (to, from, next) => {
+        beforeEnter: (to: any, from: any, next: () => void) => {
             next()
         },
     },
@@ -30,7 +30,7 @@ const routes = [
         path: "/tasks",
         name: "tasks",
         component: Tasks,
-        beforeEnter: (to, from, next) => {
+        beforeEnter: (to: any, from: any, next: () => void) => {
             next()
         },
     },
@@ -38,7 +38,7 @@ const routes = [
         path: "/statistics",
         name: "statistics",
         component: Statistics,
-        beforeEnter: (to, from, next) => {
+        beforeEnter: (to: any, from: any, next: () => void) => {
             next()
         },
     },

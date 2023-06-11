@@ -1,10 +1,10 @@
 <template>
-    <h2>Text from Vue: Tasks should be here</h2>
+    <h2>Text from Vue: Statistics should be here</h2>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-    name: 'Tasks',  
+    name: 'Statistics',
     props: ['message'],
     data() {
         return {
@@ -18,10 +18,10 @@ export default {
 
     },
     computed: {
-        
+
     },
     mounted() {
-        console.log('Tasks mounted.')
+        console.log('Statistics mounted.')
     }
 }
 </script>
