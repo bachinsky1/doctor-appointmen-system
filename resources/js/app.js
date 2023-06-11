@@ -6,17 +6,35 @@
 
 import './bootstrap';
 import { createApp } from 'vue';
+import { createPinia } from "pinia";
+import axios from 'axios';
+import router from './router';
+const pinia = createPinia();
+
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
  * to use in your application's views. An example is included for you.
  */
+ 
+import Sidebar from './components/Sidebar.vue'; 
+import NextAppointments from './components/dashboard/NextAppointments.vue'; 
+import Activities from './components/dashboard/Activities.vue'; 
+import DocumentsToClassify from './components/dashboard/DocumentsToClassify.vue'; 
+import Tasks from './components/dashboard/Tasks.vue'; 
 
-const app = createApp({});
+const app = createApp({}); app.config.globalProperties.$axios = axios;
 
-import ExampleComponent from './components/ExampleComponent.vue';
-app.component('example-component', ExampleComponent);
+app.use(pinia);
+
+app.component('sidebar-component', Sidebar);
+app.component('next-appointments-component', NextAppointments);
+app.component('activities-component', Activities);
+app.component('documents-to-classify-component', DocumentsToClassify);
+app.component('tasks-component', Tasks);
+
+app.mount("#app");
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,7 +54,7 @@ app.component('example-component', ExampleComponent);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
-app.mount('#app');
+// app.mount('#app');
 
 (function () {
     'use strict'

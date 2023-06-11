@@ -116,3 +116,7 @@ main {
     display: none;
     float: right;
 }
+
+main .container-fluid {
+    overflow-y: auto;
+}

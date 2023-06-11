@@ -133,7 +133,6 @@
                         {{ __('Statistics') }}
                     </a>
                 </li>
-
                 @endrole
 
 
@@ -146,7 +145,6 @@
                         {{ __('Users') }}
                     </a>
                 </li>
-
                 <li>
                     <a href="{{ route('medicalestablishments') }}" class="nav-link text-white">
 
@@ -193,7 +191,6 @@
             </div>
         </div>
 
-        
 
         @endauth
         <div class="container-fluid"> 
