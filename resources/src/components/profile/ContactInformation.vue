@@ -38,7 +38,6 @@
                     <label for="fax" class="form-label">Fax</label>
                     <input type="phone" v-model="contactForm.fax" class="form-control" id="fax">
                 </div>
-                
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary" @click="onSubmitContactForm" :disabled="contactForm.loading">
                         <span v-if="!contactForm.loading">Update</span>
@@ -54,6 +53,12 @@
 </template>
 
 <script lang="ts">
+import { useStore } from './../../store/store'
+
+interface Store {
+    setCsrfToken(): void
+    getCsrfToken(): () => string
+}
 
 export default {
     name: 'ContactInformation',
@@ -166,7 +171,6 @@ export default {
                 this.contactForm.loading = false
             }
         }
-
     },
 
     filters: {
@@ -178,13 +182,9 @@ export default {
     },
 
     mounted() {
-        const csrfMeta = document.querySelector('meta[name="csrf-token"]')
-
-        if (csrfMeta !== null) {
-            this.csrfToken = csrfMeta.getAttribute('content') || ''
-        } else {
-            throw new Error('CSRF meta tag not found')
-        }
+        
+        this.csrfToken = (this.store.getCsrfToken) as string
+        console.log(this.csrfToken)
 
         const formElements = document.querySelectorAll('#contactForm input, #contactForm select')
 
@@ -203,6 +203,16 @@ export default {
             element.removeEventListener('input', this.onFormChange)
             element.removeEventListener('change', this.onFormChange)
         })
+    },
+
+    setup() {
+        const store = useStore()
+
+        store.setCsrfToken()
+
+        return {
+            store
+        }
     },
 }
 </script>

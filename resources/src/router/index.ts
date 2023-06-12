@@ -5,7 +5,7 @@ import Tasks from '../views/Tasks.vue'
 import Statistics from '../views/Statistics.vue'
 import Profile from '../views/Profile.vue'
 import Settings from '../views/Settings.vue'
-import { useTestStore } from "../store/store"
+import { useStore } from "../store/store"
 
 const routes = [
     {
@@ -13,8 +13,8 @@ const routes = [
         name: "agenda",
         component: Agenda,
         beforeEnter: (to: any, from: any, next: () => void) => {
-            if (useTestStore().data) {
-                console.log(`Data from store: ${useTestStore().data}`)
+            if (useStore().data) {
+                console.log(`Data from store: ${useStore().data}`)
                 next()
             }
             else next()
@@ -49,7 +49,11 @@ const routes = [
         name: "profile",
         component: Profile,
         beforeEnter: (to: any, from: any, next: () => void) => {
-            next()
+            if (useStore().data) {
+                console.log(`Data from store: ${useStore().data}`)
+                next()
+            }
+            else next()
         },
     },
     {
@@ -57,7 +61,7 @@ const routes = [
         name: "settings",
         component: Settings,
         beforeEnter: (to: any, from: any, next: () => void) => {
-            next()
+            
         },
     },
 ]
