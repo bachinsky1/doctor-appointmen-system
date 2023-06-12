@@ -1,55 +1,54 @@
 <template>
-    <div class="col">
-        <div class="card mb-5">
-            <div class="card-header">Contact Information</div>
-            <div class="card-body">
-                <div v-if="formMessage" :class="['alert', formMessageClass, 'alert-dismissible', 'fade', 'show']">
-                    {{ formMessage }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="formMessage = ''"></button>
-                </div>
-                <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitContactForm">
-                    <input type="hidden" name="_token" :value="csrfToken">
-                    <div class="col-md-6">
-                        <label for="firstname" class="form-label">Firstname</label>
-                        <input type="text" v-model="contactForm.firstname" class="form-control" id="firstname">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="lastname" class="form-label">Lastname</label>
-                        <input type="text" v-model="contactForm.lastname" class="form-control" id="lastname">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="gender" class="form-label">Gender</label>
-                        <select class="form-select" id="example-select" v-model="contactForm.gender">
-                            <option v-for="(item, index) in contactForm.genderItems" :key="index" :value="item">{{ item }}</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="birthdate" class="form-label">Birthdate</label>
-                        <input type="date" v-model="contactForm.birthdate" class="form-control" id="birthdate">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="phone1" class="form-label">Main Phone</label>
-                        <input type="phone" v-model="contactForm.phone1" class="form-control" id="phone1">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="phone2" class="form-label">Second Phone</label>
-                        <input type="phone" v-model="contactForm.phone2" class="form-control" id="phone2">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="fax" class="form-label">Fax</label>
-                        <input type="phone" v-model="contactForm.fax" class="form-control" id="fax">
-                    </div>
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-primary" @click="onSubmitContactForm" :disabled="contactForm.loading">
-                            <span v-if="!contactForm.loading">Update</span>
-                            <span v-else>
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                <span class="sr-only disabled"> Updating...</span>
-                            </span>
-                        </button>
-                    </div>
-                </form>
+    <div class="card mb-5">
+        <div class="card-header">Contact Information</div>
+        <div class="card-body">
+            <div v-if="formMessage" :class="['alert', formMessageClass, 'alert-dismissible', 'fade', 'show']">
+                {{ formMessage }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="formMessage = ''"></button>
             </div>
+            <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitContactForm">
+                <input type="hidden" name="_token" :value="csrfToken">
+                <div class="col-md-6">
+                    <label for="firstname" class="form-label">Firstname</label>
+                    <input type="text" v-model="contactForm.firstname" class="form-control" id="firstname">
+                </div>
+                <div class="col-md-6">
+                    <label for="lastname" class="form-label">Lastname</label>
+                    <input type="text" v-model="contactForm.lastname" class="form-control" id="lastname">
+                </div>
+                <div class="col-md-6">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-select" id="example-select" v-model="contactForm.gender">
+                        <option v-for="(item, index) in contactForm.genderItems" :key="index" :value="item">{{ item }}</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="birthdate" class="form-label">Birthdate</label>
+                    <input type="date" v-model="contactForm.birthdate" class="form-control" id="birthdate">
+                </div>
+                <div class="col-md-4">
+                    <label for="phone1" class="form-label">Main Phone</label>
+                    <input type="phone" v-model="contactForm.phone1" class="form-control" id="phone1">
+                </div>
+                <div class="col-md-4">
+                    <label for="phone2" class="form-label">Second Phone</label>
+                    <input type="phone" v-model="contactForm.phone2" class="form-control" id="phone2">
+                </div>
+                <div class="col-md-4">
+                    <label for="fax" class="form-label">Fax</label>
+                    <input type="phone" v-model="contactForm.fax" class="form-control" id="fax">
+                </div>
+                
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary" @click="onSubmitContactForm" :disabled="contactForm.loading">
+                        <span v-if="!contactForm.loading">Update</span>
+                        <span v-else>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="sr-only disabled"> Updating...</span>
+                        </span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </template>

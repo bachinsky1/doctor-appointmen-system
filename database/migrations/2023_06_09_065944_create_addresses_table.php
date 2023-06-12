@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('zip_code');
+            $table->boolean('is_main_address')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
