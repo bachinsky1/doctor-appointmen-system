@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MedicalestablishmentUsers;
+use App\Models\MedicalestablishmentUser;
 use Illuminate\Http\Request;
 
 class MedicalestablishmentUserController extends Controller
@@ -41,10 +41,10 @@ class MedicalestablishmentUserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MedicalestablishmentUsers  $MedicalestablishmentUsers
+     * @param  \App\Models\MedicalestablishmentUser  $MedicalestablishmentUser
      * @return \Illuminate\Http\Response
      */
-    public function show(MedicalestablishmentUsers $MedicalestablishmentUsers)
+    public function show(MedicalestablishmentUser $MedicalestablishmentUser)
     {
         //
     }
@@ -52,10 +52,10 @@ class MedicalestablishmentUserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MedicalestablishmentUsers  $MedicalestablishmentUsers
+     * @param  \App\Models\MedicalestablishmentUser  $MedicalestablishmentUser
      * @return \Illuminate\Http\Response
      */
-    public function edit(MedicalestablishmentUsers $MedicalestablishmentUsers)
+    public function edit(MedicalestablishmentUser $MedicalestablishmentUser)
     {
         //
     }
@@ -64,10 +64,10 @@ class MedicalestablishmentUserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MedicalestablishmentUsers  $MedicalestablishmentUsers
+     * @param  \App\Models\MedicalestablishmentUser  $MedicalestablishmentUser
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MedicalestablishmentUsers $MedicalestablishmentUsers)
+    public function update(Request $request, MedicalestablishmentUser $MedicalestablishmentUser)
     {
         //
     }
@@ -75,10 +75,10 @@ class MedicalestablishmentUserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MedicalestablishmentUsers  $MedicalestablishmentUsers
+     * @param  \App\Models\MedicalestablishmentUser  $MedicalestablishmentUser
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MedicalestablishmentUsers $MedicalestablishmentUsers)
+    public function destroy(MedicalestablishmentUser $MedicalestablishmentUser)
     {
         //
     }

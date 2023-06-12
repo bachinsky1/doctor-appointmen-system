@@ -40,10 +40,10 @@ class SettingsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Settings  $settings
+     * @param  \App\Models\Setting  $settings
      * @return \Illuminate\Http\Response
      */
-    public function show(Settings $settings)
+    public function show(Setting $settings)
     {
         //
     }
@@ -51,7 +51,7 @@ class SettingsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Settings  $settings
+     * @param  \App\Models\Setting  $settings
      * @return \Illuminate\Http\Response
      */
     public function edit(Settings $settings)

@@ -32,10 +32,10 @@ Auth::routes();
 Route::group(['middleware' => 'role:administrator,health-professional,patient'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::post('/profile/updateContactInfo', [ProfileController::class, 'updateContactInfo']);
-    Route::get('/profile/getContactInfo', [ProfileController::class, 'getContactInfo']);
+    Route::post('/profile/updateContact', [ProfileController::class, 'updateContact']);
+    Route::get('/profile/getContact', [ProfileController::class, 'getContact']);
     Route::post('/profile/updateAddress', [ProfileController::class, 'updateAddress']);
-    Route::post('/profile/getAddressInfo', [ProfileController::class, 'getAddressInfo']);
+    Route::get('/profile/getAddress', [ProfileController::class, 'getAddress']);
 
     Route::group(['middleware' => 'role:health-professional,patient'], function () {
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
@@ -47,6 +47,8 @@ Route::group(['middleware' => 'role:administrator,health-professional,patient'],
         Route::get('/billing', [BillingController::class, 'index'])->name('billing');
         Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
         Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
+        Route::get('/profile/getWorkplace', [ProfileController::class, 'getWorkplace']);
+        Route::post('/profile/updateWorkplace', [ProfileController::class, 'updateWorkplace']);
     });
 
     Route::group(['middleware' => 'role:administrator'], function () {

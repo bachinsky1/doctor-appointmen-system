@@ -15,3 +15,9 @@ interface Address {
     zip_code: string
     is_main_address: boolean
 }
+
+interface Workplace {
+    position_id: number | null
+    speciality_id: number | null
+    medicalestablishment_id: number | null
+}

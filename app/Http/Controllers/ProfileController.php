@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Medicalestablishment;
 use App\Models\Profile;
+use App\Models\UserMedicalestablishment;
+use App\Models\UserPosition;
+use App\Models\UserSpeciality;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -76,7 +80,7 @@ class ProfileController extends Controller
 
     }
 
-    public function getContactInfo(Request $request)
+    public function getContact(Request $request)
     {
         $user = User::find($request->user()->id);
 
@@ -95,7 +99,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function getAddressInfo(Request $request)
+    public function getAddress(Request $request)
     {
         $user = Auth::user();
 
@@ -105,7 +109,46 @@ class ProfileController extends Controller
         return response()->json($addresses);
     }
 
-    public function updateContactInfo(Request $request, Profile $profile)
+    public function getWorkplace()
+    {
+
+        $user = Auth::user();
+
+        $workplaces = UserMedicalestablishment::with(['position', 'speciality', 'medicalestablishment'])
+            ->where('user_id', $user->id)
+            ->get();
+
+        $positions = UserPosition::all();
+        $specialities = UserSpeciality::all();
+        $medicalestablishments = Medicalestablishment::all();
+
+        return response()->json([
+            'workplaces' => $workplaces,
+            'positions' => $positions,
+            'specialities' => $specialities,
+            'medicalestablishments' => $medicalestablishments
+        ]);
+        
+    }
+
+    public function updateWorkplace(Request $request)
+    {
+        $user = Auth::user();
+        $workplaces = $request->input('workplaces');
+        $user->workplaces()->delete();
+        foreach ($workplaces as $workplace) {
+            $newWorkplace = new UserMedicalestablishment();
+            $newWorkplace->user_id = $user->id;
+            $newWorkplace->position_id = $workplace['position_id'];
+            $newWorkplace->speciality_id = $workplace['speciality_id'];
+            $newWorkplace->medicalestablishment_id = $workplace['medicalestablishment_id'];
+            $newWorkplace->save();
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function updateContact(Request $request, Profile $profile)
     {
         $user = Auth::user();
 

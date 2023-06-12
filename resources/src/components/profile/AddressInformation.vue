@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="formMessage = ''"></button>
             </div>
             <form class="row g-3" id="addressForm" ref="contactForm" @submit.prevent="onSubmitForm">
-                <div v-for="(address, index) in addressesForm" :key="index">
+                <div v-for="(address, index) in form" :key="index">
                     <div class="row mb-3">
                         <label for="street" class="col-sm-2 col-form-label">Street</label>
                         <div class="col-sm-6">
@@ -61,7 +61,7 @@
 export default {
     data() {
         return {
-            addressesForm: [
+            form: [
                 {
                     street: '',
                     house_number: '',
@@ -85,7 +85,7 @@ export default {
         },
 
         addAddress() {
-            this.addressesForm.push({
+            this.form.push({
                 street: '',
                 house_number: '',
                 city: '',
@@ -107,7 +107,7 @@ export default {
         },
 
         deleteAddress(index: number) {
-            this.addressesForm.splice(index, 1)
+            this.form.splice(index, 1)
 
             const formElements = document.querySelectorAll('#addressForm input, #addressForm select')
 
@@ -136,7 +136,7 @@ export default {
 
             this.loadingForm = true
 
-            const data = { addresses: this.addressesForm }
+            const data = { addresses: this.form }
 
             try {
                 const response = await axios.post('/profile/updateAddress', data, {
@@ -159,7 +159,7 @@ export default {
                 console.error('There was an error submitting the form:', error)
             }
 
-            this.fillAddressInfo()
+            this.fillForm()
 
             setTimeout(() => {
                 this.formMessage = ''
@@ -168,16 +168,12 @@ export default {
             this.loadingForm = false
         },
 
-        async fillAddressInfo() {
+        async fillForm() {
             try {
 
-                const response = await axios.post('/profile/getAddressInfo', {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                const response = await axios.get('/profile/getAddress')
 
-                this.addressesForm = response.data.map((address: Address) => ({
+                this.form = response.data.map((address: Address) => ({
                     street: address.street,
                     house_number: address.house_number,
                     city: address.city,
@@ -202,7 +198,7 @@ export default {
             element.addEventListener('change', this.onFormChange)
         })
 
-        this.fillAddressInfo()
+        this.fillForm()
     },
 
     beforeDestroy() {

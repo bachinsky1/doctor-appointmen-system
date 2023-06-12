@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\AppointmentTypes;
+use App\Models\AppointmentType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -25,7 +25,7 @@ class AppointmentTypesSeeder extends Seeder
         ];
 
         foreach ($types as $type) {
-            AppointmentTypes::create([
+            AppointmentType::create([
                 'name' => $type,
             ]);
         }

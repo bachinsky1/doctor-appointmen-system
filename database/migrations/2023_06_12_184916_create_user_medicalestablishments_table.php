@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreign('position_id')->references('id')->on('user_positions');
             $table->foreign('speciality_id')->references('id')->on('user_specialities');
             $table->primary(['user_id', 'medicalestablishment_id']);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

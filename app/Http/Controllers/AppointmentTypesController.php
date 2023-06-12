@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AppointmentTypes;
+use App\Models\AppointmentType;
 use Illuminate\Http\Request;
 
 class AppointmentTypesController extends Controller
@@ -41,10 +41,10 @@ class AppointmentTypesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AppointmentTypes  $appointmentTypes
+     * @param  \App\Models\AppointmentType  $AppointmentType
      * @return \Illuminate\Http\Response
      */
-    public function show(AppointmentTypes $appointmentTypes)
+    public function show(AppointmentType $AppointmentType)
     {
         //
     }
@@ -52,10 +52,10 @@ class AppointmentTypesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\AppointmentTypes  $appointmentTypes
+     * @param  \App\Models\AppointmentType  $AppointmentType
      * @return \Illuminate\Http\Response
      */
-    public function edit(AppointmentTypes $appointmentTypes)
+    public function edit(AppointmentType $AppointmentType)
     {
         //
     }
@@ -64,10 +64,10 @@ class AppointmentTypesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AppointmentTypes  $appointmentTypes
+     * @param  \App\Models\AppointmentType  $AppointmentType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AppointmentTypes $appointmentTypes)
+    public function update(Request $request, AppointmentType $AppointmentType)
     {
         //
     }
@@ -75,10 +75,10 @@ class AppointmentTypesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AppointmentTypes  $appointmentTypes
+     * @param  \App\Models\AppointmentType  $AppointmentType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AppointmentTypes $appointmentTypes)
+    public function destroy(AppointmentType $AppointmentType)
     {
         //
     }

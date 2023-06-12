@@ -80,4 +80,9 @@ class User extends Authenticatable
         return $this->hasMany(Medicalestablishment::class);
     }
 
+    public function workspaces()
+    {
+        return $this->hasMany(Medicalestablishment::class);
+    }
+
 }

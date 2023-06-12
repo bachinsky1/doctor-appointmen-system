@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Statistics;
+use App\Models\Statistic;
 use Illuminate\Http\Request;
 
 class StatisticsController extends Controller
@@ -40,10 +40,10 @@ class StatisticsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Statistics  $statistics
+     * @param  \App\Models\Statistic  $Statistic
      * @return \Illuminate\Http\Response
      */
-    public function show(Statistics $statistics)
+    public function show(Statistic $Statistic)
     {
         //
     }
@@ -51,10 +51,10 @@ class StatisticsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Statistics  $statistics
+     * @param  \App\Models\Statistic  $Statistic
      * @return \Illuminate\Http\Response
      */
-    public function edit(Statistics $statistics)
+    public function edit(Statistic $Statistic)
     {
         //
     }
@@ -63,10 +63,10 @@ class StatisticsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Statistics  $statistics
+     * @param  \App\Models\Statistic  $Statistic
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Statistics $statistics)
+    public function update(Request $request, Statistic $Statistic)
     {
         //
     }
@@ -74,10 +74,10 @@ class StatisticsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Statistics  $statistics
+     * @param  \App\Models\Statistic  $Statistic
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Statistics $statistics)
+    public function destroy(Statistic $Statistic)
     {
         //
     }

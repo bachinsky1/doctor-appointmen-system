@@ -9,33 +9,33 @@
             <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitForm">
                 <div class="col-md-6">
                     <label for="firstname" class="form-label">Firstname</label>
-                    <input type="text" v-model="contactForm.firstname" class="form-control" id="firstname" required>
+                    <input type="text" v-model="form.firstname" class="form-control" id="firstname" required>
                 </div>
                 <div class="col-md-6">
                     <label for="lastname" class="form-label">Lastname</label>
-                    <input type="text" v-model="contactForm.lastname" class="form-control" id="lastname" required>
+                    <input type="text" v-model="form.lastname" class="form-control" id="lastname" required>
                 </div>
                 <div class="col-md-6">
                     <label for="gender" class="form-label">Gender</label>
-                    <select class="form-select" id="example-select" v-model="contactForm.gender">
-                        <option v-for="(item, index) in contactForm.genderItems" :key="index" :value="item">{{ item }}</option>
+                    <select class="form-select" id="example-select" v-model="form.gender">
+                        <option v-for="(item, index) in form.genderItems" :key="index" :value="item">{{ item }}</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label for="birthdate" class="form-label">Birthdate</label>
-                    <input type="date" v-model="contactForm.birthdate" class="form-control" id="birthdate" required>
+                    <input type="date" v-model="form.birthdate" class="form-control" id="birthdate" required>
                 </div>
                 <div class="col-md-4">
                     <label for="phone1" class="form-label">Main Phone</label>
-                    <input type="phone" v-model="contactForm.phone1" class="form-control" id="phone1" required>
+                    <input type="phone" v-model="form.phone1" class="form-control" id="phone1" required>
                 </div>
                 <div class="col-md-4">
                     <label for="phone2" class="form-label">Second Phone</label>
-                    <input type="phone" v-model="contactForm.phone2" class="form-control" id="phone2">
+                    <input type="phone" v-model="form.phone2" class="form-control" id="phone2">
                 </div>
                 <div class="col-md-4">
                     <label for="fax" class="form-label">Fax</label>
-                    <input type="phone" v-model="contactForm.fax" class="form-control" id="fax">
+                    <input type="phone" v-model="form.fax" class="form-control" id="fax">
                 </div>
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary" @click="onSubmitForm" :disabled="loadingForm">
@@ -65,7 +65,7 @@ export default {
     ],
     data() {
         return {
-            contactForm: {
+            form: {
                 firstname: '',
                 lastname: '',
                 phone1: '',
@@ -100,7 +100,7 @@ export default {
 
             try {
 
-                const response = await axios.post('/profile/updateContactInfo', this.contactForm, {
+                const response = await axios.post('/profile/updateContact', this.form, {
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -112,7 +112,7 @@ export default {
                 this.formMessageClass = response.status === 200 ? 'alert-success' : 'alert-danger'
 
                 if (response.status === 200) {
-                    const { firstname, lastname } = this.contactForm
+                    const { firstname, lastname } = this.form
                     const fullName = `${firstname} ${lastname}`
                     document.querySelectorAll('.currentUserName').forEach(element => element.textContent = fullName)
                     this.isFormChanged = false
@@ -129,11 +129,11 @@ export default {
             this.loadingForm = false
         },
 
-        async fillContactInfo() {
+        async fillForm() {
             this.loadingForm = true
 
             try {
-                const response = await axios.get('/profile/getContactInfo', {
+                const response = await axios.get('/profile/getContact', {
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -141,13 +141,13 @@ export default {
 
                 const data = response.data
 
-                this.contactForm.firstname = data.firstname
-                this.contactForm.lastname = data.lastname
-                this.contactForm.phone1 = data.phone1
-                this.contactForm.phone2 = data.phone2
-                this.contactForm.fax = data.fax
-                this.contactForm.birthdate = data.birthdate
-                this.contactForm.gender = data.gender
+                this.form.firstname = data.firstname
+                this.form.lastname = data.lastname
+                this.form.phone1 = data.phone1
+                this.form.phone2 = data.phone2
+                this.form.fax = data.fax
+                this.form.birthdate = data.birthdate
+                this.form.gender = data.gender
 
             } catch (error) {
                 console.error(error)
@@ -173,7 +173,7 @@ export default {
             element.addEventListener('change', this.onFormChange)
         })
 
-        this.fillContactInfo()
+        this.fillForm()
     },
 
     beforeDestroy() {
