@@ -15,6 +15,7 @@ import DocumentsToClassify from './components/dashboard/DocumentsToClassify.vue'
 import Tasks from './components/dashboard/Tasks.vue'
 import ContactInformation from './components/profile/ContactInformation.vue'
 import AddressInformation from './components/profile/AddressInformation.vue'
+import PlaceOfWorkInformation from './components/profile/PlaceOfWorkInformation.vue'
 
 const app = createApp({})
 
@@ -29,5 +30,6 @@ app.component('tasks-component', Tasks)
 app.component('symbols-component', Symbols)
 app.component('contact-information', ContactInformation)
 app.component('address-information', AddressInformation)
+app.component('place-of-work-information', PlaceOfWorkInformation)
 
 app.mount("#app")
