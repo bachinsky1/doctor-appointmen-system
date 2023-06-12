@@ -9,11 +9,11 @@
             <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitContactForm">
                 <div class="col-md-6">
                     <label for="firstname" class="form-label">Firstname</label>
-                    <input type="text" v-model="contactForm.firstname" class="form-control" id="firstname">
+                    <input type="text" v-model="contactForm.firstname" class="form-control" id="firstname" required>
                 </div>
                 <div class="col-md-6">
                     <label for="lastname" class="form-label">Lastname</label>
-                    <input type="text" v-model="contactForm.lastname" class="form-control" id="lastname">
+                    <input type="text" v-model="contactForm.lastname" class="form-control" id="lastname" required>
                 </div>
                 <div class="col-md-6">
                     <label for="gender" class="form-label">Gender</label>
@@ -23,11 +23,11 @@
                 </div>
                 <div class="col-md-6">
                     <label for="birthdate" class="form-label">Birthdate</label>
-                    <input type="date" v-model="contactForm.birthdate" class="form-control" id="birthdate">
+                    <input type="date" v-model="contactForm.birthdate" class="form-control" id="birthdate" required>
                 </div>
                 <div class="col-md-4">
                     <label for="phone1" class="form-label">Main Phone</label>
-                    <input type="phone" v-model="contactForm.phone1" class="form-control" id="phone1">
+                    <input type="phone" v-model="contactForm.phone1" class="form-control" id="phone1" required>
                 </div>
                 <div class="col-md-4">
                     <label for="phone2" class="form-label">Second Phone</label>
@@ -131,7 +131,7 @@ export default {
 
         async fillContactInfo() {
             this.contactForm.loading = true
-            
+
             try {
                 const response = await axios.get('/profile/getContactInfo', {
                     headers: {

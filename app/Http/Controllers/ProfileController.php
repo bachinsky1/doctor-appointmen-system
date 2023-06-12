@@ -73,44 +73,8 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        // Валидация входящих данных
-        $validatedData = $request->validate([
-            'street.*' => 'required|string|max:255',
-            'house_number.*' => 'required|string|max:255',
-            'city.*' => 'required|string|max:255',
-            'state.*' => 'required|string|max:255',
-            'zip_code.*' => 'required|string|max:255',
-            'is_main_address.*' => 'nullable|boolean',
-        ]);
-
-        // Сохранение адресов в таблице addresses
-        $addresses = [];
-        foreach ($validatedData['street'] as $key => $value) {
-            $address = new Address;
-            $address->street = $validatedData['street'][$key];
-            $address->house_number = $validatedData['house_number'][$key];
-            $address->city = $validatedData['city'][$key];
-            $address->state = $validatedData['state'][$key];
-            $address->zip_code = $validatedData['zip_code'][$key];
-            $address->is_main_address = isset($validatedData['is_main_address'][$key]) ? true : false;
-            $address->save();
-            $addresses[] = $address;
-        }
-
-        // Привязка адресов к текущему пользователю в таблице address_links
-        foreach ($addresses as $address) {
-            $addressLink = new AddressLinks;
-            $addressLink->address_id = $address->id;
-            $addressLink->user_id = Auth::id();
-            $addressLink->is_main = $address->is_main_address;
-            $addressLink->save();
-        }
-
-        // return redirect()->back()->with('success', 'Адреса успешно сохранены');
-
-        return response()->json(['message' => 'Form submitted successfully.']);
+        
     }
-
 
     public function getContactInfo(Request $request)
     {
@@ -139,21 +103,28 @@ class ProfileController extends Controller
             return response()->json(['message' => 'User not found'], 404);
         }
 
-        $firstname = $request->input('firstname');
-        $lastname = $request->input('lastname');
-        $phone1 = $request->input('phone1');
-        $phone2 = $request->input('phone2');
-        $fax = $request->input('fax');
-        $birthdate = $request->input('birthdate');
-        $gender = $request->input('gender');
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'birthdate' => 'required|date',
+            'gender' => 'required|in:M,F',
+            'phone1' => 'required|string|max:255',
+            'phone2' => 'nullable|string|max:255',
+            'fax' => 'nullable|string|max:255',
+        ]);
 
-        $user->firstname = $firstname;
-        $user->lastname = $lastname;
-        $user->phone1 = $phone1;
-        $user->phone2 = $phone2;
-        $user->fax = $fax;
-        $user->birthdate = $birthdate;
-        $user->gender = $gender;
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()], 400); 
+        }
+
+        $user->firstname = $request->input('firstname');
+        $user->lastname = $request->input('lastname');
+        $user->birthdate = $request->input('birthdate');
+        $user->gender = $request->input('gender');
+        $user->phone1 = $request->input('phone1');
+        $user->phone2 = $request->input('phone2');
+        $user->fax = $request->input('fax');
+
         $user->save();
 
         return response()->json(['message' => 'Contact info updated successfully']);
