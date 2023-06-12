@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-5">
+    <div class="card mb-4">
         <div class="card-header">Work places</div>
         <div class="card-body">
             <form class="row g-3" id="workPlaceForm" @submit.prevent="onSubmit">

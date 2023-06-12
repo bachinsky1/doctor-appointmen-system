@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-5">
+    <div class="card mb-4">
         <div class="card-header">Addresses</div>
         <div class="card-body">
             <div v-if="formMessage" :class="['alert', formMessageClass, 'alert-dismissible', 'fade', 'show']">
