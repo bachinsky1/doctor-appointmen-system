@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -67,7 +68,7 @@ class ProfileController extends Controller
      * @param  \App\Models\Profile  $profile 
      */
     public function update(Request $request, Profile $profile)
-    { 
+    {
         return response()->json(['message' => 'Form submitted successfully.']);
     }
 
@@ -75,6 +76,10 @@ class ProfileController extends Controller
     public function getContactInfo(Request $request)
     {
         $user = User::find($request->user()->id);
+
+        if (!!$user === false) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
 
         return response()->json([
             'firstname' => $user->firstname,
@@ -89,6 +94,11 @@ class ProfileController extends Controller
 
     public function updateContactInfo(Request $request, Profile $profile)
     {
+        $user = Auth::user();
+
+        if (!!$user === false) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
 
         $firstname = $request->input('firstname');
         $lastname = $request->input('lastname');
@@ -98,15 +108,16 @@ class ProfileController extends Controller
         $birthdate = $request->input('birthdate');
         $gender = $request->input('gender');
 
-        return response()->json(['message' => [
-                $firstname,
-                $lastname,
-                $phone1,
-                $phone2,
-                $fax,
-                $birthdate,
-                $gender,
-        ]]);
+        $user->firstname = $firstname;
+        $user->lastname = $lastname;
+        $user->phone1 = $phone1;
+        $user->phone2 = $phone2;
+        $user->fax = $fax;
+        $user->birthdate = $birthdate;
+        $user->gender = $gender;
+        $user->save();
+
+        return response()->json(['message' => 'Contact info updated successfully']);
     }
 
     /**

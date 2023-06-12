@@ -82,6 +82,7 @@ export default {
                 birthdate: '',
                 gender: null,
                 genderItems: ['M', 'F'],
+                isFormChanged: false,
             },
             csrfToken: '',
             formMessage: '',
@@ -89,8 +90,20 @@ export default {
             formMessageClass: ''
         }
     },
+    
     methods: {
+        onFormChange() {
+            this.contactForm.isFormChanged = true
+        },
+
         async onSubmitContactForm() {
+
+            if (!this.contactForm.isFormChanged) {
+                this.formMessage = 'Form data didn`t change. No need to update.'
+                this.formMessageClass = 'alert-warning' 
+                return
+            }
+
             this.contactForm.loading = true
 
             try {
@@ -104,13 +117,19 @@ export default {
                 })
                 const data = await response.json()
                 console.log(data)
+
+                this.formMessage = data.message
+
+                this.formMessageClass = response.ok ? 'alert-success' : 'alert-danger'
+
                 if (response.ok) {
-                    this.formMessage = 'Form submitted successfully!'
-                    this.formMessageClass = 'alert-success'
-                } else {
-                    this.formMessage = 'Error submitting form'
-                    this.formMessageClass = 'alert-danger'
+                    const { firstname, lastname } = this.contactForm
+                    const fullName = `${firstname} ${lastname}`
+
+                    document.querySelectorAll('.currentUserName').forEach(element => element.textContent = fullName)
+                    this.contactForm.isFormChanged = false
                 }
+
             } catch (error) {
                 console.error(error)
             }
@@ -139,7 +158,7 @@ export default {
                 }
 
                 const data = await response.json()
-                
+
                 this.contactForm.firstname = data.firstname
                 this.contactForm.lastname = data.lastname
                 this.contactForm.phone1 = data.phone1
@@ -156,9 +175,11 @@ export default {
         }
 
     },
+
     filters: {
 
     },
+
     computed: {
 
     },
@@ -172,7 +193,23 @@ export default {
             throw new Error('CSRF meta tag not found') 
         }
 
+        const formElements = document.querySelectorAll('#contactForm input, #contactForm select')
+
+        formElements.forEach(element => {
+            element.addEventListener('input', this.onFormChange)
+            element.addEventListener('change', this.onFormChange)
+        })
+
         this.fillContactInfo()
-    }
+    },
+
+    beforeDestroy() {
+        const formElements = document.querySelectorAll('#contactForm input, #contactForm select')
+
+        formElements.forEach(element => {
+            element.removeEventListener('input', this.onFormChange)
+            element.removeEventListener('change', this.onFormChange)
+        })
+    },
 }
 </script>
