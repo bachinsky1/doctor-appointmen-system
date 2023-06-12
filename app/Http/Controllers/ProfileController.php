@@ -71,6 +71,22 @@ class ProfileController extends Controller
         return response()->json(['message' => 'Form submitted successfully.']);
     }
 
+
+    public function getContactInfo(Request $request)
+    {
+        $user = User::find($request->user()->id);
+
+        return response()->json([
+            'firstname' => $user->firstname,
+            'lastname' => $user->lastname,
+            'phone1' => $user->phone1,
+            'phone2' => $user->phone2,
+            'fax' => $user->fax,
+            'birthdate' => $user->birthdate,
+            'gender' => $user->gender,
+        ]);
+    }
+
     public function updateContactInfo(Request $request, Profile $profile)
     {
 

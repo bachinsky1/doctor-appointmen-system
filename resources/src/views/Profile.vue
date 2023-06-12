@@ -23,7 +23,9 @@
                         </div>
                         <div class="col-md-6">
                             <label for="gender" class="form-label">Gender</label>
-                            <input type="text" v-model="contactForm.gender" class="form-control" id="gender">
+                            <select class="form-select" id="example-select" v-model="contactForm.gender">
+                                <option v-for="(item, index) in contactForm.genderItems" :key="index" :value="item">{{ item }}</option>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label for="birthdate" class="form-label">Birthdate</label>
@@ -56,9 +58,11 @@
                 </div>
             </div>
         </div>
+
         <div class="col">
             <h3>Address</h3>
         </div>
+        
     </div>
 </template>
 
@@ -82,7 +86,8 @@ export default {
                 phone2: '',
                 fax: '',
                 birthdate: '',
-                gender: '',
+                gender: null,
+                genderItems: ['M', 'F'], 
             },
             csrfToken: '',
             formMessage: '',
@@ -138,6 +143,25 @@ export default {
         } else {
             console.error('CSRF meta tag not found')
         }
+
+        fetch('/profile/getContactInfo', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': this.csrfToken
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.contactForm.firstname = data.firstname
+                this.contactForm.lastname = data.lastname
+                this.contactForm.phone1 = data.phone1
+                this.contactForm.phone2 = data.phone2
+                this.contactForm.fax = data.fax
+                this.contactForm.birthdate = data.birthdate
+                this.contactForm.gender = data.gender
+            })
+            .catch(error => console.error(error))
     }
 }
 </script>
