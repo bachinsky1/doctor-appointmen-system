@@ -67,12 +67,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Get all user links.
-     */
-    public function addressLinks()
+
+    public function addresses()
     {
-        return $this->hasMany(AddressLink::class);
+        return $this->belongsToMany(Address::class, 'address_links', 'user_id', 'address_id')
+            ->withPivot('is_main')
+            ->whereNull('address_links.deleted_at');
     }
 
     public function medicalestablishments()

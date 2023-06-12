@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\AddressLinks;
+use App\Models\AddressLink;
 
 class Medicalestablishment extends Model
 {
@@ -33,8 +33,8 @@ class Medicalestablishment extends Model
     /**
      * Get all address links.
      */
-    public function addressLinks()
+    public function AddressLink()
     {
-        return $this->hasMany(AddressLinks::class);
+        return $this->hasMany(AddressLink::class);
     }
 }

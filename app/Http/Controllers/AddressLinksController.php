@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AddressLinks;
+use App\Models\AddressLink;
 use Illuminate\Http\Request;
 
 class AddressLinksController extends Controller
@@ -41,10 +41,10 @@ class AddressLinksController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AddressLinks  $addressLinks
+     * @param  \App\Models\AddressLink  $AddressLink
      * @return \Illuminate\Http\Response
      */
-    public function show(AddressLinks $addressLinks)
+    public function show(AddressLink $AddressLink)
     {
         //
     }
@@ -52,10 +52,10 @@ class AddressLinksController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\AddressLinks  $addressLinks
+     * @param  \App\Models\AddressLink  $AddressLink
      * @return \Illuminate\Http\Response
      */
-    public function edit(AddressLinks $addressLinks)
+    public function edit(AddressLink $AddressLink)
     {
         //
     }
@@ -64,10 +64,10 @@ class AddressLinksController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AddressLinks  $addressLinks
+     * @param  \App\Models\AddressLink  $AddressLink
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AddressLinks $addressLinks)
+    public function update(Request $request, AddressLink $AddressLink)
     {
         //
     }
@@ -75,10 +75,10 @@ class AddressLinksController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AddressLinks  $addressLinks
+     * @param  \App\Models\AddressLink  $AddressLink
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AddressLinks $addressLinks)
+    public function destroy(AddressLink $AddressLink)
     {
         //
     }

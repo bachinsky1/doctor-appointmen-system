@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Address;
-use App\Models\AddressLinks;
+use App\Models\AddressLink;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -73,7 +73,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        
+
     }
 
     public function getContactInfo(Request $request)
@@ -95,6 +95,16 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function getAddressInfo(Request $request)
+    {
+        $user = Auth::user();
+
+        // get all addresses associated with the current user
+        $addresses = $user->addresses()->get();
+
+        return response()->json($addresses);
+    }
+
     public function updateContactInfo(Request $request, Profile $profile)
     {
         $user = Auth::user();
@@ -114,7 +124,10 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()], 400); 
+            return response()->json([
+                'message' => 'There are validation errors',
+                'errors' => $validator->errors()
+            ], 400);
         }
 
         $user->firstname = $request->input('firstname');
@@ -150,10 +163,13 @@ class ProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
+            return response()->json([
+                'message' => 'There are validation errors', 
+                'errors' => $validator->errors()
+            ], 400);
         }
 
-        
+
         $addresses = $request->input('addresses');
         $savedAddresses = [];
         $userId = $user->id;
@@ -184,9 +200,9 @@ class ProfileController extends Controller
             }
 
             // Linking addresses to the current user in the address_links table
-            
+
             foreach ($savedAddresses as $address) {
-                $addressLink = new AddressLinks();
+                $addressLink = new AddressLink();
                 $addressLink->address_id = $address->id;
                 $addressLink->user_id = Auth::id();
                 $addressLink->is_main = $address->is_main_address;
@@ -197,8 +213,8 @@ class ProfileController extends Controller
 
         } catch (\Exception $e) {
             // If an error occurs, rollback the transaction and return an error
-            DB::rollback(); 
-            
+            DB::rollback();
+
             return response()->json(['message' => 'Failed to save addresses'], 500);
         }
 

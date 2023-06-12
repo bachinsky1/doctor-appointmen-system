@@ -8,7 +8,7 @@ use App\Models\Address;
 use App\Models\Medicalestablishment;
 use App\Models\User;
 
-class AddressLinks extends Model
+class AddressLink extends Model
 {
     use HasFactory;
 

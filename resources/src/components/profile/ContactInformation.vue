@@ -6,7 +6,7 @@
                 {{ formMessage }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="formMessage = ''"></button>
             </div>
-            <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitContactForm">
+            <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitForm">
                 <div class="col-md-6">
                     <label for="firstname" class="form-label">Firstname</label>
                     <input type="text" v-model="contactForm.firstname" class="form-control" id="firstname" required>
@@ -38,8 +38,8 @@
                     <input type="phone" v-model="contactForm.fax" class="form-control" id="fax">
                 </div>
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-primary" @click="onSubmitContactForm" :disabled="contactForm.loading">
-                        <span v-if="!contactForm.loading">Update</span>
+                    <button type="submit" class="btn btn-primary" @click="onSubmitForm" :disabled="loadingForm">
+                        <span v-if="!loadingForm">Update</span>
                         <span v-else>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             <span class="sr-only disabled"> Updating...</span>
@@ -66,7 +66,6 @@ export default {
     data() {
         return {
             contactForm: {
-                loading: false,
                 firstname: '',
                 lastname: '',
                 phone1: '',
@@ -74,9 +73,10 @@ export default {
                 fax: '',
                 birthdate: '',
                 gender: null,
-                genderItems: ['M', 'F'],
-                isFormChanged: false,
-            }, 
+                genderItems: ['M', 'F']
+            },
+            loadingForm: false,
+            isFormChanged: false,
             formMessage: '',
             formMessageTimeout: 4000,
             formMessageClass: ''
@@ -85,18 +85,18 @@ export default {
 
     methods: {
         onFormChange() {
-            this.contactForm.isFormChanged = true
+            this.isFormChanged = true
         },
 
-        async onSubmitContactForm() {
+        async onSubmitForm() {
 
-            if (!this.contactForm.isFormChanged) {
+            if (!this.isFormChanged) {
                 this.formMessage = 'Form data didn`t change. No need to update.'
                 this.formMessageClass = 'alert-warning'
                 return
             }
 
-            this.contactForm.loading = true
+            this.loadingForm = true
 
             try {
 
@@ -115,7 +115,7 @@ export default {
                     const { firstname, lastname } = this.contactForm
                     const fullName = `${firstname} ${lastname}`
                     document.querySelectorAll('.currentUserName').forEach(element => element.textContent = fullName)
-                    this.contactForm.isFormChanged = false
+                    this.isFormChanged = false
                 }
 
             } catch (error) {
@@ -125,12 +125,12 @@ export default {
             setTimeout(() => {
                 this.formMessage = ''
             }, this.formMessageTimeout)
-            
-            this.contactForm.loading = false
+
+            this.loadingForm = false
         },
 
         async fillContactInfo() {
-            this.contactForm.loading = true
+            this.loadingForm = true
 
             try {
                 const response = await axios.get('/profile/getContactInfo', {
@@ -152,7 +152,7 @@ export default {
             } catch (error) {
                 console.error(error)
             } finally {
-                this.contactForm.loading = false
+                this.loadingForm = false
             }
         }
     },
@@ -165,7 +165,7 @@ export default {
 
     },
 
-    mounted() { 
+    mounted() {
         const formElements = document.querySelectorAll('#contactForm input, #contactForm select')
 
         formElements.forEach(element => {

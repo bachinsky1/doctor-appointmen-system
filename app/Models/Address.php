@@ -18,4 +18,11 @@ class Address extends Model
         'state',
         'zip_code',
     ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'address_links', 'address_id', 'user_id')
+            ->withPivot('is_main')
+            ->whereNull('address_links.deleted_at');
+    }
 }

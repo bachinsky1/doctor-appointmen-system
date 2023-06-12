@@ -2,8 +2,12 @@
     <div class="card mb-5">
         <div class="card-header">Addresses</div>
         <div class="card-body">
-            <form @submit.prevent="submitAddressForm">
-                <div v-for="(address, index) in addresses" :key="index">
+            <div v-if="formMessage" :class="['alert', formMessageClass, 'alert-dismissible', 'fade', 'show']">
+                {{ formMessage }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="formMessage = ''"></button>
+            </div>
+            <form class="row g-3" id="addressForm" ref="contactForm" @submit.prevent="onSubmitForm">
+                <div v-for="(address, index) in addressesForm" :key="index">
                     <div class="row mb-3">
                         <label for="street" class="col-sm-2 col-form-label">Street</label>
                         <div class="col-sm-6">
@@ -38,7 +42,13 @@
                     <hr>
                 </div>
                 <div class="d-grid gap-2 d-md-block">
-                    <button type="submit" class="btn btn-success">Save / Update</button>
+                    <button type="submit" class="btn btn-success" @click="onSubmitForm" :disabled="loadingForm">
+                        <span v-if="!loadingForm">Update</span>
+                        <span v-else>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="sr-only disabled"> Updating...</span>
+                        </span>
+                    </button>
                     <button type="button" class="btn btn-primary" @click="addAddress">Add address</button>
                 </div>
             </form>
@@ -51,7 +61,7 @@
 export default {
     data() {
         return {
-            addresses: [
+            addressesForm: [
                 {
                     street: '',
                     house_number: '',
@@ -61,12 +71,21 @@ export default {
                     is_main_address: false
                 }
             ],
-            csrfToken: '',
+            loadingForm: false,
+            isFormChanged: false,
+            formMessage: '',
+            formMessageTimeout: 4000,
+            formMessageClass: ''
         }
     },
+
     methods: {
+        onFormChange() {
+            this.isFormChanged = true
+        },
+
         addAddress() {
-            this.addresses.push({
+            this.addressesForm.push({
                 street: '',
                 house_number: '',
                 city: '',
@@ -74,29 +93,125 @@ export default {
                 zip_code: '',
                 is_main_address: false
             })
+
+            this.$nextTick(() => {
+                const formElements = document.querySelectorAll('#addressForm input, #addressForm select')
+
+                formElements.forEach(element => {
+                    element.addEventListener('input', this.onFormChange)
+                    element.addEventListener('change', this.onFormChange)
+                })
+
+                this.onFormChange
+            })
         },
 
         deleteAddress(index: number) {
-            this.addresses.splice(index, 1)
+            this.addressesForm.splice(index, 1)
+
+            const formElements = document.querySelectorAll('#addressForm input, #addressForm select')
+
+            formElements.forEach(element => {
+                element.removeEventListener('input', this.onFormChange)
+                element.removeEventListener('change', this.onFormChange)
+            })
+
+            this.$nextTick(() => {
+                formElements.forEach((element, index) => {
+                    element.addEventListener('input', this.onFormChange)
+                    element.addEventListener('change', this.onFormChange)
+                })
+            })
+
+            this.onFormChange()
         },
 
-        async submitAddressForm() {
-            const data = { addresses: this.addresses }
+        async onSubmitForm() {
+
+            if (!this.isFormChanged) {
+                this.formMessage = 'Form data didn`t change. No need to update.'
+                this.formMessageClass = 'alert-warning'
+                return
+            }
+
+            this.loadingForm = true
+
+            const data = { addresses: this.addressesForm }
+
             try {
                 const response = await axios.post('/profile/updateAddress', data, {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 })
+
                 console.log(response.data)
+
+                this.formMessage = response.data.message
+                this.formMessageClass = response.status === 200 ? 'alert-success' : 'alert-danger'
+
+                if (response.status === 200) {
+                    this.isFormChanged = false
+                }
             } catch (error) {
+                this.formMessage = error as string
+                this.formMessageClass = 'alert-danger'
                 console.error('There was an error submitting the form:', error)
             }
+
+            this.fillAddressInfo()
+
+            setTimeout(() => {
+                this.formMessage = ''
+            }, this.formMessageTimeout)
+
+            this.loadingForm = false
         },
+
+        async fillAddressInfo() {
+            try {
+
+                const response = await axios.post('/profile/getAddressInfo', {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+
+                this.addressesForm = response.data.map((address: Address) => ({
+                    street: address.street,
+                    house_number: address.house_number,
+                    city: address.city,
+                    state: address.state,
+                    zip_code: address.zip_code,
+                    is_main_address: !!address.is_main_address
+                }))
+
+            } catch (error) {
+                console.error('There was an error getting the addresses:', error)
+            } finally {
+                this.loadingForm = false
+            }
+        }
     },
 
     mounted() {
+        const formElements = document.querySelectorAll('#addressForm input, #addressForm select')
 
+        formElements.forEach(element => {
+            element.addEventListener('input', this.onFormChange)
+            element.addEventListener('change', this.onFormChange)
+        })
+
+        this.fillAddressInfo()
+    },
+
+    beforeDestroy() {
+        const formElements = document.querySelectorAll('#addressForm input, #addressForm select')
+
+        formElements.forEach(element => {
+            element.removeEventListener('input', this.onFormChange)
+            element.removeEventListener('change', this.onFormChange)
+        })
     },
 }
 
