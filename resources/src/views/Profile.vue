@@ -1,49 +1,51 @@
 <template>
     <h2>My Profile</h2>
-    <form class="row g-3" id="profileForm" ref="myForm" @submit.prevent="onSubmit">
-        <div class="col-md-6">
-            <label for="firstname" class="form-label">Firstname</label>
-            <input type="text" :value="firstname" class="form-control" id="firstname">
+    <div class="row">
+        <div class="col">
+            <div class="card mb-5">
+                <div class="card-header">Contact Information</div>
+                <div class="card-body">
+                    <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitContactForm">
+                        <div class="col-md-6">
+                            <label for="firstname" class="form-label">Firstname</label>
+                            <input type="text" v-model="contactForm.firstname" class="form-control" id="firstname">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastname" class="form-label">Lastname</label>
+                            <input type="text" v-model="contactForm.lastname" class="form-control" id="lastname">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="gender" class="form-label">Gender</label>
+                            <input type="text" v-model="contactForm.gender" class="form-control" id="gender">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="birthdate" class="form-label">Birthdate</label>
+                            <input type="date" v-model="contactForm.birthdate" class="form-control" id="birthdate">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="phone1" class="form-label">Main Phone</label>
+                            <input type="phone" v-model="contactForm.phone1" class="form-control" id="phone1">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="phone2" class="form-label">Second Phone</label>
+                            <input type="phone" v-model="contactForm.phone2" class="form-control" id="phone2">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="fax" class="form-label">Fax</label>
+                            <input type="phone" v-model="contactForm.fax" class="form-control" id="fax">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="hidden" name="_token" :value="csrfToken">
+                            <button type="submit" class="btn btn-primary" @click="onSubmitContactForm">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-            <label for="lastname" class="form-label">Lastname</label>
-            <input type="text" :value="lastname" class="form-control" id="lastname">
+        <div class="col">
+            <h3>Address</h3>
         </div>
-        <div class="col-md-6">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" :value="email" class="form-control" id="email">
-        </div>
-        <div class="col-md-6">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password">
-        </div>
-        <div class="col-12">
-            <label for="address1" class="form-label">Address</label>
-            <input type="text" class="form-control" id="address1" placeholder="1234 Main St">
-        </div>
-        <div class="col-12">
-            <label for="address2" class="form-label">Address 2</label>
-            <input type="text" class="form-control" id="address2" placeholder="Apartment, studio, or floor">
-        </div>
-        <div class="col-md-6">
-            <label for="city" class="form-label">City</label>
-            <input type="text" class="form-control" id="city">
-        </div>
-        <div class="col-md-4">
-            <label for="inputState" class="form-label">State</label>
-            <select id="inputState" class="form-select">
-                <option selected>Choose...</option>
-                <option>...</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <label for="inputZip" class="form-label">Zip</label>
-            <input type="text" class="form-control" id="inputZip">
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary" @click="onSubmit">Update</button>
-        </div>
-    </form>
+    </div>
 </template>
 
 <script lang="ts">
@@ -55,15 +57,34 @@ export default {
     ],
     data() {
         return {
-            email: '',
-            firstname: '',
-            lastname: '',
-            formSubmitted: false,
+            contactForm: {
+                firstname: '',
+                lastname: '',
+                phone1: '',
+                phone2: '',
+                fax: '',
+                birthdate: '',
+                gender: '',
+            },
+            csrfToken: ''
         }
     },
     methods: {
-        async onSubmit() {
-
+        async onSubmitContactForm() {
+            try {
+                const response = await fetch('/profile/updateContactInfo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': this.csrfToken
+                    },
+                    body: JSON.stringify(this.contactForm)
+                })
+                const data = await response.json()
+                console.log(data)
+            } catch (error) {
+                console.error(error)
+            }
         }
     },
     filters: {
@@ -74,7 +95,13 @@ export default {
     },
 
     mounted() {
-        console.log('Profile mounted.')
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]')
+
+        if (csrfMeta !== null) {
+            this.csrfToken = csrfMeta.getAttribute('content') || ''
+        } else {
+            console.error('CSRF meta tag not found')
+        }
     }
 }
 </script>

@@ -64,12 +64,33 @@ class ProfileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Profile  $profile
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Profile  $profile 
      */
     public function update(Request $request, Profile $profile)
     { 
-        echo $request->input('email');
+        return response()->json(['message' => 'Form submitted successfully.']);
+    }
+
+    public function updateContactInfo(Request $request, Profile $profile)
+    {
+
+        $firstname = $request->input('firstname');
+        $lastname = $request->input('lastname');
+        $phone1 = $request->input('phone1');
+        $phone2 = $request->input('phone2');
+        $fax = $request->input('fax');
+        $birthdate = $request->input('birthdate');
+        $gender = $request->input('gender');
+
+        return response()->json(['message' => [
+                $firstname,
+                $lastname,
+                $phone1,
+                $phone2,
+                $fax,
+                $birthdate,
+                $gender,
+        ]]);
     }
 
     /**

@@ -31,7 +31,7 @@ Auth::routes();
 Route::group(['middleware' => 'role:administrator,health-professional,patient'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::post('/profile', [ProfileController::class, 'update'])->name('update');
+    Route::post('/profile/updateContactInfo', [ProfileController::class, 'updateContactInfo'])->name('updateContactInfo');
 
     Route::group(['middleware' => 'role:health-professional,patient'], function () {
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
