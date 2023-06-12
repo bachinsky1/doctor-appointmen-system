@@ -55,11 +55,6 @@
 <script lang="ts">
 import { useStore } from './../../store/store'
 
-interface Store {
-    setCsrfToken(): void
-    getCsrfToken(): () => string
-}
-
 export default {
     name: 'ContactInformation',
     components: {
@@ -182,10 +177,7 @@ export default {
     },
 
     mounted() {
-        
-        this.csrfToken = (this.store.getCsrfToken) as string
-        console.log(this.csrfToken)
-
+        this.csrfToken = this.store.getCsrfToken
         const formElements = document.querySelectorAll('#contactForm input, #contactForm select')
 
         formElements.forEach(element => {

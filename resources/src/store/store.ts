@@ -2,8 +2,8 @@ import { defineStore } from "pinia"
 
 
 export const useStore = defineStore("main", {
-    state: (): { csrfToken: string } => ({
-        csrfToken: '',
+    state: () => ({
+        csrfToken: ''
     }),
     getters: {
         getCsrfToken(): string {
@@ -12,7 +12,7 @@ export const useStore = defineStore("main", {
     },
     actions: {
         setCsrfToken() {
-            
+
             const csrf = document.querySelector('meta[name="csrf-token"]')
 
             if (csrf !== null) {
