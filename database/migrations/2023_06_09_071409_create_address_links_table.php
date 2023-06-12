@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('address_id');
             $table->foreign('address_id')->references('id')->on('addresses');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('medicalestablishment_id');
+            $table->unsignedBigInteger('medicalestablishment_id')->nullable();
             $table->foreign('medicalestablishment_id')->references('id')->on('medicalestablishments');
-            $table->boolean('is_main')->default(false); // добавляем булевое поле is_main
+            $table->boolean('is_main')->default(false); 
             $table->timestamps();
             $table->softDeletes();
         });
