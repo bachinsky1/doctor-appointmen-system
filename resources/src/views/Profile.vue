@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <place-of-work-information></place-of-work-information>
+            <working-place-information></working-place-information>
         </div>
         <div class="col"></div>
     </div>
