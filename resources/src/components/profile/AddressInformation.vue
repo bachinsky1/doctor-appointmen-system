@@ -3,6 +3,7 @@
         <div class="card-header">Addresses</div>
         <div class="card-body">
             <form @submit.prevent="submitForm">
+                <input type="hidden" name="_token" :value="csrfToken">
                 <div v-for="(address, index) in addresses" :key="index">
                     <div class="row mb-3">
                         <label for="street" class="col-sm-2 col-form-label">Street</label>
@@ -60,7 +61,8 @@ export default {
                     zip_code: '',
                     is_main_address: false
                 }
-            ]
+            ],
+            csrfToken: '',
         }
     },
     methods: {
@@ -79,10 +81,38 @@ export default {
             this.addresses.splice(index, 1)
         },
 
-        submitForm() {
-            
+        async submitForm() {
+            const data = { addresses: this.addresses }
+            try {
+                const response = await fetch('/profile/updateAddress', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': this.csrfToken
+                    },
+                    body: JSON.stringify(data)
+                })
+                if (!response.ok) {
+                    throw new Error('Network response was not ok')
+                }
+                const responseData = await response.json()
+                console.log(responseData)
+            } catch (error) {
+                console.error('There was an error submitting the form:', error)
+            }
+        },
+    },
+
+    mounted() {
+        const csrfMeta = document.querySelector('meta[name="csrf-token"]')
+
+        if (csrfMeta !== null) {
+            this.csrfToken = csrfMeta.getAttribute('content') || ''
+        } else {
+            throw new Error('CSRF meta tag not found')
         }
-    }
+
+    },
 }
 
 </script>

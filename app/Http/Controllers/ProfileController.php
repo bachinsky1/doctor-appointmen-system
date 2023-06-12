@@ -120,6 +120,17 @@ class ProfileController extends Controller
         return response()->json(['message' => 'Contact info updated successfully']);
     }
 
+    public function updateAddress(Request $request, Profile $profile)
+    {
+        $user = Auth::user();
+
+        if (!!$user === false) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        return response()->json(['message' => $request->input('addresses')]);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

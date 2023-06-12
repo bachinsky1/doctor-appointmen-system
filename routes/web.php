@@ -10,6 +10,7 @@ use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,7 @@ Route::group(['middleware' => 'role:administrator,health-professional,patient'],
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('/profile/updateContactInfo', [ProfileController::class, 'updateContactInfo'])->name('updateContactInfo');
     Route::get('/profile/getContactInfo', [ProfileController::class, 'getContactInfo'])->name('getContactInfo');
+    Route::post('/profile/updateAddress', [ProfileController::class, 'updateAddress']);
 
     Route::group(['middleware' => 'role:health-professional,patient'], function () {
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
