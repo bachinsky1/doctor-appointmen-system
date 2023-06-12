@@ -3,23 +3,16 @@ import { defineStore } from "pinia"
 
 export const useStore = defineStore("main", {
     state: () => ({
-        csrfToken: ''
+        someValue: ''
     }),
     getters: {
-        getCsrfToken(): string {
-            return this.csrfToken
+        getSomeValue(): string {
+            return this.someValue
         },
     },
     actions: {
-        setCsrfToken() {
-
-            const csrf = document.querySelector('meta[name="csrf-token"]')
-
-            if (csrf !== null) {
-                this.csrfToken = csrf.getAttribute("content") || '' 
-            } else {
-                throw new Error("CSRF meta tag not found")
-            }
+        setSomeValue(value: string) {
+            this.someValue = value
         },
     },
 })

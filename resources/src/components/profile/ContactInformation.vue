@@ -7,7 +7,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="formMessage = ''"></button>
             </div>
             <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitContactForm">
-                <input type="hidden" name="_token" :value="csrfToken">
                 <div class="col-md-6">
                     <label for="firstname" class="form-label">Firstname</label>
                     <input type="text" v-model="contactForm.firstname" class="form-control" id="firstname">
@@ -53,7 +52,8 @@
 </template>
 
 <script lang="ts">
-import { useStore } from './../../store/store'
+
+import axios from 'axios'
 
 export default {
     name: 'ContactInformation',
@@ -76,8 +76,7 @@ export default {
                 gender: null,
                 genderItems: ['M', 'F'],
                 isFormChanged: false,
-            },
-            csrfToken: '',
+            }, 
             formMessage: '',
             formMessageTimeout: 4000,
             formMessageClass: ''
@@ -100,25 +99,21 @@ export default {
             this.contactForm.loading = true
 
             try {
-                const response = await fetch('/profile/updateContactInfo', {
-                    method: 'POST',
+
+                const response = await axios.post('/profile/updateContactInfo', this.contactForm, {
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': this.csrfToken
-                    },
-                    body: JSON.stringify(this.contactForm)
+                        'Content-Type': 'application/json'
+                    }
                 })
-                const data = await response.json()
-                console.log(data)
 
-                this.formMessage = data.message
+                console.log(response.data)
 
-                this.formMessageClass = response.ok ? 'alert-success' : 'alert-danger'
+                this.formMessage = response.data.message
+                this.formMessageClass = response.status === 200 ? 'alert-success' : 'alert-danger'
 
-                if (response.ok) {
+                if (response.status === 200) {
                     const { firstname, lastname } = this.contactForm
                     const fullName = `${firstname} ${lastname}`
-
                     document.querySelectorAll('.currentUserName').forEach(element => element.textContent = fullName)
                     this.contactForm.isFormChanged = false
                 }
@@ -130,27 +125,21 @@ export default {
             setTimeout(() => {
                 this.formMessage = ''
             }, this.formMessageTimeout)
-
+            
             this.contactForm.loading = false
         },
 
         async fillContactInfo() {
             this.contactForm.loading = true
-
+            
             try {
-                const response = await fetch('/profile/getContactInfo', {
-                    method: 'GET',
+                const response = await axios.get('/profile/getContactInfo', {
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': this.csrfToken
+                        'Content-Type': 'application/json'
                     }
                 })
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch contact info')
-                }
-
-                const data = await response.json()
+                const data = response.data
 
                 this.contactForm.firstname = data.firstname
                 this.contactForm.lastname = data.lastname
@@ -176,8 +165,7 @@ export default {
 
     },
 
-    mounted() {
-        this.csrfToken = this.store.getCsrfToken
+    mounted() { 
         const formElements = document.querySelectorAll('#contactForm input, #contactForm select')
 
         formElements.forEach(element => {
@@ -197,14 +185,5 @@ export default {
         })
     },
 
-    setup() {
-        const store = useStore()
-
-        store.setCsrfToken()
-
-        return {
-            store
-        }
-    },
 }
 </script>

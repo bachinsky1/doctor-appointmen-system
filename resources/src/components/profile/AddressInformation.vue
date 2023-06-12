@@ -2,8 +2,7 @@
     <div class="card mb-5">
         <div class="card-header">Addresses</div>
         <div class="card-body">
-            <form @submit.prevent="submitForm">
-                <input type="hidden" name="_token" :value="csrfToken">
+            <form @submit.prevent="submitAddressForm">
                 <div v-for="(address, index) in addresses" :key="index">
                     <div class="row mb-3">
                         <label for="street" class="col-sm-2 col-form-label">Street</label>
@@ -81,22 +80,15 @@ export default {
             this.addresses.splice(index, 1)
         },
 
-        async submitForm() {
+        async submitAddressForm() {
             const data = { addresses: this.addresses }
             try {
-                const response = await fetch('/profile/updateAddress', {
-                    method: 'POST',
+                const response = await axios.post('/profile/updateAddress', data, {
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': this.csrfToken
-                    },
-                    body: JSON.stringify(data)
+                        'Content-Type': 'application/json'
+                    }
                 })
-                if (!response.ok) {
-                    throw new Error('Network response was not ok')
-                }
-                const responseData = await response.json()
-                console.log(responseData)
+                console.log(response.data)
             } catch (error) {
                 console.error('There was an error submitting the form:', error)
             }
@@ -104,13 +96,6 @@ export default {
     },
 
     mounted() {
-        const csrfMeta = document.querySelector('meta[name="csrf-token"]')
-
-        if (csrfMeta !== null) {
-            this.csrfToken = csrfMeta.getAttribute('content') || ''
-        } else {
-            throw new Error('CSRF meta tag not found')
-        }
 
     },
 }
