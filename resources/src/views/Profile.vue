@@ -5,7 +5,14 @@
             <div class="card mb-5">
                 <div class="card-header">Contact Information</div>
                 <div class="card-body">
+
+                    <div v-if="formMessage" :class="['alert', formMessageClass, 'alert-dismissible', 'fade', 'show']">
+                        {{ formMessage }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="formMessage = ''"></button>
+                    </div>
+
                     <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitContactForm">
+                        <input type="hidden" name="_token" :value="csrfToken">
                         <div class="col-md-6">
                             <label for="firstname" class="form-label">Firstname</label>
                             <input type="text" v-model="contactForm.firstname" class="form-control" id="firstname">
@@ -34,10 +41,17 @@
                             <label for="fax" class="form-label">Fax</label>
                             <input type="phone" v-model="contactForm.fax" class="form-control" id="fax">
                         </div>
+
                         <div class="col-md-6">
-                            <input type="hidden" name="_token" :value="csrfToken">
-                            <button type="submit" class="btn btn-primary" @click="onSubmitContactForm">Update</button>
+                            <button type="submit" class="btn btn-primary" @click="onSubmitContactForm" :disabled="contactForm.loading">
+                                <span v-if="!contactForm.loading">Update</span>
+                                <span v-else>
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    <span class="sr-only disabled"> Updating...</span>
+                                </span>
+                            </button>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -52,12 +66,16 @@
 
 export default {
     name: 'Profile',
+    components: {
+
+    },
     props: [
         'message',
     ],
     data() {
         return {
             contactForm: {
+                loading: false,
                 firstname: '',
                 lastname: '',
                 phone1: '',
@@ -66,11 +84,16 @@ export default {
                 birthdate: '',
                 gender: '',
             },
-            csrfToken: ''
+            csrfToken: '',
+            formMessage: '',
+            formMessageTimeout: 4000, 
+            formMessageClass: ''
         }
     },
     methods: {
         async onSubmitContactForm() {
+            this.contactForm.loading = true
+            
             try {
                 const response = await fetch('/profile/updateContactInfo', {
                     method: 'POST',
@@ -82,9 +105,22 @@ export default {
                 })
                 const data = await response.json()
                 console.log(data)
+                if (response.ok) {
+                    this.formMessage = 'Form submitted successfully!'
+                    this.formMessageClass = 'alert-success'
+                } else {
+                    this.formMessage = 'Error submitting form'
+                    this.formMessageClass = 'alert-danger'
+                }
             } catch (error) {
                 console.error(error)
             }
+
+            setTimeout(() => {
+                this.formMessage = ''
+            }, this.formMessageTimeout)
+
+            this.contactForm.loading = false
         }
     },
     filters: {
