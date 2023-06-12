@@ -5,12 +5,10 @@
             <div class="card mb-5">
                 <div class="card-header">Contact Information</div>
                 <div class="card-body">
-
                     <div v-if="formMessage" :class="['alert', formMessageClass, 'alert-dismissible', 'fade', 'show']">
                         {{ formMessage }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="formMessage = ''"></button>
                     </div>
-
                     <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitContactForm">
                         <input type="hidden" name="_token" :value="csrfToken">
                         <div class="col-md-6">
@@ -43,7 +41,6 @@
                             <label for="fax" class="form-label">Fax</label>
                             <input type="phone" v-model="contactForm.fax" class="form-control" id="fax">
                         </div>
-
                         <div class="col-md-6">
                             <button type="submit" class="btn btn-primary" @click="onSubmitContactForm" :disabled="contactForm.loading">
                                 <span v-if="!contactForm.loading">Update</span>
@@ -53,16 +50,13 @@
                                 </span>
                             </button>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
-
         <div class="col">
             <h3>Address</h3>
         </div>
-        
     </div>
 </template>
 
@@ -87,18 +81,18 @@ export default {
                 fax: '',
                 birthdate: '',
                 gender: null,
-                genderItems: ['M', 'F'], 
+                genderItems: ['M', 'F'],
             },
             csrfToken: '',
             formMessage: '',
-            formMessageTimeout: 4000, 
+            formMessageTimeout: 4000,
             formMessageClass: ''
         }
     },
     methods: {
         async onSubmitContactForm() {
             this.contactForm.loading = true
-            
+
             try {
                 const response = await fetch('/profile/updateContactInfo', {
                     method: 'POST',
@@ -126,7 +120,41 @@ export default {
             }, this.formMessageTimeout)
 
             this.contactForm.loading = false
+        },
+
+        async fillContactInfo() {
+            this.contactForm.loading = true
+
+            try {
+                const response = await fetch('/profile/getContactInfo', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': this.csrfToken
+                    }
+                })
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch contact info')
+                }
+
+                const data = await response.json()
+                
+                this.contactForm.firstname = data.firstname
+                this.contactForm.lastname = data.lastname
+                this.contactForm.phone1 = data.phone1
+                this.contactForm.phone2 = data.phone2
+                this.contactForm.fax = data.fax
+                this.contactForm.birthdate = data.birthdate
+                this.contactForm.gender = data.gender
+
+            } catch (error) {
+                console.error(error)
+            } finally {
+                this.contactForm.loading = false
+            }
         }
+
     },
     filters: {
 
@@ -141,27 +169,10 @@ export default {
         if (csrfMeta !== null) {
             this.csrfToken = csrfMeta.getAttribute('content') || ''
         } else {
-            console.error('CSRF meta tag not found')
+            throw new Error('CSRF meta tag not found') 
         }
 
-        fetch('/profile/getContactInfo', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': this.csrfToken
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                this.contactForm.firstname = data.firstname
-                this.contactForm.lastname = data.lastname
-                this.contactForm.phone1 = data.phone1
-                this.contactForm.phone2 = data.phone2
-                this.contactForm.fax = data.fax
-                this.contactForm.birthdate = data.birthdate
-                this.contactForm.gender = data.gender
-            })
-            .catch(error => console.error(error))
+        this.fillContactInfo()
     }
 }
 </script>
