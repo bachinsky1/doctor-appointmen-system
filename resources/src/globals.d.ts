@@ -17,7 +17,19 @@ interface Address {
 }
 
 interface Workplace {
-    position_id: number | null
-    speciality_id: number | null
-    medicalestablishment_id: number | null
+    user_id: number | null
+    position_id: number | undefined
+    medicalestablishment_id: number | undefined
 }
+
+interface Position {
+    id: number | undefined
+    name: string | undefined
+}
+
+interface Medicalestablishment {
+    id: number | undefined
+    name: string | undefined
+}
+
+

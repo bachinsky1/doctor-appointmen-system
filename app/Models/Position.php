@@ -10,6 +10,15 @@ class Position extends Model
 {
     use HasFactory, SoftDeletes;
 
+
+    protected $fillable = [
+        'name'
+    ];
+
+    protected $dates = [
+        'deleted_at'
+    ];
+    
     public function userMedicalEstablishments()
     {
         return $this->hasMany(UserMedicalEstablishment::class);

@@ -47,8 +47,8 @@ Route::group(['middleware' => 'role:administrator,health-professional,patient'],
         Route::get('/billing', [BillingController::class, 'index'])->name('billing');
         Route::get('/tasks', [TaskController::class, 'index'])->name('tasks');
         Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
-        Route::get('/profile/getWorkplace', [ProfileController::class, 'getWorkplace']);
-        Route::post('/profile/updateWorkplace', [ProfileController::class, 'updateWorkplace']);
+        Route::get('/profile/workplace', [ProfileController::class, 'getWorkplace']);
+        Route::post('/profile/workplace', [ProfileController::class, 'updateWorkplace']);
     });
 
     Route::group(['middleware' => 'role:administrator'], function () {

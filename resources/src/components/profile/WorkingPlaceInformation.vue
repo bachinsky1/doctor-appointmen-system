@@ -2,48 +2,45 @@
     <div class="card mb-4">
         <div class="card-header">Work places</div>
         <div class="card-body">
-            <form class="row g-3" id="workPlaceForm" @submit.prevent="onSubmit">
+            <form class="row g-3" @submit.prevent="onSubmit">
                 <div v-for="(workplace, index) in workplaces" :key="index">
-                    <div class="mb-3">
-                        <label for="position">Position</label>
-                        <select v-model="workplace.position_id" class="form-select" id="position">
-                            <option v-for="position in positions" :key="position.id" :value="position.id">{{ position.name }}</option>
-                        </select>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="gender" class="form-label">Position</label>
+                            <select class="form-select" id="position" v-model="workplace.position_id">
+                                <option v-for="position in positions" :key="position.id" :value="position.id">{{ position.name }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="gender" class="form-label">Medicalestablishment</label>
+                            <select class="form-select" id="medical-establishment" v-model="workplace.medicalestablishment_id">
+                                <option v-for="medicalestablishment in medicalestablishments" :key="medicalestablishment.id" :value="medicalestablishment.id">{{ medicalestablishment.name }}</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="speciality">Speciality</label>
-                        <select v-model="workplace.speciality_id" class="form-select" id="speciality">
-                            <option v-for="speciality in specialities" :key="speciality.id" :value="speciality.id">{{ speciality.name }}</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="medicalestablishment">Medical establishment</label>
-                        <select v-model="workplace.medicalestablishment_id" class="form-select" id="medicalestablishment">
-                            <option v-for="medicalestablishment in medicalestablishments" :key="medicalestablishment.id" :value="medicalestablishment.id">{{ medicalestablishment.name }}</option>
-                        </select>
-                    </div>
-                    <button type="button" class="btn btn-danger" @click="removeWorkplace(index)">Delete</button>
+                    <button type="button" class="btn btn-danger" @click="removeWorkplace(index)">Удалить</button>
                     <hr>
                 </div>
                 <div class="d-grid gap-2 d-md-block">
-                    <button type="submit" class="btn btn-success mt-3">Update</button>
-                    <button type="button" class="btn btn-primary mt-3" @click="addWorkplace">Add work place</button>
+                    <button type="button" class="btn btn-primary" @click="addWorkplace">Add new</button>
+                    <button type="submit" class="btn btn-success">Update</button>
                 </div>
             </form>
         </div>
     </div>
 </template>
 
-<script>
-import axios from 'axios';
+<script lang="ts">
+
+import axios from 'axios'
 
 export default {
     data() {
         return {
-            workplaces: [],
-            positions: [],
-            specialities: [],
-            medicalestablishments: []
+            workplaces: [] as Workplace[],
+            positions: [] as Position[],
+            medicalestablishments: [] as Medicalestablishment[],
+            userId: null
         }
     },
     mounted() {
@@ -51,35 +48,32 @@ export default {
     },
     methods: {
         fetchData() {
-            axios.get('/profile/getWorkplace')
+            axios.get('/profile/workplace')
                 .then(response => {
                     this.workplaces = response.data.workplaces;
                     this.positions = response.data.positions;
-                    this.specialities = response.data.specialities;
                     this.medicalestablishments = response.data.medicalestablishments;
+                    this.userId = response.data.userId;
                 })
                 .catch(error => console.log(error));
         },
         addWorkplace() {
+            
             this.workplaces.push({
-                position_id: null,
-                speciality_id: null,
-                medicalestablishment_id: null
+                user_id: this.userId,
+                position_id: undefined,
+                medicalestablishment_id: undefined
             });
         },
-        removeWorkplace(index) {
+
+        removeWorkplace(index: number) {
             this.workplaces.splice(index, 1);
         },
+
         onSubmit() {
-            axios.post('/profile/updateWorkplace', { workplaces: this.workplaces })
-                .then(response => {
-                    // handle success
-                    console.log(response);
-                })
-                .catch(error => {
-                    // handle error
-                    console.log(error);
-                });
+            axios.post('/profile/workplace', { workplaces: this.workplaces })
+                .then(response => console.log(response))
+                .catch(error => console.log(error));
         }
     }
 }

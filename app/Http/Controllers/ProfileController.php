@@ -119,28 +119,51 @@ class ProfileController extends Controller
             ->get();
 
         $positions = Position::all();
+        $medicalestablishments = Medicalestablishment::all();
 
         return response()->json([
             'workplaces' => $workplaces,
             'positions' => $positions,
+            'medicalestablishments' => $medicalestablishments,
+            'userId' => $user->id,
         ]);
     }
 
     public function updateWorkplace(Request $request)
     {
+        
         $user = Auth::user();
-        $workplaces = $request->input('workplaces');
-        $user->workplaces()->delete();
-        foreach ($workplaces as $workplace) {
-            $newWorkplace = new UserMedicalestablishment();
-            $newWorkplace->user_id = $user->id;
-            $newWorkplace->position_id = $workplace['position_id'];
-            $newWorkplace->speciality_id = $workplace['speciality_id'];
-            $newWorkplace->medicalestablishment_id = $workplace['medicalestablishment_id'];
-            $newWorkplace->save();
+
+        if (!!$user === false) {
+            return response()->json(['message' => 'User not found'], 404);
         }
 
-        return response()->json(['success' => true]);
+        $validator = Validator::make($request->all(), [
+            'workplaces' => 'required|array',
+            'workplaces.*.user_id' => 'required|integer',
+            'workplaces.*.medicalestablishment_id' => 'required|integer',
+            'workplaces.*.position_id' => 'nullable|integer', 
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'There are validation errors',
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        UserMedicalEstablishment::where('user_id', $user->id)->forceDelete();
+
+        foreach ($request->workplaces as $workplaceData) {
+            UserMedicalEstablishment::updateOrCreate([
+                'user_id' => $user->id,
+                'medicalestablishment_id' => $workplaceData['medicalestablishment_id']
+            ], [
+                    'position_id' => $workplaceData['position_id']
+                ]);
+        }
+
+        return response()->json(['message' => 'Data saved successfully']);
     }
 
     public function updateContact(Request $request, Profile $profile)

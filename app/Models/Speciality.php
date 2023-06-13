@@ -9,4 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Speciality extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'name'
+    ];
+
+    protected $dates = [
+        'deleted_at'
+    ];
 }

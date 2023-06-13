@@ -12,6 +12,12 @@ class UserMedicalestablishment extends Model
 
     protected $table = 'user_medicalestablishments';
 
+    protected $fillable = [
+        'user_id',
+        'medicalestablishment_id',
+        'position_id'
+    ];
+    
     public function user()
     {
         return $this->belongsTo(User::class);
