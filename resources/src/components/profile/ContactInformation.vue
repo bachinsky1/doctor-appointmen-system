@@ -127,7 +127,7 @@ export default {
 
             try {
 
-                const response = await axios.post('/profile/updateContact', this.form)
+                const response = await axios.post('/profile/contact', this.form)
 
                 this.formMessage = response.data.message
                 this.formMessageClass = response.status === 200 ? 'alert-success' : 'alert-danger'
@@ -154,11 +154,7 @@ export default {
             this.loadingForm = true
 
             try {
-                const response = await axios.get('/profile/getContact', {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                const response = await axios.get('/profile/contact')
 
                 const data = response.data
 

@@ -32,10 +32,10 @@ Auth::routes();
 Route::group(['middleware' => 'role:administrator,health-professional,patient'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::post('/profile/updateContact', [ProfileController::class, 'updateContact']);
-    Route::get('/profile/getContact', [ProfileController::class, 'getContact']);
-    Route::post('/profile/updateAddress', [ProfileController::class, 'updateAddress']);
-    Route::get('/profile/getAddress', [ProfileController::class, 'getAddress']);
+    Route::post('/profile/contact', [ProfileController::class, 'updateContact']);
+    Route::get('/profile/contact', [ProfileController::class, 'getContact']);
+    Route::post('/profile/address', [ProfileController::class, 'updateAddress']);
+    Route::get('/profile/address', [ProfileController::class, 'getAddress']);
 
     Route::group(['middleware' => 'role:health-professional,patient'], function () {
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
