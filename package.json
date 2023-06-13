@@ -9,6 +9,7 @@
         "@tsconfig/node18": "^2.0.1",
         "@types/bootstrap": "^5.2.6",
         "@types/node": "^18.16.17",
+        "@types/vuelidate": "^0.7.18",
         "@vitejs/plugin-vue": "^4.0.0",
         "@vue/tsconfig": "^0.4.0",
         "axios": "^1.1.2",
@@ -17,12 +18,16 @@
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
         "sass": "^1.56.1",
-        "vite": "^4.0.0", 
+        "vite": "^4.0.0",
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "@vuelidate/core": "^2.0.2",
+        "@vuelidate/validators": "^2.0.2",
         "pinia": "^2.1.3",
+        "tslint": "^6.1.3",
         "typescript": "^5.1.3",
-        "vue-router": "^4.2.2"
+        "vue-router": "^4.2.2",
+        "vuelidate": "^0.7.7"
     }
 }

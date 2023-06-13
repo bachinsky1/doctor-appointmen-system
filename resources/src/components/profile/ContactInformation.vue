@@ -9,11 +9,13 @@
             <form class="row g-3" id="contactForm" ref="contactForm" @submit.prevent="onSubmitForm">
                 <div class="col-md-6">
                     <label for="firstname" class="form-label">Firstname</label>
-                    <input type="text" v-model="form.firstname" class="form-control" id="firstname" required>
+                    <input type="text" v-model="form.firstname" :class="{ 'is-invalid': v.form.firstname.$error }" class="form-control" id="firstname" autocomplete="off">
+                    <div class="invalid-feedback" v-if="v.form.firstname.$error">Field is invalid</div>
                 </div>
                 <div class="col-md-6">
                     <label for="lastname" class="form-label">Lastname</label>
-                    <input type="text" v-model="form.lastname" class="form-control" id="lastname" required>
+                    <input type="text" v-model="form.lastname" :class="{ 'is-invalid': v.form.lastname.$error }" class="form-control" id="lastname" autocomplete="off">
+                    <div class="invalid-feedback" v-if="v.form.lastname.$error">Field is invalid</div>
                 </div>
                 <div class="col-md-6">
                     <label for="gender" class="form-label">Gender</label>
@@ -23,19 +25,21 @@
                 </div>
                 <div class="col-md-6">
                     <label for="birthdate" class="form-label">Birthdate</label>
-                    <input type="date" v-model="form.birthdate" class="form-control" id="birthdate" required>
+                    <input type="date" v-model="form.birthdate" :class="{ 'is-invalid': v.form.birthdate.$error }" class="form-control" id="birthdate" autocomplete="off">
+                    <div class="invalid-feedback" v-if="v.form.birthdate.$error">Field is invalid</div>
                 </div>
                 <div class="col-md-4">
                     <label for="phone1" class="form-label">Main Phone</label>
-                    <input type="phone" v-model="form.phone1" class="form-control" id="phone1" required>
+                    <input type="phone" v-model="form.phone1" :class="{ 'is-invalid': v.form.phone1.$error }" class="form-control" id="phone1" autocomplete="off">
+                    <div class="invalid-feedback" v-if="v.form.phone1.$error">Field is invalid</div>
                 </div>
                 <div class="col-md-4">
                     <label for="phone2" class="form-label">Second Phone</label>
-                    <input type="phone" v-model="form.phone2" class="form-control" id="phone2">
+                    <input type="phone" v-model="form.phone2" class="form-control" id="phone2" autocomplete="off">
                 </div>
                 <div class="col-md-4">
                     <label for="fax" class="form-label">Fax</label>
-                    <input type="phone" v-model="form.fax" class="form-control" id="fax">
+                    <input type="phone" v-model="form.fax" class="form-control" id="fax" autocomplete="off">
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button type="submit" class="btn btn-success" @click="onSubmitForm" :disabled="loadingForm">
@@ -53,16 +57,25 @@
 
 <script lang="ts">
 
-import axios from 'axios'
+import { required } from '@vuelidate/validators'
+import { useVuelidate } from '@vuelidate/core'
+
+interface Form {
+    firstname: string,
+    lastname: string,
+    phone1: string,
+    phone2: string,
+    fax: string,
+    birthdate: Date | null,
+    gender: string | null,
+    genderItems: ['M', 'F']
+}
 
 export default {
     name: 'ContactInformation',
-    components: {
+    components: {},
+    props: {},
 
-    },
-    props: [
-        'message',
-    ],
     data() {
         return {
             form: {
@@ -71,15 +84,29 @@ export default {
                 phone1: '',
                 phone2: '',
                 fax: '',
-                birthdate: '',
+                birthdate: null,
                 gender: null,
                 genderItems: ['M', 'F']
-            },
+            } as Form,
+
             loadingForm: false,
             isFormChanged: false,
             formMessage: '',
             formMessageTimeout: 4000,
-            formMessageClass: ''
+            formMessageClass: '',
+        }
+    },
+
+    setup: () => ({ v: useVuelidate() }),
+
+    validations() {
+        return {
+            form: {
+                firstname: { required },
+                lastname: { required },
+                birthdate: { required },
+                phone1: { required },
+            }
         }
     },
 
@@ -90,9 +117,9 @@ export default {
 
         async onSubmitForm() {
 
-            if (!this.isFormChanged) {
-                this.formMessage = 'Form data didn`t change. No need to update.'
-                this.formMessageClass = 'alert-warning'
+            const isFormCorrect = await this.v.$validate()
+
+            if (!isFormCorrect || !this.isFormChanged) {
                 return
             }
 
@@ -100,13 +127,7 @@ export default {
 
             try {
 
-                const response = await axios.post('/profile/updateContact', this.form, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-
-                console.log(response.data)
+                const response = await axios.post('/profile/updateContact', this.form)
 
                 this.formMessage = response.data.message
                 this.formMessageClass = response.status === 200 ? 'alert-success' : 'alert-danger'
@@ -157,13 +178,9 @@ export default {
         }
     },
 
-    filters: {
+    filters: {},
 
-    },
-
-    computed: {
-
-    },
+    computed: {},
 
     mounted() {
         const formElements = document.querySelectorAll('#contactForm input, #contactForm select')
