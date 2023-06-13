@@ -131,7 +131,7 @@ class ProfileController extends Controller
 
     public function updateWorkplace(Request $request)
     {
-        
+
         $user = Auth::user();
 
         if (!!$user === false) {
@@ -142,7 +142,7 @@ class ProfileController extends Controller
             'workplaces' => 'required|array',
             'workplaces.*.user_id' => 'required|integer',
             'workplaces.*.medicalestablishment_id' => 'required|integer',
-            'workplaces.*.position_id' => 'nullable|integer', 
+            'workplaces.*.position_id' => 'nullable|integer',
         ]);
 
         if ($validator->fails()) {
@@ -158,9 +158,7 @@ class ProfileController extends Controller
             UserMedicalEstablishment::updateOrCreate([
                 'user_id' => $user->id,
                 'medicalestablishment_id' => $workplaceData['medicalestablishment_id']
-            ], [
-                    'position_id' => $workplaceData['position_id']
-                ]);
+            ], ['position_id' => $workplaceData['position_id']]);
         }
 
         return response()->json(['message' => 'Data saved successfully']);
@@ -225,7 +223,7 @@ class ProfileController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'There are validation errors', 
+                'message' => 'There are validation errors',
                 'errors' => $validator->errors()
             ], 400);
         }
@@ -279,7 +277,7 @@ class ProfileController extends Controller
             return response()->json(['message' => 'Failed to save addresses'], 500);
         }
 
-        return response()->json(['message' => 'Form submitted successfully.']);
+        return response()->json(['message' => 'Data saved successfully']);
 
     }
 

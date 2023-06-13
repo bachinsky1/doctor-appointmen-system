@@ -2,7 +2,11 @@
     <div class="card mb-4">
         <div class="card-header">Work places</div>
         <div class="card-body">
-            <form class="row g-3" @submit.prevent="onSubmit">
+            <div v-if="formMessage" :class="['alert', formMessageClass, 'alert-dismissible', 'fade', 'show']">
+                {{ formMessage }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="formMessage = ''"></button>
+            </div>
+            <form class="row g-3" id="workplaceForm" ref="workplaceForm" @submit.prevent="onSubmitForm">
                 <div v-for="(workplace, index) in workplaces" :key="index">
                     <div class="row mb-3">
                         <div class="col-md-6">
@@ -18,7 +22,7 @@
                             </select>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger" @click="removeWorkplace(index)">Удалить</button>
+                    <button type="button" class="btn btn-danger" @click="deleteWorkplace(index)">Удалить</button>
                     <hr>
                 </div>
                 <div class="d-grid gap-2 d-md-block">
@@ -35,46 +39,139 @@
 import axios from 'axios'
 
 export default {
+    name: 'WorkplacesInformation',
     data() {
         return {
             workplaces: [] as Workplace[],
             positions: [] as Position[],
             medicalestablishments: [] as Medicalestablishment[],
-            userId: null
+            userId: null,
+            loadingForm: false,
+            isFormChanged: false,
+            formMessage: '',
+            formMessageTimeout: 4000,
+            formMessageClass: ''
         }
     },
-    mounted() {
-        this.fetchData();
-    },
+
     methods: {
-        fetchData() {
-            axios.get('/profile/workplace')
-                .then(response => {
-                    this.workplaces = response.data.workplaces;
-                    this.positions = response.data.positions;
-                    this.medicalestablishments = response.data.medicalestablishments;
-                    this.userId = response.data.userId;
-                })
-                .catch(error => console.log(error));
+        onFormChange() {
+            this.isFormChanged = true
         },
+
+        async fillForm() {
+
+            try {
+                const response = await axios.get('/profile/workplace')
+
+                this.workplaces = response.data.workplaces
+                this.positions = response.data.positions
+                this.medicalestablishments = response.data.medicalestablishments
+                this.userId = response.data.userId
+
+            } catch (error) {
+                console.log(error)
+            } finally {
+                this.loadingForm = false
+            }
+        },
+
         addWorkplace() {
-            
+
             this.workplaces.push({
                 user_id: this.userId,
                 position_id: undefined,
                 medicalestablishment_id: undefined
-            });
+            })
+
+            this.$nextTick(() => {
+                const formElements = document.querySelectorAll('#addressForm input, #addressForm select')
+
+                formElements.forEach(element => {
+                    element.addEventListener('select', this.onFormChange)
+                    element.addEventListener('change', this.onFormChange)
+                })
+
+                this.onFormChange
+            })
+
         },
 
-        removeWorkplace(index: number) {
-            this.workplaces.splice(index, 1);
+        deleteWorkplace(index: number) {
+            this.workplaces.splice(index, 1)
+
+            const formElements = document.querySelectorAll('#addressForm input, #addressForm select')
+
+            formElements.forEach(element => {
+                element.removeEventListener('select', this.onFormChange)
+                element.removeEventListener('change', this.onFormChange)
+            })
+
+            this.$nextTick(() => {
+                formElements.forEach((element, index) => {
+                    element.addEventListener('select', this.onFormChange)
+                    element.addEventListener('change', this.onFormChange)
+                })
+            })
+
+            this.onFormChange()
         },
 
-        onSubmit() {
-            axios.post('/profile/workplace', { workplaces: this.workplaces })
-                .then(response => console.log(response))
-                .catch(error => console.log(error));
-        }
-    }
+        async onSubmitForm() {
+
+            if (!this.isFormChanged) {
+                this.formMessage = 'Form data didn`t change. No need to update.'
+                this.formMessageClass = 'alert-warning'
+                return
+            }
+
+            this.loadingForm = true
+
+            try {
+                const response = await axios.post('/profile/workplace', { workplaces: this.workplaces })
+                console.log(response.data)
+                this.formMessage = response.data.message
+                this.formMessageClass = response.status === 200 ? 'alert-success' : 'alert-danger'
+
+                if (response.status === 200) {
+                    this.isFormChanged = false
+                }
+
+            } catch (error) {
+                this.formMessage = error as string
+                this.formMessageClass = 'alert-danger'
+                console.error('There was an error submitting the form:', error)
+            }
+
+            this.fillForm()
+
+            setTimeout(() => {
+                this.formMessage = ''
+            }, this.formMessageTimeout)
+
+            this.loadingForm = false
+        },
+    },
+
+    mounted() {
+
+        const formElements = document.querySelectorAll('#workplaceForm select')
+
+        formElements.forEach(element => {
+            element.addEventListener('select', this.onFormChange)
+            element.addEventListener('change', this.onFormChange)
+        })
+
+        this.fillForm()
+    },
+
+    beforeDestroy() {
+        const formElements = document.querySelectorAll('#workplaceForm select')
+
+        formElements.forEach(element => {
+            element.removeEventListener('select', this.onFormChange)
+            element.removeEventListener('change', this.onFormChange)
+        })
+    },
 }
 </script>

@@ -139,11 +139,7 @@ export default {
             const data = { addresses: this.form }
 
             try {
-                const response = await axios.post('/profile/updateAddress', data, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
+                const response = await axios.post('/profile/updateAddress', data)
 
                 console.log(response.data)
 
