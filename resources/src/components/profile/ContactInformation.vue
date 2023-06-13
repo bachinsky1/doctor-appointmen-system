@@ -37,7 +37,7 @@
                     <label for="fax" class="form-label">Fax</label>
                     <input type="phone" v-model="form.fax" class="form-control" id="fax">
                 </div>
-                <div class="col-md-6">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button type="submit" class="btn btn-success" @click="onSubmitForm" :disabled="loadingForm">
                         <span v-if="!loadingForm">Update</span>
                         <span v-else>

@@ -38,10 +38,13 @@
                             <label class="col-sm-2 form-check-label" :for="'is_main_address-' + index">Main Address</label>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger" @click="deleteAddress(index)">Delete</button>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="button" class="btn btn-danger" @click="deleteAddress(index)">Delete</button>
+                    </div>
                     <hr>
                 </div>
-                <div class="d-grid gap-2 d-md-block">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="button" class="btn btn-primary" @click="addAddress">Add address</button>
                     <button type="submit" class="btn btn-success" @click="onSubmitForm" :disabled="loadingForm">
                         <span v-if="!loadingForm">Update</span>
                         <span v-else>
@@ -49,7 +52,6 @@
                             <span class="sr-only disabled"> Updating...</span>
                         </span>
                     </button>
-                    <button type="button" class="btn btn-primary" @click="addAddress">Add address</button>
                 </div>
             </form>
         </div>

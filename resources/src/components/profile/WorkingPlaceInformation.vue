@@ -22,10 +22,13 @@
                             </select>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger" @click="deleteWorkplace(index)">Delete</button>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="button" class="btn btn-danger" @click="deleteWorkplace(index)">Delete</button>
+                    </div>
                     <hr>
                 </div>
-                <div class="d-grid gap-2 d-md-block">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="button" class="btn btn-primary" @click="addWorkplace">Add workplace</button>
                     <button type="submit" class="btn btn-success" @click="onSubmitForm" :disabled="loadingForm">
                         <span v-if="!loadingForm">Update</span>
                         <span v-else>
@@ -33,7 +36,6 @@
                             <span class="sr-only disabled"> Updating...</span>
                         </span>
                     </button>
-                    <button type="button" class="btn btn-primary" @click="addWorkplace">Add workplace</button>
                 </div>
             </form>
         </div>
@@ -46,7 +48,7 @@ import axios from 'axios'
 
 export default {
     name: 'WorkplacesInformation',
-    
+
     data() {
         return {
             workplaces: [] as Workplace[],
@@ -94,7 +96,7 @@ export default {
             this.$nextTick(() => {
                 const formElements = document.querySelectorAll('#workplaceForm')
 
-                formElements.forEach(element => { 
+                formElements.forEach(element => {
                     element.addEventListener('change', this.onFormChange)
                 })
 
@@ -108,12 +110,12 @@ export default {
 
             const formElements = document.querySelectorAll('#workplaceForm')
 
-            formElements.forEach(element => { 
+            formElements.forEach(element => {
                 element.removeEventListener('change', this.onFormChange)
             })
 
             this.$nextTick(() => {
-                formElements.forEach((element, index) => { 
+                formElements.forEach((element, index) => {
                     element.addEventListener('change', this.onFormChange)
                 })
             })
@@ -161,7 +163,7 @@ export default {
 
         const formElements = document.querySelectorAll('#workplaceForm')
 
-        formElements.forEach((element) => { 
+        formElements.forEach((element) => {
             element.addEventListener('change', this.onFormChange)
         })
 
@@ -171,7 +173,7 @@ export default {
     beforeDestroy() {
         const formElements = document.querySelectorAll('#workplaceForm')
 
-        formElements.forEach(element => { 
+        formElements.forEach(element => {
             element.removeEventListener('change', this.onFormChange)
         })
     },
