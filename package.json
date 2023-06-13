@@ -10,7 +10,7 @@
         "@types/bootstrap": "^5.2.6",
         "@types/node": "^18.16.17",
         "@types/vuelidate": "^0.7.18",
-        "@vitejs/plugin-vue": "^4.0.0",
+        "@vitejs/plugin-vue": "^4.2.3",
         "@vue/tsconfig": "^0.4.0",
         "axios": "^1.1.2",
         "bootstrap": "^5.2.3",
@@ -19,7 +19,7 @@
         "postcss": "^8.1.14",
         "sass": "^1.56.1",
         "vite": "^4.0.0",
-        "vue": "^3.2.37"
+        "vue": "^3.2.36"
     },
     "dependencies": {
         "@vuelidate/components": "^1.2.5",
@@ -28,7 +28,10 @@
         "pinia": "^2.1.3",
         "tslint": "^6.1.3",
         "typescript": "^5.1.3",
+        "vue-loader": "^17.0.1",
         "vue-router": "^4.2.2",
-        "vuelidate": "^0.7.7"
+        "vuelidate": "^0.7.7",
+        "vuex": "^4.1.0",
+        "vuex-persistedstate": "^4.1.0"
     }
 }

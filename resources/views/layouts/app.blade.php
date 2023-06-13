@@ -1,156 +1,70 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
+    <title>Laravel Quickstart - Intermediate</title>
     @vite('resources/sass/app.scss')
+    <style>
+        body {
+            font-family: 'Lato';
+        }
+
+        .fa-btn {
+            margin-right: 6px;
+        }
+
+    </style>
 </head>
-<body>
-    <div id="app" class="position-absolute bg-transparent start-0 w-100 h-100">
+<body id="app-layout">
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
 
-        <symbols-component></symbols-component>
+                <!-- Collapsed Hamburger -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
 
-        <main>
-        @auth
-
-        <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap" />
-                </svg>
-                <span class="fs-4">{{ __('Application name') }}</span>
-            </a>
-            <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li>
-                    <a href="{{ route('dashboard') }}" class="nav-link text-white">
-
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#speedometer2" />
-                        </svg>
-                        {{ __('Dashboard') }}
-                    </a>
-                </li>
-
-                @role('health-professional')
-                <li>
-                    <a href="{{ route('agenda') }}" class="nav-link text-white">
-
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#calendar3" /></svg>
-                        {{ __('Agenda') }}
-
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('billing') }}" class="nav-link text-white">
-
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#collection" /></svg>
-                        {{ __('Billing') }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('tasks') }}" class="nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#grid" /></svg>
-                        {{ __('Tasks') }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('statistics') }}" class="nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#gear-fill" /></svg>
-
-                        {{ __('Statistics') }}
-                    </a>
-                </li>
-                @endrole
-
-
-                @role('administrator')
-                <li>
-                    <a href="{{ route('users') }}" class="nav-link text-white">
-
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#people-circle" /></svg>
-                        {{ __('Users') }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('medicalestablishments') }}" class="nav-link text-white">
-
-                        <svg class="bi me-2" width="16" height="16">
-                            <use xlink:href="#grid" /></svg>
-                        {{ __('Medicalestablishments') }}
-
-                    </a>
-                </li>
-                @endrole
-            </ul>
-            <hr>
-            <div class="dropdown">
-                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong><span class="currentUserName">{{ Auth::user()->firstname }} {{ Auth::user()->lastname }}</span></strong>
+                <!-- Branding Image -->
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    Task List
                 </a>
-                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+            </div>
 
-                    @role('patient')
-                    <li><a class="dropdown-item" href="{{ route('settings') }}">{{ __('Settings') }}</a></li>
-                    @endrole
+            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <!-- Left Side Of Navbar -->
+                <ul class="nav navbar-nav">
+                </ul>
 
-                    @role('health-professional')
-                    <li><a class="dropdown-item" href="{{ route('settings') }}">{{ __('Settings') }}</a></li>
-                    @endrole
-
-                    <li><a class="dropdown-item" href="{{ route('profile') }}">{{ __('Profile') }}</a></li>
-
-
-                    <li><hr class="dropdown-divider"></li>
-
-                    <li>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
+                <!-- Right Side Of Navbar -->
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Authentication Links -->
+                    @if (Auth::guest())
+                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/register') }}">Register</a></li>
+                    @else
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                    </li>
 
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                    @endif
                 </ul>
             </div>
         </div>
+    </nav>
 
-
-        @endauth
-        <div class="container-fluid"> 
-            <div class="row justify-content-center mt-2">
-                <div class="col-md-12"> 
-
-                    @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                    @endif
-                    
-                    @yield('content')
-                    <router-view></router-view>
-
-                </div>
-            </div>
-        </div>
-
-        </main>
-    </div>
-    @vite('resources/src/app.ts')
-
+    @yield('content')
+    @vite('resources/js/app.js')
 </body>
 </html>
