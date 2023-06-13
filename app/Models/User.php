@@ -75,14 +75,21 @@ class User extends Authenticatable
             ->whereNull('address_links.deleted_at');
     }
 
-    public function medicalestablishments()
+    public function userMedicalEstablishments()
     {
-        return $this->hasMany(Medicalestablishment::class);
+        return $this->hasMany(UserMedicalEstablishment::class);
     }
 
-    public function workspaces()
+    public function medicalEstablishments()
     {
-        return $this->hasMany(Medicalestablishment::class);
+        return $this->hasManyThrough(
+            MedicalEstablishment::class,
+            UserMedicalEstablishment::class,
+            'user_id',
+            'id',
+            'id',
+            'medicalestablishment_id'
+        );
     }
 
 }

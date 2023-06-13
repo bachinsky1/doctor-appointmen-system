@@ -10,13 +10,20 @@ class UserMedicalestablishment extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'user_medicalestablishments';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function position()
     {
-        return $this->belongsTo(UserPosition::class);
+        return $this->belongsTo(Position::class);
     }
-    
-    public function medicalestablishment()
+
+    public function medicalEstablishment()
     {
-        return $this->belongsTo(Medicalestablishment::class);
+        return $this->belongsTo(MedicalEstablishment::class);
     }
 }

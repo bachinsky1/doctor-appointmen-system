@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medicalestablishment;
+use App\Models\Position;
 use App\Models\Profile;
 use App\Models\UserMedicalestablishment;
 use App\Models\UserPosition;
@@ -111,24 +112,18 @@ class ProfileController extends Controller
 
     public function getWorkplace()
     {
+        $user = auth()->user();
 
-        $user = Auth::user();
-
-        $workplaces = UserMedicalestablishment::with(['position', 'speciality', 'medicalestablishment'])
+        $workplaces = UserMedicalEstablishment::with(['position', 'medicalEstablishment'])
             ->where('user_id', $user->id)
             ->get();
 
-        $positions = UserPosition::all();
-        $specialities = UserSpeciality::all();
-        $medicalestablishments = Medicalestablishment::all();
+        $positions = Position::all();
 
         return response()->json([
             'workplaces' => $workplaces,
             'positions' => $positions,
-            'specialities' => $specialities,
-            'medicalestablishments' => $medicalestablishments
         ]);
-        
     }
 
     public function updateWorkplace(Request $request)

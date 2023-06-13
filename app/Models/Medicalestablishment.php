@@ -37,4 +37,9 @@ class Medicalestablishment extends Model
     {
         return $this->hasMany(AddressLink::class);
     }
+
+    public function userMedicalEstablishments()
+    {
+        return $this->hasMany(UserMedicalEstablishment::class);
+    }
 }

@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Position extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function userMedicalEstablishments()
+    {
+        return $this->hasMany(UserMedicalEstablishment::class);
+    }
 }
