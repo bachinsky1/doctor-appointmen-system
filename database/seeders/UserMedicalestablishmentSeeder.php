@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Medicalestablishment;
+use App\Models\Position;
 use App\Models\User;
+use App\Models\UserMedicalestablishment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,13 +16,22 @@ class UserMedicalestablishmentSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::all();
-        $medicalEstablishments = Medicalestablishment::all();
+        $userMedicalestablishment = new UserMedicalestablishment();
+        $userMedicalestablishment->user_id = User::where('id', '2')->first()->id;
+        $userMedicalestablishment->position_id = Position::where('id', '1')->first()->id;
+        $userMedicalestablishment->medicalestablishment_id = Medicalestablishment::where('id', '1')->first()->id;
+        $userMedicalestablishment->save();
 
-        foreach ($users as $user) {
-            $user->medicalEstablishments()->attach(
-                $medicalEstablishments->random(rand(1, 10))->pluck('id')->toArray()
-            );
-        }
+        $userMedicalestablishment = new UserMedicalestablishment();
+        $userMedicalestablishment->user_id = User::where('id', '2')->first()->id;
+        $userMedicalestablishment->position_id = Position::where('id', '2')->first()->id;
+        $userMedicalestablishment->medicalestablishment_id = Medicalestablishment::where('id', '2')->first()->id;
+        $userMedicalestablishment->save();
+
+        $userMedicalestablishment = new UserMedicalestablishment();
+        $userMedicalestablishment->user_id = User::where('id', '2')->first()->id;
+        $userMedicalestablishment->position_id = Position::where('id', '3')->first()->id;
+        $userMedicalestablishment->medicalestablishment_id = Medicalestablishment::where('id', '3')->first()->id;
+        $userMedicalestablishment->save();
     }
 }

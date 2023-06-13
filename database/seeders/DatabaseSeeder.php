@@ -30,5 +30,9 @@ class DatabaseSeeder extends Seeder
         $this->call(AddressLinksSeeder::class);
         $this->call(AppointmentTypesSeeder::class);
         $this->call(AppointmentsSeeder::class);
+        $this->call(PositionSeeder::class);
+        $this->call(SpecialitySeeder::class);
+        $this->call(UserSpecialitySeeder::class);
+        $this->call(UserMedicalestablishmentSeeder::class);
     }
 }

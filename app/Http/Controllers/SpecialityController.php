@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserPosition;
+use App\Models\Speciality;
 use Illuminate\Http\Request;
 
-class UserPositionController extends Controller
+class SpecialityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class UserPositionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserPosition $userPosition)
+    public function show(Speciality $speciality)
     {
         //
     }
@@ -42,7 +42,7 @@ class UserPositionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserPosition $userPosition)
+    public function edit(Speciality $speciality)
     {
         //
     }
@@ -50,7 +50,7 @@ class UserPositionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserPosition $userPosition)
+    public function update(Request $request, Speciality $speciality)
     {
         //
     }
@@ -58,7 +58,7 @@ class UserPositionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserPosition $userPosition)
+    public function destroy(Speciality $speciality)
     {
         //
     }

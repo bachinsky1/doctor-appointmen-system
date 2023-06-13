@@ -4,10 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MedicalestablishmentUser extends Model
+class Speciality extends Model
 {
-    use HasFactory;
-
-    protected $table = 'medicalestablishment_users';
+    use HasFactory, SoftDeletes;
 }
