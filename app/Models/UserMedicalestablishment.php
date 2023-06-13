@@ -11,7 +11,9 @@ class UserMedicalestablishment extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'user_medicalestablishments';
-
+    protected $primaryKey = ['user_id', 'medicalestablishment_id'];
+    public $incrementing = false;
+    
     protected $fillable = [
         'user_id',
         'medicalestablishment_id',

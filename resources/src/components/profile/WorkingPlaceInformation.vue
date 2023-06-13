@@ -11,23 +11,29 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="gender" class="form-label">Position</label>
-                            <select class="form-select" id="position" v-model="workplace.position_id">
+                            <select class="form-select" id="position" v-model="workplace.position_id" required>
                                 <option v-for="position in positions" :key="position.id" :value="position.id">{{ position.name }}</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label for="gender" class="form-label">Medicalestablishment</label>
-                            <select class="form-select" id="medical-establishment" v-model="workplace.medicalestablishment_id">
+                            <select class="form-select" id="medical-establishment" v-model="workplace.medicalestablishment_id" required>
                                 <option v-for="medicalestablishment in medicalestablishments" :key="medicalestablishment.id" :value="medicalestablishment.id">{{ medicalestablishment.name }}</option>
                             </select>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger" @click="deleteWorkplace(index)">Удалить</button>
+                    <button type="button" class="btn btn-danger" @click="deleteWorkplace(index)">Delete</button>
                     <hr>
                 </div>
                 <div class="d-grid gap-2 d-md-block">
-                    <button type="button" class="btn btn-primary" @click="addWorkplace">Add new</button>
-                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-success" @click="onSubmitForm" :disabled="loadingForm">
+                        <span v-if="!loadingForm">Update</span>
+                        <span v-else>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="sr-only disabled"> Updating...</span>
+                        </span>
+                    </button>
+                    <button type="button" class="btn btn-primary" @click="addWorkplace">Add workplace</button>
                 </div>
             </form>
         </div>
@@ -40,6 +46,7 @@ import axios from 'axios'
 
 export default {
     name: 'WorkplacesInformation',
+    
     data() {
         return {
             workplaces: [] as Workplace[],
@@ -85,10 +92,9 @@ export default {
             })
 
             this.$nextTick(() => {
-                const formElements = document.querySelectorAll('#addressForm input, #addressForm select')
+                const formElements = document.querySelectorAll('#workplaceForm')
 
-                formElements.forEach(element => {
-                    element.addEventListener('select', this.onFormChange)
+                formElements.forEach(element => { 
                     element.addEventListener('change', this.onFormChange)
                 })
 
@@ -100,16 +106,14 @@ export default {
         deleteWorkplace(index: number) {
             this.workplaces.splice(index, 1)
 
-            const formElements = document.querySelectorAll('#addressForm input, #addressForm select')
+            const formElements = document.querySelectorAll('#workplaceForm')
 
-            formElements.forEach(element => {
-                element.removeEventListener('select', this.onFormChange)
+            formElements.forEach(element => { 
                 element.removeEventListener('change', this.onFormChange)
             })
 
             this.$nextTick(() => {
-                formElements.forEach((element, index) => {
-                    element.addEventListener('select', this.onFormChange)
+                formElements.forEach((element, index) => { 
                     element.addEventListener('change', this.onFormChange)
                 })
             })
@@ -155,10 +159,9 @@ export default {
 
     mounted() {
 
-        const formElements = document.querySelectorAll('#workplaceForm select')
+        const formElements = document.querySelectorAll('#workplaceForm')
 
-        formElements.forEach(element => {
-            element.addEventListener('select', this.onFormChange)
+        formElements.forEach((element) => { 
             element.addEventListener('change', this.onFormChange)
         })
 
@@ -166,10 +169,9 @@ export default {
     },
 
     beforeDestroy() {
-        const formElements = document.querySelectorAll('#workplaceForm select')
+        const formElements = document.querySelectorAll('#workplaceForm')
 
-        formElements.forEach(element => {
-            element.removeEventListener('select', this.onFormChange)
+        formElements.forEach(element => { 
             element.removeEventListener('change', this.onFormChange)
         })
     },

@@ -38,7 +38,7 @@
                             <label class="col-sm-2 form-check-label" :for="'is_main_address-' + index">Main Address</label>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-danger" @click="deleteAddress(index)">Delete address</button>
+                    <button type="button" class="btn btn-danger" @click="deleteAddress(index)">Delete</button>
                     <hr>
                 </div>
                 <div class="d-grid gap-2 d-md-block">
