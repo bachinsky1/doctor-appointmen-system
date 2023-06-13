@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileUpdateAddress;
+use App\Http\Requests\ProfileUpdateContact;
+use App\Http\Requests\ProfileUpdateWorkplace;
 use App\Models\Medicalestablishment;
 use App\Models\Position;
 use App\Models\Profile;
 use App\Models\UserMedicalestablishment;
-use App\Models\UserPosition;
-use App\Models\UserSpeciality;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -71,28 +72,10 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function updateWorkplace(Request $request)
+    public function updateWorkplace(ProfileUpdateWorkplace $request)
     {
 
         $user = Auth::user();
-
-        if (!!$user === false) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'workplaces' => 'required|array',
-            'workplaces.*.user_id' => 'required|integer',
-            'workplaces.*.medicalestablishment_id' => 'required|integer',
-            'workplaces.*.position_id' => 'nullable|integer',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'There are validation errors',
-                'errors' => $validator->errors()
-            ], 400);
-        }
 
         UserMedicalEstablishment::where('user_id', $user->id)->forceDelete();
 
@@ -106,31 +89,9 @@ class ProfileController extends Controller
         return response()->json(['message' => 'Data saved successfully']);
     }
 
-    public function updateContact(Request $request, Profile $profile)
+    public function updateContact(ProfileUpdateContact $request, Profile $profile)
     {
         $user = Auth::user();
-
-        if (!!$user === false) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'birthdate' => 'required|date',
-            'gender' => 'required|in:M,F',
-            'phone1' => 'required|string|max:255',
-            'phone2' => 'nullable|string|max:255',
-            'fax' => 'nullable|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'There are validation errors',
-                'errors' => $validator->errors()
-            ], 400);
-        }
-
         $user->firstname = $request->input('firstname');
         $user->lastname = $request->input('lastname');
         $user->birthdate = $request->input('birthdate');
@@ -138,38 +99,14 @@ class ProfileController extends Controller
         $user->phone1 = $request->input('phone1');
         $user->phone2 = $request->input('phone2');
         $user->fax = $request->input('fax');
-
         $user->save();
 
         return response()->json(['message' => 'Contact info updated successfully']);
     }
 
-    public function updateAddress(Request $request, Profile $profile)
+    public function updateAddress(ProfileUpdateAddress $request)
     {
         $user = Auth::user();
-
-        if (!!$user === false) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-
-        // Validation of incoming data
-        $validator = Validator::make($request->all(), [
-            'addresses' => 'required|array',
-            'addresses.*.street' => 'required|string|max:255',
-            'addresses.*.house_number' => 'required|string|max:255',
-            'addresses.*.city' => 'required|string|max:255',
-            'addresses.*.state' => 'required|string|max:255',
-            'addresses.*.zip_code' => 'required|string|max:255',
-            'addresses.*.is_main_address' => 'required|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'There are validation errors',
-                'errors' => $validator->errors()
-            ], 400);
-        }
-
 
         $addresses = $request->input('addresses');
         $savedAddresses = [];
