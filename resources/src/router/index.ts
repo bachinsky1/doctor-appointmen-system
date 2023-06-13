@@ -13,8 +13,8 @@ const routes = [
         name: "agenda",
         component: Agenda,
         beforeEnter: (to: any, from: any, next: () => void) => {
-            if (useStore().data) {
-                console.log(`Data from store: ${useStore().data}`)
+            if (useStore().someValue) {
+                console.log(`Data from store: ${useStore().someValue}`)
                 next()
             }
             else next()

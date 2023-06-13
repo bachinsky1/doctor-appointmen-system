@@ -7,6 +7,7 @@ declare module "*.vue" {
 declare var axios: any
 declare module 'bootstrap'
 declare module '@vuelidate/core'
+declare module '@vuelidate/components'
 
 interface Address {
     street: string
