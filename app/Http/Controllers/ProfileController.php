@@ -24,13 +24,9 @@ class ProfileController extends Controller
         return view('profile.index');
     }
 
-    public function getContact(Request $request)
+    public function getContact()
     {
-        $user = User::find($request->user()->id);
-
-        if (!!$user === false) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
+        $user = Auth::user();
 
         return response()->json([
             'firstname' => $user->firstname,
@@ -43,7 +39,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function getAddress(Request $request)
+    public function getAddress()
     {
         $user = Auth::user();
 
@@ -55,7 +51,7 @@ class ProfileController extends Controller
 
     public function getWorkplace()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         $workplaces = UserMedicalEstablishment::with(['position', 'medicalEstablishment'])
             ->where('user_id', $user->id)
