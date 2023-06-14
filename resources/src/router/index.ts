@@ -19,6 +19,26 @@ const routes = [
                 component: () =>
                     import(/* webpackChunkName: "dashboard" */ '@/views/Dashboard.vue'),
             },
+            {
+                path: '/agenda',
+                name: 'Agenda',
+                component: () => import('@/views/agenda/Agenda.vue'),
+            },
+            {
+                path: '/billing',
+                name: 'Billing',
+                component: () => import('@/views/billing/Billing.vue'),
+            },
+            {
+                path: '/tasks',
+                name: 'Tasks',
+                component: () => import('@/views/tasks/Tasks.vue'),
+            },
+            {
+                path: '/statistics',
+                name: 'Statistics',
+                component: () => import('@/views/statistics/Statistics.vue'),
+            },
         ],
     },
     {

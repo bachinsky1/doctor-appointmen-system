@@ -1,4 +1,15 @@
-<template></template>
+<template>
+  <CRow>
+    <CCol :xs="12">
+      <CCard class="mb-4">
+        <CCardHeader>
+          <strong>Dashboard page</strong> <small>Example</small>
+        </CCardHeader>
+        <CCardBody></CCardBody>
+      </CCard>
+    </CCol>
+  </CRow>
+</template>
 
 <script>
 // @ts-ignore
