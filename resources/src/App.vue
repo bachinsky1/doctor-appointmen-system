@@ -3,6 +3,5 @@
 </template>
 
 <style lang="scss">
-// Import Main styles for this application
 @import './../sass/app';
 </style>
