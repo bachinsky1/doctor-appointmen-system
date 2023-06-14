@@ -1,8 +1,17 @@
-// Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+// If you want to override variables do it here
+@import "variables";
 
-// Variables
-@import 'variables';
+$enable-ltr: true;
+$enable-rtl: true;
 
-// Bootstrap
-@import 'bootstrap/scss/bootstrap';
+// Import styles
+@import "@coreui/coreui/scss/coreui";
+
+// Import Chart.js Tooltips
+@import "@coreui/chartjs/scss/tooltips";
+
+@import "layout";
+@import "example";
+
+// If you want to add something do it here
+@import "custom";

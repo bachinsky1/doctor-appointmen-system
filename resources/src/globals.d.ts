@@ -1,37 +1,7 @@
-declare module "*.vue" {
-    import { defineComponent } from "vue"
-    const Component: ReturnType<typeof defineComponent>
-    export default Component
+/// <reference types="vite/client" />
+
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue'
+  const component: DefineComponent<{}, {}, any>
+  export default component
 }
-
-declare var axios: any
-declare module 'bootstrap'
-declare module '@vuelidate/core'
-declare module '@vuelidate/components'
-
-interface Address {
-    street: string
-    house_number: string
-    city: string
-    state: string
-    zip_code: string
-    is_main_address: boolean
-}
-
-interface Workplace {
-    user_id: number | null
-    position_id: number | undefined
-    medicalestablishment_id: number | undefined
-}
-
-interface Position {
-    id: number | undefined
-    name: string | undefined
-}
-
-interface Medicalestablishment {
-    id: number | undefined
-    name: string | undefined
-}
-
-

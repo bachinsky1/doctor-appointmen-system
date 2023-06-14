@@ -65,6 +65,6 @@
     </nav>
 
     @yield('content')
-    @vite('resources/js/app.js')
+    @vite('resources/src/app.ts')
 </body>
 </html>
