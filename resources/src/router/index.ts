@@ -195,11 +195,11 @@ const routes = [
                     },
                 ],
             },
-            {
-                path: '/charts',
-                name: 'Charts',
-                component: () => import('@/views/charts/Charts.vue'),
-            },
+            // {
+            //     path: '/charts',
+            //     name: 'Charts',
+            //     component: () => import('@/views/charts/Charts.vue'),
+            // },
             {
                 path: '/icons',
                 name: 'Icons',
