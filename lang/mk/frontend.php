@@ -50,16 +50,21 @@ return [
     ],
     "global" => [
         "pages" => [
-            "home" => "Почетна",
-            "users" => "Корисници",
-            "users_create" => "Нов корисник",
-            "users_edit" => "Ажурирање корисник",
-            "profile" => "Профил",
-            "register" => "Регистрација",
-            "login" => "Најава",
-            "logout" => "Одјава",
-            "forgot_password" => "Заборавена лозинка",
-            "reset_password" => "Промена на лозинка"
+            "home" => "Dashboard",
+            "agenda" => "Agenda",
+            "billing" => "Billing",
+            "tasks" => "Tasks",
+            "statistics" => "Statistics",
+            "settings" => "Settings",
+            "users" => "Users",
+            "users_create" => "New User",
+            "users_edit" => "Edit User",
+            "profile" => "Profile",
+            "register" => "Register",
+            "login" => "Login",
+            "logout" => "Logout",
+            "forgot_password" => "Forgot Password",
+            "reset_password" => "Reset Password"
         ],
         "phrases" => [
             'clear_filters' => 'Избриши сите',

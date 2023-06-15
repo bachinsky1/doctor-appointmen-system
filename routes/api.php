@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 
+use App\Http\Controllers\ProfileController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,6 +22,12 @@ use App\Http\Controllers\TokenController;
 Route::post('/sanctum/token', TokenController::class);
 
 Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile/contact', [ProfileController::class, 'updateContact']);
+    Route::get('/profile/contact', [ProfileController::class, 'getContact']);
+    Route::post('/profile/address', [ProfileController::class, 'updateAddress']);
+    Route::get('/profile/address', [ProfileController::class, 'getAddress']);
 
     /**
      * Auth related
