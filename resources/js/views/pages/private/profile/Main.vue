@@ -1,11 +1,8 @@
 <template>
-    <Page>
-        <div class="grid grid-cols-2 gap-2">
-            <div>
-                <ContactInformation class="mb-4" />
-            </div>
+    <Page title="Profile">
+        <div class="w-full xl:w-2/4">
+            <ContactInformation class="mb-4" />
             <!-- ... -->
-            <div>09</div>
         </div>
     </Page>
 </template>

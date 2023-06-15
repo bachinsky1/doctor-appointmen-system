@@ -1,65 +1,68 @@
 <template>
-    <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
-        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-3">
-                <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
-                <div class="mt-2">
-                    <input type="text" v-model="form.first_name" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+    <Panel>
+        <Form id="edit-contact" @submit.prevent="onSubmitForm">
+            <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
+            <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-2">
+                    <TextInput type="text" :required="true" name="first_name" v-model="form.first_name" :label="trans('users.labels.first_name')" autocomplete="off" />
                 </div>
-            </div>
-            <div class="sm:col-span-3">
-                <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
-                <div class="mt-2">
-                    <input type="text" v-model="form.last_name" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <div class="sm:col-span-2">
+                    <TextInput type="text" :required="true" name="first_name" v-model="form.last_name" :label="trans('users.labels.last_name')" autocomplete="off" />
                 </div>
-            </div>
-            <div class="sm:col-span-3">
-                <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Gender</label>
-                <div class="mt-2">
-                    <select v-model="form.gender" id="country" name="country" autocomplete="country-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <div class="sm:col-span-1">
+                    <TextInput type="date" :required="true" name="birthdate" v-model="form.birthdate" :label="trans('users.labels.birthdate')" autocomplete="off" />
+                </div>
+                <div class="sm:col-span-1">
+                    <label for="first-name" class="text-sm text-gray-500">Gender</label>
+                    <select v-model="form.gender" id="gender" name="gender" autocomplete="gender" class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
                         <option v-for="(item, index) in form.genderItems" :key="index" :value="item">{{ item }}</option>
                     </select>
                 </div>
-            </div>
-            <div class="sm:col-span-3">
-                <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Birthdate</label>
-                <div class="mt-2">
-                    <input type="text" v-model="form.birthdate" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <div class="sm:col-span-2">
+                    <TextInput type="text" :required="true" name="birthdate" v-model="form.phone1" :label="trans('users.labels.main_phone')" autocomplete="off" />
+                </div>
+                <div class="sm:col-span-2">
+                    <TextInput type="text" name="phone2" v-model="form.phone1" :label="trans('users.labels.second_phone')" autocomplete="off" />
+                </div>
+                <div class="sm:col-span-2">
+                    <TextInput type="text" name="fax" v-model="form.fax" :label="trans('users.labels.fax')" autocomplete="off" />
+                </div>
+                <div class="sm:col-span-6 mt-1 flex items-center justify-end gap-x-6">
+                    <Button :label="trans('global.buttons.submit')" />
                 </div>
             </div>
-            <div class="sm:col-span-2">
-                <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Main phone</label>
-                <div class="mt-2">
-                    <input type="text" v-model="form.phone1" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-            </div>
-            <div class="sm:col-span-2">
-                <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Second phone</label>
-                <div class="mt-2">
-                    <input type="text" v-model="form.phone2" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-            </div>
-            <div class="sm:col-span-2">
-                <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Fax</label>
-                <div class="mt-2">
-                    <input type="text" v-model="form.fax" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-            </div>
-            <div>
-                <button @click="onSubmitForm" type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Update</button>
-            </div>
-        </div>
-    </div>
+        </Form>
+    </Panel>
 </template>
 
 <script>
+
 import { watch, onMounted, defineComponent, reactive, ref } from 'vue'
+import { useAuthStore } from "@/stores/auth"
+import { useAlertStore } from "@/stores"
+import { trans } from "@/helpers/i18n";
+import { getResponseError } from "@/helpers/api"
 import ProfileService from "@/services/ProfileService"
+import Button from "@/views/components/input/Button"
+import TextInput from "@/views/components/input/TextInput"
+import Dropdown from "@/views/components/input/Dropdown"
+import Alert from "@/views/components/Alert"
+import Panel from "@/views/components/Panel"
+import Page from "@/views/layouts/Page"
+import FileInput from "@/views/components/input/FileInput"
+import Form from "@/views/components/Form"
 export default {
     name: 'ContactInformation',
-    components: {},
+    components: {
+        Form,
+        FileInput,
+        Panel,
+        Alert,
+        Dropdown,
+        TextInput,
+        Button,
+        Page
+    },
     props: {},
 
     data() {
@@ -84,48 +87,53 @@ export default {
     },
 
     setup: () => {
-        return {}
+        return {
+            trans
+        }
     },
 
     methods: {
+
         onFormChange() {
 
         },
 
-
         async onSubmitForm() {
             const service = new ProfileService()
-            service
-                .updateContactInformation(this.form)
-                .then((response) => {
-                    const data = response.data
-                    console.log(data)
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+            const alertStore = useAlertStore()
 
-        },
+            try {
+                const response = await service.updateContactInformation(this.form)
+                const data = response.data
+                console.log(data)
+                const store = useAuthStore()
+                store.getCurrentUser()
+                alertStore.success(response.data.message)
+            } catch (error) {
 
-        fillForm(params) {
+                alertStore.error(getResponseError(error))
+                console.log(error)
+            }
+        }
+        ,
+
+        async fillForm(params) {
             const service = new ProfileService()
-            service
-                .getContactInformation()
-                .then((response) => {
-                    const data = response.data
-
-                    this.form.first_name = data.first_name
-                    this.form.last_name = data.last_name
-                    this.form.phone1 = data.phone1
-                    this.form.phone2 = data.phone2
-                    this.form.fax = data.fax
-                    this.form.birthdate = data.birthdate
-                    this.form.gender = data.gender
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-        },
+            try {
+                const response = await service.getContactInformation()
+                const data = response.data
+                this.form.first_name = data.first_name
+                this.form.last_name = data.last_name
+                this.form.phone1 = data.phone1
+                this.form.phone2 = data.phone2
+                this.form.fax = data.fax
+                this.form.birthdate = data.birthdate
+                this.form.gender = data.gender
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        ,
     },
 
     filters: {},

@@ -2,25 +2,25 @@
     <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onAction" :is-loading="page.loading">
         <Panel>
             <Form id="edit-user" @submit.prevent="onSubmit">
-                <TextInput class="mb-4" type="text" :required="true" name="first_name" v-model="form.first_name" :label="trans('users.labels.first_name')"/>
-                <TextInput class="mb-4" type="text" :required="true" name="last_name" v-model="form.last_name" :label="trans('users.labels.last_name')"/>
-                <TextInput class="mb-4" type="text" name="middle_name" v-model="form.middle_name" :label="trans('users.labels.middle_name')"/>
-                <TextInput class="mb-4" type="email" :required="true" name="email" v-model="form.email" :label="trans('users.labels.email')"/>
-                <Dropdown class="mb-4" multiple="multiple" :server="'roles/search'" :server-per-page="15" :required="true" name="type" v-model="form.roles" :label="trans('users.labels.role')"/>
+                <TextInput class="mb-2" type="text" :required="true" name="first_name" v-model="form.first_name" :label="trans('users.labels.first_name')" />
+                <TextInput class="mb-4" type="text" :required="true" name="last_name" v-model="form.last_name" :label="trans('users.labels.last_name')" />
+                <TextInput class="mb-4" type="text" name="middle_name" v-model="form.middle_name" :label="trans('users.labels.middle_name')" />
+                <TextInput class="mb-4" type="email" :required="true" name="email" v-model="form.email" :label="trans('users.labels.email')" />
+                <Dropdown class="mb-4" multiple="multiple" :server="'roles/search'" :server-per-page="15" :required="true" name="type" v-model="form.roles" :label="trans('users.labels.role')" />
                 <FileInput class="mb-4" name="avatar" v-model="form.avatar" accept="image/*" :label="trans('users.labels.avatar')" @click="form.avatar = ''"></FileInput>
-                <TextInput class="mb-4" type="password" name="password" v-model="form.password" :label="trans('users.labels.password')"/>
+                <TextInput class="mb-4" type="password" name="password" v-model="form.password" :label="trans('users.labels.password')" />
             </Form>
         </Panel>
     </Page>
 </template>
 
 <script>
-import {defineComponent, onBeforeMount, reactive, ref} from "vue";
-import {trans} from "@/helpers/i18n";
-import {fillObject, reduceProperties} from "@/helpers/data"
-import {useRoute} from "vue-router";
-import {useAuthStore} from "@/stores/auth";
-import {toUrl} from "@/helpers/routing";
+import { defineComponent, onBeforeMount, reactive, ref } from "vue";
+import { trans } from "@/helpers/i18n";
+import { fillObject, reduceProperties } from "@/helpers/data"
+import { useRoute } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+import { toUrl } from "@/helpers/routing";
 import UserService from "@/services/UserService";
 import Button from "@/views/components/input/Button";
 import TextInput from "@/views/components/input/TextInput";
@@ -43,7 +43,7 @@ export default defineComponent({
         Page
     },
     setup() {
-        const {user} = useAuthStore();
+        const { user } = useAuthStore();
         const route = useRoute();
         const form = reactive({
             first_name: '',
@@ -97,7 +97,7 @@ export default defineComponent({
         });
 
         function onAction(data) {
-            switch(data.action.id) {
+            switch (data.action.id) {
                 case 'submit':
                     onSubmit();
                     break;
@@ -121,6 +121,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
