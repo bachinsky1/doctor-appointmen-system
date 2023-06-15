@@ -51,6 +51,11 @@ return [
     "global" => [
         "pages" => [
             "home" => "Dashboard",
+            "agenda" => "Agenda",
+            "billing" => "Billing",
+            "tasks" => "Tasks",
+            "statistics" => "Statistics",
+            "settings" => "Settings",
             "users" => "Users",
             "users_create" => "New User",
             "users_edit" => "Edit User",

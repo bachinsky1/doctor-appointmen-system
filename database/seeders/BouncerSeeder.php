@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 use Bouncer;
 use App\Models\MediaFile;
+use App\Models\Agenda;
 
 class BouncerSeeder extends Seeder
 {
@@ -18,7 +19,8 @@ class BouncerSeeder extends Seeder
     public function run()
     {
         Bouncer::allow('admin')->everything();
-        Bouncer::allow('healthcare')->toOwn(MediaFile::class)->to(['list', 'view', 'create', 'edit', 'delete']);
         Bouncer::allow('patient')->to('edit-profile', User::class);
+        Bouncer::allow('healthcare')->toOwn(MediaFile::class)->to(['list', 'view', 'create', 'edit', 'delete']);
+        Bouncer::allow('healthcare')->toOwn(Agenda::class)->to(['list', 'view', 'create', 'edit', 'delete']);
     }
 }

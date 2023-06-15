@@ -110,7 +110,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return null;
         }
         if (!empty($this->avatar)) {
-            return asset('storage/'.$this->avatar->path);
+            return asset('storage/' . $this->avatar->path);
         }
         return null;
     }
@@ -138,5 +138,29 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsAdminAttribute()
     {
         return $this->isAn('admin');
+    }
+
+    public function addresses()
+    {
+        return $this->belongsToMany(Address::class, 'address_links', 'user_id', 'address_id')
+            ->withPivot('is_main')
+            ->whereNull('address_links.deleted_at');
+    }
+
+    public function userMedicalEstablishments()
+    {
+        return $this->hasMany(UserMedicalEstablishment::class);
+    }
+
+    public function medicalEstablishments()
+    {
+        return $this->hasManyThrough(
+            MedicalEstablishment::class,
+            UserMedicalEstablishment::class,
+            'user_id',
+            'id',
+            'id',
+            'medicalestablishment_id'
+        );
     }
 }

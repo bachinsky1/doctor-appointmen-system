@@ -6,6 +6,11 @@ import {default as PageNotFound} from "@/views/pages/shared/404/Main";
 
 import {default as PageDashboard} from "@/views/pages/private/dashboard/Main";
 import {default as PageProfile} from "@/views/pages/private/profile/Main";
+import {default as Agenda} from "@/views/pages/private/agenda/Main";
+import {default as Billing} from "@/views/pages/private/billing/Main";
+import {default as Tasks} from "@/views/pages/private/tasks/Main";
+import {default as Statistics} from "@/views/pages/private/statistics/Main";
+import {default as Settings} from "@/views/pages/private/settings/Main";
 
 import {default as PageUsers} from "@/views/pages/private/users/Index";
 import {default as PageUsersCreate} from "@/views/pages/private/users/Create";
@@ -29,6 +34,30 @@ const routes = [
                 path: "dashboard",
                 meta: {requiresAuth: true},
                 component: PageDashboard,
+            },
+            {
+                name: "agenda",
+                path: "agenda",
+                meta: {requiresAuth: true},
+                component: Agenda,
+            },
+            {
+                name: "billing",
+                path: "billing",
+                meta: {requiresAuth: true},
+                component: Billing,
+            },
+            {
+                name: "tasks",
+                path: "tasks",
+                meta: {requiresAuth: true},
+                component: Tasks,
+            },
+            {
+                name: "statistics",
+                path: "statistics",
+                meta: {requiresAuth: true},
+                component: Statistics,
             },
             {
                 name: "profile",
