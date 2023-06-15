@@ -1,54 +1,61 @@
 <template>
     <Page>
-        <div class="w-full xl:w-2/3 ml-auto mr-auto">
-            <Overview class="mb-4" @change-avatar="isAvatarModalShowing = true;"/>
-            <FormGeneral class="mb-4"/>
-            <FormPassword class="mb-4"/>
+        <div class="grid grid-cols-2 gap-2">
+            <div>
+                <ContactInformation class="mb-4" />
+            </div>
+            <!-- ... -->
+            <div>09</div>
         </div>
     </Page>
-
-    <Modal :is-showing="isAvatarModalShowing" @close="isAvatarModalShowing = false;">
-        <FormAvatar @error="isAvatarModalShowing = false;" @done="isAvatarModalShowing = false;"/>
-    </Modal>
-
 </template>
 
 <script>
-import {defineComponent, ref} from "vue";
-import {trans} from "@/helpers/i18n";
-import {useAuthStore} from "@/stores/auth";
-import FormPassword from "@/views/pages/private/profile/partials/FormPassword";
-import FormGeneral from "@/views/pages/private/profile/partials/FormGeneral";
-import FormAvatar from "@/views/pages/private/profile/partials/FormAvatar";
-import Overview from "@/views/pages/private/profile/partials/Overview";
-import Page from "@/views/layouts/Page";
-import Modal from "@/views/components/Modal";
-import Panel from "@/views/components/Panel";
-import Avatar from "@/views/components/icons/Avatar";
+
+import { defineComponent, onBeforeMount, reactive, ref } from "vue"
+import { trans } from "@/helpers/i18n"
+import { useAuthStore } from "@/stores/auth"
+import { toUrl } from "@/helpers/routing"
+import UserService from "@/services/UserService"
+import ContactInformation from "@/views/pages/private/profile/ContactInformation"
+import Page from "@/views/layouts/Page"
 
 export default defineComponent({
     components: {
-        Avatar,
-        Panel,
-        Modal,
         Page,
-        Overview,
-        FormGeneral,
-        FormPassword,
-        FormAvatar,
+        ContactInformation,
     },
     setup() {
-        const store = useAuthStore()
-        const isAvatarModalShowing = ref(false);
+        const { user } = useAuthStore()
 
-        function reloadAvatar() {
-            store.getCurrentUser();
+        const page = reactive({
+            id: 'edit_user',
+            title: trans('global.pages.users_edit'),
+            filters: false,
+            loading: true,
+            actions: [
+                {
+                    id: 'submit',
+                    name: trans('global.buttons.update'),
+                    icon: "fa fa-save",
+                    type: 'submit'
+                }
+            ]
+        })
+
+        const service = new UserService();
+
+        onBeforeMount(() => {
+            console.log('onBeforeMount')
+        })
+
+        function onAction(data) {
+            console.log(data)
         }
+
         return {
-            isAvatarModalShowing,
-            reloadAvatar,
-            trans
+            user
         }
     }
-});
+})
 </script>

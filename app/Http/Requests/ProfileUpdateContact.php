@@ -14,8 +14,8 @@ class ProfileUpdateContact extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'birthdate' => 'required|date',
             'gender' => 'required|in:M,F',
             'phone1' => 'required|string|max:255',

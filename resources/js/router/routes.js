@@ -14,7 +14,9 @@ import {default as Settings} from "@/views/pages/private/settings/Main";
 
 import {default as PageUsers} from "@/views/pages/private/users/Index";
 import {default as PageUsersCreate} from "@/views/pages/private/users/Create";
-import {default as PageUsersEdit} from "@/views/pages/private/users/Edit";
+import { default as PageUsersEdit } from "@/views/pages/private/users/Edit";
+
+import {default as Profile} from "@/views/pages/private/profile/Main";
 
 import abilities from "@/stub/abilities";
 
@@ -88,6 +90,17 @@ const routes = [
                     },
                 ]
             },
+            {
+                path: "profile",
+                children: [
+                    {
+                        name: "profile.contact",
+                        path: "contact",
+                        meta: { requiresAuth: true, isOwner: true },
+                        component: Profile,
+                    }
+                ]
+            }
         ]
     },
     {
