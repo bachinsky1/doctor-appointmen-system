@@ -2,6 +2,7 @@
     <Page title="Profile">
         <div class="w-full xl:w-2/4">
             <ContactInformation class="mb-4" />
+            <WorkingPlaceInformation class="mb-4" />
             <!-- ... -->
         </div>
     </Page>
@@ -15,12 +16,14 @@ import { useAuthStore } from "@/stores/auth"
 import { toUrl } from "@/helpers/routing"
 import UserService from "@/services/UserService"
 import ContactInformation from "@/views/pages/private/profile/ContactInformation"
+import WorkingPlaceInformation from "@/views/pages/private/profile/WorkingPlaceInformation"
 import Page from "@/views/layouts/Page"
 
 export default defineComponent({
     components: {
         Page,
         ContactInformation,
+        WorkingPlaceInformation,
     },
     setup() {
         const { user } = useAuthStore()
