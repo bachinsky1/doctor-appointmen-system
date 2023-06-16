@@ -1,9 +1,18 @@
 <template>
     <Page title="Profile">
-        <div class="w-full xl:w-2/4">
-            <ContactInformation class="mb-4" />
-            <WorkingPlaceInformation class="mb-4" />
-            <!-- ... -->
+        <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-2">
+                <ContactInformation class="mb-4" />
+                <!-- ... -->
+            </div>
+            <div class="w-full">
+                <WorkingPlaceInformation class="mb-4" />
+                <!-- ... -->
+            </div>
+            <div class="w-full">
+                <AddressInformation class="mb-4" />
+                <!-- ... -->
+            </div>
         </div>
     </Page>
 </template>
@@ -17,6 +26,7 @@ import { toUrl } from "@/helpers/routing"
 import UserService from "@/services/UserService"
 import ContactInformation from "@/views/pages/private/profile/ContactInformation"
 import WorkingPlaceInformation from "@/views/pages/private/profile/WorkingPlaceInformation"
+import AddressInformation from "@/views/pages/private/profile/AddressInformation"
 import Page from "@/views/layouts/Page"
 
 export default defineComponent({
@@ -24,6 +34,7 @@ export default defineComponent({
         Page,
         ContactInformation,
         WorkingPlaceInformation,
+        AddressInformation,
     },
     setup() {
         const { user } = useAuthStore()
