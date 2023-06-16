@@ -48,6 +48,12 @@ return [
             "general_settings" => "General Settings",
             "password_settings" => "Password Settings",
             "avatar_settings" => "Avatar Settings",
+            "street" => "Street",
+            "house_number" => "House Number",
+            "city" => "City",
+            "state" => "State",
+            "zip_code" => "Zip Code",
+            "main_address" => "Main Address",
         ]
     ],
     "messages" => [

@@ -23,4 +23,12 @@ export default class UserService extends ModelService {
         return this.post(`/profile/workplace`, payload)
     }
 
+    public getAddress() {
+        return this.get(`/profile/address`)
+    }
+
+    public updateAddress(payload) {
+        return this.post(`/profile/address`, payload)
+    }
+
 }

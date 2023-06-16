@@ -1,52 +1,35 @@
 <template>
     <Panel>
-        <Form id="edit-address" @submit.prevent="onSubmitForm">
+        <Form id="add-address" @submit.prevent="onSubmitForm">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Addresses</h2>
-            <div v-for="(address, index) in form" :key="index">
-                <div class="row mb-3">
-                    <label for="street" class="col-sm-2 col-form-label">Street</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" :id="'street-' + index" :name="'street-' + index" v-model="address.street" required>
-                    </div>
-                    <label for="house_number" class="col-sm-2 col-form-label">House Number</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" :id="'house_number-' + index" :name="'house_number-' + index" v-model="address.house_number" required>
-                    </div>
+            <div v-for="(address, index) in form" :key="index" class="mb-2 border-b grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-3">
+                    <TextInput type="text" :required="true" :id="'street-' + index" :name="'street-' + index" v-model="address.street" :label="trans('users.labels.street')" autocomplete="off" />
                 </div>
-                <div class="row mb-3">
-                    <label for="city" class="col-sm-2 col-form-label">City</label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" :id="'city-' + index" :name="'city-' + index" v-model="address.city" required>
-                    </div>
-                    <label for="state" class="col-sm-1 col-form-label">State</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" :id="'state-' + index" :name="'state-' + index" v-model="address.state" required>
-                    </div>
-                    <label for="zip_code" class="col-sm-2 col-form-label">Zip Code</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" :id="'zip_code-' + index" :name="'zip_code-' + index" v-model="address.zip_code" required>
-                    </div>
+                <div class="sm:col-span-1">
+                    <TextInput type="text" :required="true" :id="'house_number-' + index" :name="'house_number-' + index" v-model="address.house_number" :label="trans('users.labels.house_number')" autocomplete="off" />
                 </div>
-                <div class="row mb-3">
-                    <div class="mb-3 form-check col-sm-10">
-                        <input type="checkbox" class="form-check-input" :id="'is_main_address-' + index" :name="'is_main_address-' + index" v-model="address.is_main_address">
-                        <label class="col-sm-2 form-check-label" :for="'is_main_address-' + index">Main Address</label>
-                    </div>
+                <div class="sm:col-span-2">
+                    <TextInput type="text" :required="true" :id="'city-' + index" :name="'city-' + index" v-model="address.city" :label="trans('users.labels.city')" autocomplete="off" />
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="button" class="btn btn-danger" @click="deleteAddress(index)">Delete</button>
+                <div class="sm:col-span-2">
+                    <TextInput type="text" :required="true" :id="'state-' + index" :name="'state-' + index" v-model="address.state" :label="trans('users.labels.state')" autocomplete="off" />
                 </div>
-                <hr>
+                <div class="sm:col-span-1">
+                    <TextInput type="text" :required="true" :id="'zip_code-' + index" :name="'zip_code-' + index" v-model="address.zip_code" :label="trans('users.labels.zip_code')" autocomplete="off" />
+                </div>
+                <div class="sm:col-span-1">
+                    <label class="text-sm text-gray-500" :for="'is_main_address-' + index">{{ trans('users.labels.main_address') }}</label>
+                    <input type="checkbox" :id="'is_main_address-' + index" :name="'is_main_address-' + index" v-model="address.is_main_address" class="default:ring-2" />
+                </div>
+                <div class="sm:col-span-1">
+                    <label for="gender" class="text-sm text-gray-500">&nbsp;</label><br>
+                    <Button @click="deleteAddress(index)" :label="trans('global.buttons.delete')" />
+                </div>
             </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="button" class="btn btn-primary" @click="addAddress">Add address</button>
-                <button type="submit" class="btn btn-success" @click="onSubmitForm" :disabled="loadingForm">
-                    <span v-if="!loadingForm">Update</span>
-                    <span v-else>
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        <span class="sr-only disabled"> Updating...</span>
-                    </span>
-                </button>
+            <div class="sm:col-span-6 mt-4 flex items-center justify-end gap-x-6">
+                <Button class="ml-5" @click="addAddress" type="button" :label="trans('global.buttons.add')" />
+                <Button @click="onSubmitForm" :label="trans('global.buttons.submit')" />
             </div>
         </Form>
     </Panel>
@@ -109,20 +92,49 @@ export default {
         },
 
         deleteAddress(index) {
-
+            this.form.splice(index, 1)
         },
 
         async onSubmitForm() {
 
+            const service = new ProfileService()
+            const alertStore = useAlertStore()
+            try {
+                const response = await service.updateAddress({ addresses: this.form })
+                alertStore.success(response.data.message)
+            } catch (error) {
+                alertStore.error(getResponseError(error))
+            }
+
         },
 
         async fillForm() {
-
+            const service = new ProfileService()
+            const alertStore = useAlertStore()
+            try {
+                const response = await service.getAddress()
+                this.form = response.data.map((address) => ({
+                    street: address.street,
+                    house_number: address.house_number,
+                    city: address.city,
+                    state: address.state,
+                    zip_code: address.zip_code,
+                    is_main_address: !!address.is_main_address
+                }))
+            } catch (error) {
+                alertStore.error(getResponseError(error))
+            }
         },
     },
 
     mounted() {
         this.fillForm()
+    },
+
+    setup: () => {
+        return {
+            trans
+        }
     },
 
     beforeDestroy() {
