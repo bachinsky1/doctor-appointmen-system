@@ -54,6 +54,8 @@ return [
             "state" => "State",
             "zip_code" => "Zip Code",
             "main_address" => "Main Address",
+            "start_time" => "Start time",
+            "end_time" => "End Time",
         ]
     ],
     "messages" => [
