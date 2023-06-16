@@ -125,6 +125,7 @@ return [
             "back" => "Back",
             "upload" => "Upload",
             "update" => "Update",
+            "delete" => "Delete",
             "change_avatar" => "Change Avatar",
         ],
         "actions" => [

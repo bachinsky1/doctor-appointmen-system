@@ -28,6 +28,8 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/profile/contact', [ProfileController::class, 'getContact']);
     Route::post('/profile/address', [ProfileController::class, 'updateAddress']);
     Route::get('/profile/address', [ProfileController::class, 'getAddress']);
+    Route::get('/profile/workplace', [ProfileController::class, 'getWorkplace']);
+    Route::post('/profile/workplace', [ProfileController::class, 'updateWorkplace']);
 
     /**
      * Auth related

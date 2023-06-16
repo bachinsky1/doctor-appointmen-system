@@ -2,20 +2,21 @@
     <Panel>
         <Form id="edit-workingplace" @submit.prevent="onSubmitForm">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Working place</h2>
-            <div v-for="(workplace, index) in workplaces" :key="index" class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <div class="sm:col-span-2">
-                    <label for="gender" class="form-label">Position</label>
-                    <select class="form-select" id="position" v-model="workplace.position_id" required>
+            <div v-for="(workplace, index) in workplaces" :key="index" class="mt-2 grid grid-cols-1 gap-x-9 gap-y-8 sm:grid-cols-9">
+                <div class="sm:col-span-3">
+                    <label for="gender" class="text-sm text-gray-500">Position</label>
+                    <select id="position" v-model="workplace.position_id" required class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
                         <option v-for="position in positions" :key="position.id" :value="position.id">{{ position.name }}</option>
                     </select>
                 </div>
-                <div class="sm:col-span-2">
-                    <label for="gender" class="form-label">Medicalestablishment</label>
-                    <select class="form-select" id="medical-establishment" v-model="workplace.medicalestablishment_id" required>
+                <div class="sm:col-span-3">
+                    <label for="gender" class="text-sm text-gray-500">Medicalestablishment</label>
+                    <select id="medical-establishment" v-model="workplace.medicalestablishment_id" required class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
                         <option v-for="medicalestablishment in medicalestablishments" :key="medicalestablishment.id" :value="medicalestablishment.id">{{ medicalestablishment.name }}</option>
                     </select>
                 </div>
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-3">
+                    <label for="gender" class="text-sm text-gray-500">&nbsp;</label><br>
                     <Button type="button" :label="trans('global.buttons.delete')" />
                 </div>
             </div>
@@ -69,13 +70,23 @@ export default {
 
 
     methods: {
-        onFormChange() {
+        async onFormChange() {
 
         },
 
         async fillForm() {
-
-
+            const service = new ProfileService()
+            const alertStore = useAlertStore()
+            try {
+                const response = await service.getWorkingPlace()
+                const data = response.data
+                this.workplaces = response.data.workplaces
+                this.positions = response.data.positions
+                this.medicalestablishments = response.data.medicalestablishments
+                this.userId = response.data.userId
+            } catch (error) {
+                alertStore.error(getResponseError(error))
+            }
         },
 
         addWorkplace() {
@@ -98,7 +109,7 @@ export default {
     },
 
     mounted() {
-
+        this.fillForm()
     },
 
     beforeDestroy() {

@@ -7,12 +7,20 @@ export default class UserService extends ModelService {
         this.url = '/profile'
     }
 
-    public getContactInformation() {
+    public getContact() {
         return this.get(`/profile/contact`)
     }
 
-    public updateContactInformation(payload) {
+    public updateContact(payload) {
         return this.post(`/profile/contact`, payload)
+    }
+
+    public getWorkingPlace() {
+        return this.get(`/profile/workplace`)
+    }
+
+    public updateWorkingPlace(payload) {
+        return this.post(`/profile/workplace`, payload)
     }
 
 }

@@ -40,7 +40,7 @@
 import { watch, onMounted, defineComponent, reactive, ref } from 'vue'
 import { useAuthStore } from "@/stores/auth"
 import { useAlertStore } from "@/stores"
-import { trans } from "@/helpers/i18n";
+import { trans } from "@/helpers/i18n"
 import { getResponseError } from "@/helpers/api"
 import ProfileService from "@/services/ProfileService"
 import Button from "@/views/components/input/Button"
@@ -103,7 +103,7 @@ export default {
             const alertStore = useAlertStore()
 
             try {
-                const response = await service.updateContactInformation(this.form)
+                const response = await service.updateContact(this.form)
                 const data = response.data
                 console.log(data)
                 const store = useAuthStore()
@@ -114,13 +114,12 @@ export default {
                 alertStore.error(getResponseError(error))
                 console.log(error)
             }
-        }
-        ,
+        },
 
         async fillForm(params) {
             const service = new ProfileService()
             try {
-                const response = await service.getContactInformation()
+                const response = await service.getContact()
                 const data = response.data
                 this.form.first_name = data.first_name
                 this.form.last_name = data.last_name
@@ -130,7 +129,7 @@ export default {
                 this.form.birthdate = data.birthdate
                 this.form.gender = data.gender
             } catch (error) {
-                console.log(error)
+                alertStore.error(getResponseError(error))
             }
         }
         ,
