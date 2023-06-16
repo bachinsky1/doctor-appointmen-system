@@ -2,27 +2,25 @@
     <Panel>
         <Form id="edit-workingplace" @submit.prevent="onSubmitForm">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Working place</h2>
-            <div class="border-b">
-                <div v-for="(workplace, index) in workplaces" :key="index" class="mb-2 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-10">
-                    <div class="sm:col-span-4">
-                        <label for="gender" class="text-sm text-gray-500">Position</label>
-                        <select id="position" v-model="workplace.position_id" required class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
-                            <option v-for="position in positions" :key="position.id" :value="position.id">{{ position.name }}</option>
-                        </select>
-                    </div>
-                    <div class="sm:col-span-4">
-                        <label for="gender" class="text-sm text-gray-500">Medicalestablishment</label>
-                        <select id="medical-establishment" v-model="workplace.medicalestablishment_id" required class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
-                            <option v-for="medicalestablishment in medicalestablishments" :key="medicalestablishment.id" :value="medicalestablishment.id">{{ medicalestablishment.name }}</option>
-                        </select>
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label for="gender" class="text-sm text-gray-500">&nbsp;</label><br>
-                        <Button @click="deleteWorkplace(index)" :label="trans('global.buttons.delete')" />
-                    </div>
+            <div v-for="(workplace, index) in workplaces" :key="index" class="mb-2 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-10">
+                <div class="sm:col-span-4">
+                    <label for="gender" class="text-sm text-gray-500">Position</label>
+                    <select id="position" v-model="workplace.position_id" required class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
+                        <option v-for="position in positions" :key="position.id" :value="position.id">{{ position.name }}</option>
+                    </select>
+                </div>
+                <div class="sm:col-span-4">
+                    <label for="gender" class="text-sm text-gray-500">Medicalestablishment</label>
+                    <select id="medical-establishment" v-model="workplace.medicalestablishment_id" required class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
+                        <option v-for="medicalestablishment in medicalestablishments" :key="medicalestablishment.id" :value="medicalestablishment.id">{{ medicalestablishment.name }}</option>
+                    </select>
+                </div>
+                <div class="sm:col-span-2">
+                    <label for="gender" class="text-sm text-gray-500">&nbsp;</label><br>
+                    <Button @click="deleteWorkplace(index)" :label="trans('global.buttons.delete')" />
                 </div>
             </div>
-            <div class="sm:col-span-6 mt-4 flex items-center justify-end gap-x-6">
+            <div class="sm:col-span-6 mt-4 pt-4 border-t flex items-center justify-end gap-x-6">
                 <Button class="ml-5" @click="addWorkplace" type="button" :label="trans('global.buttons.add')" />
                 <Button @click="onSubmitForm" :label="trans('global.buttons.submit')" />
             </div>
@@ -66,11 +64,6 @@ export default {
             positions: [],
             medicalestablishments: [],
             userId: null,
-            loadingForm: false,
-            isFormChanged: false,
-            formMessage: '',
-            formMessageTimeout: 4000,
-            formMessageClass: ''
         }
     },
 
@@ -101,10 +94,6 @@ export default {
                 position_id: undefined,
                 medicalestablishment_id: undefined
             })
-
-            // this.$nextTick(() => {
-
-            // })
         },
 
         deleteWorkplace(index) {

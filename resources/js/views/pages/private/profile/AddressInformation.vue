@@ -2,7 +2,7 @@
     <Panel>
         <Form id="add-address" @submit.prevent="onSubmitForm">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Addresses</h2>
-            <div v-for="(address, index) in form" :key="index" class="mb-2 border-b grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div v-for="(address, index) in form" :key="index" class="mb-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-3">
                     <TextInput type="text" :required="true" :id="'street-' + index" :name="'street-' + index" v-model="address.street" :label="trans('users.labels.street')" autocomplete="off" />
                 </div>
@@ -18,16 +18,16 @@
                 <div class="sm:col-span-1">
                     <TextInput type="text" :required="true" :id="'zip_code-' + index" :name="'zip_code-' + index" v-model="address.zip_code" :label="trans('users.labels.zip_code')" autocomplete="off" />
                 </div>
-                <div class="sm:col-span-1">
-                    <label class="text-sm text-gray-500" :for="'is_main_address-' + index">{{ trans('users.labels.main_address') }}</label>
-                    <input type="checkbox" :id="'is_main_address-' + index" :name="'is_main_address-' + index" v-model="address.is_main_address" class="default:ring-2" />
+                <div class="mt-6 sm:col-span-1">
+                    <label class="text-sm text-gray-500" :for="'is_main_address-' + index">{{ trans('users.labels.main_address') }} </label>
+                    <input type="checkbox" :id="'is_main_address-' + index" :name="'is_main_address-' + index" v-model="address.is_main_address" class="ml-2 default:ring-2" />
                 </div>
                 <div class="sm:col-span-1">
                     <label for="gender" class="text-sm text-gray-500">&nbsp;</label><br>
                     <Button @click="deleteAddress(index)" :label="trans('global.buttons.delete')" />
                 </div>
             </div>
-            <div class="sm:col-span-6 mt-4 flex items-center justify-end gap-x-6">
+            <div class="sm:col-span-6 mt-4 pt-4 flex items-center justify-end gap-x-6 border-t">
                 <Button class="ml-5" @click="addAddress" type="button" :label="trans('global.buttons.add')" />
                 <Button @click="onSubmitForm" :label="trans('global.buttons.submit')" />
             </div>
