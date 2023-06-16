@@ -1,34 +1,34 @@
-<template>
-    <Page>
-        <div class="w-1/2 m-auto text-center pt-10">
-            <h1 class="text-6xl mb-4 font-bold text-gray-600">Agenda</h1>
-        </div>
-    </Page>
-</template>
+<script setup lang="ts">
+import "@lbgm/pro-calendar-vue/style"
+import { ref, type Ref } from "vue"
+import type { Configs, Appointment } from "@lbgm/pro-calendar-vue"
 
-<script>
-
-import { defineComponent, ref } from "vue"
-import { trans } from "@/helpers/i18n"
-import { useAuthStore } from "@/stores/auth"
-import Page from "@/views/layouts/Page"
-
-export default defineComponent({
-    components: {
-        Page,
+const cfg = ref<Configs>({
+    viewEvent: undefined,
+    reportEvent: {
+        icon: true,
+        text: "",
     },
-    setup() {
-        const store = useAuthStore()
-        const isAvatarModalShowing = ref(false);
-
-        function reloadAvatar() {
-            store.getCurrentUser();
-        }
-        return {
-            isAvatarModalShowing,
-            reloadAvatar,
-            trans
-        }
-    }
+    searchPlaceholder: "",
+    eventName: "",
+    closeText: "",
+    nativeDatepicker: true,
 })
+
+const evts: Ref<Appointment[]> = ref([
+    {
+        date: "2022-11-19T14:00:00.000Z",
+        comment: "",
+        id: "cl32rbkjk1700101o53e3e3uhn",
+        keywords: "Projet BAMBA",
+        name: "MONTCHO Kévin",
+    },
+    //...
+]);
+
 </script>
+
+<template>
+    <!-- all props are optional -->
+    <pro-calendar :events="evts" :loading="false" :config="cfg" view="month" date="2022-11-10T00:00:00.000Z" @calendarClosed="void 0" @fetchEvents="void 0" />
+</template>
