@@ -2,15 +2,15 @@
     <Page title="Profile">
         <div class="grid grid-cols-2 gap-4">
             <div class="col-span-2">
-                <ContactInformation class="mb-4" />
+                <Contact class="mb-4" />
                 <!-- ... -->
             </div>
             <div class="w-full">
-                <WorkingPlaceInformation class="mb-4" />
+                <WorkingPlace class="mb-4" />
                 <!-- ... -->
             </div>
             <div class="w-full">
-                <AddressInformation class="mb-4" />
+                <Address class="mb-4" />
                 <!-- ... -->
             </div>
         </div>
@@ -24,17 +24,17 @@ import { trans } from "@/helpers/i18n"
 import { useAuthStore } from "@/stores/auth"
 import { toUrl } from "@/helpers/routing"
 import UserService from "@/services/UserService"
-import ContactInformation from "@/views/pages/private/profile/ContactInformation"
-import WorkingPlaceInformation from "@/views/pages/private/profile/WorkingPlaceInformation"
-import AddressInformation from "@/views/pages/private/profile/AddressInformation"
+import Contact from "@/views/pages/private/profile/Contact"
+import WorkingPlace from "@/views/pages/private/profile/WorkingPlace"
+import Address from "@/views/pages/private/profile/Address"
 import Page from "@/views/layouts/Page"
 
 export default defineComponent({
     components: {
         Page,
-        ContactInformation,
-        WorkingPlaceInformation,
-        AddressInformation,
+        Contact,
+        WorkingPlace,
+        Address,
     },
     setup() {
         const { user } = useAuthStore()

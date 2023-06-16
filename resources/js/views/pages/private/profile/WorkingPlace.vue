@@ -2,7 +2,7 @@
     <Panel>
         <Form id="edit-workingplace" @submit.prevent="onSubmitForm">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Working place</h2>
-            <div v-for="(workplace, index) in workplaces" :key="index" class="mb-2 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-10">
+            <div v-for="(workplace, index) in workplaces" :key="index" class="mt-2 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-10">
                 <div class="sm:col-span-4">
                     <label for="gender" class="text-sm text-gray-500">Position</label>
                     <select id="position" v-model="workplace.position_id" required class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
@@ -38,24 +38,17 @@ import { getResponseError } from "@/helpers/api"
 import ProfileService from "@/services/ProfileService"
 import Button from "@/views/components/input/Button"
 import TextInput from "@/views/components/input/TextInput"
-import Dropdown from "@/views/components/input/Dropdown"
-import Alert from "@/views/components/Alert"
 import Panel from "@/views/components/Panel"
 import Page from "@/views/layouts/Page"
-import FileInput from "@/views/components/input/FileInput"
 import Form from "@/views/components/Form"
 
 export default {
 
     components: {
         Form,
-        FileInput,
         Panel,
-        Alert,
-        Dropdown,
         TextInput,
         Button,
-        Page
     },
 
     data() {

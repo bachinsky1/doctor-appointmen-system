@@ -44,24 +44,16 @@ import { getResponseError } from "@/helpers/api"
 import ProfileService from "@/services/ProfileService"
 import Button from "@/views/components/input/Button"
 import TextInput from "@/views/components/input/TextInput"
-import Dropdown from "@/views/components/input/Dropdown"
-import Alert from "@/views/components/Alert"
 import Panel from "@/views/components/Panel"
-import Page from "@/views/layouts/Page"
-import FileInput from "@/views/components/input/FileInput"
 import Form from "@/views/components/Form"
 
 export default {
 
     components: {
         Form,
-        FileInput,
         Panel,
-        Alert,
-        Dropdown,
         TextInput,
         Button,
-        Page
     },
 
     data() {

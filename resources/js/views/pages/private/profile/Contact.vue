@@ -2,7 +2,7 @@
     <Panel>
         <Form id="edit-contact" @submit.prevent="onSubmitForm">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-            <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-2">
                     <TextInput type="text" :required="true" name="first_name" v-model="form.first_name" :label="trans('users.labels.first_name')" autocomplete="off" />
                 </div>
@@ -27,7 +27,7 @@
                 <div class="sm:col-span-2">
                     <TextInput type="text" name="fax" v-model="form.fax" :label="trans('users.labels.fax')" autocomplete="off" />
                 </div>
-                <div class="sm:col-span-6 mt-1 flex items-center justify-end gap-x-6">
+                <div class="sm:col-span-6 pt-4 border-t flex items-center justify-end gap-x-6">
                     <Button :label="trans('global.buttons.submit')" />
                 </div>
             </div>
@@ -45,23 +45,16 @@ import { getResponseError } from "@/helpers/api"
 import ProfileService from "@/services/ProfileService"
 import Button from "@/views/components/input/Button"
 import TextInput from "@/views/components/input/TextInput"
-import Dropdown from "@/views/components/input/Dropdown"
-import Alert from "@/views/components/Alert"
 import Panel from "@/views/components/Panel"
-import Page from "@/views/layouts/Page"
-import FileInput from "@/views/components/input/FileInput"
 import Form from "@/views/components/Form"
+
 export default {
     name: 'ContactInformation',
     components: {
         Form,
-        FileInput,
         Panel,
-        Alert,
-        Dropdown,
         TextInput,
         Button,
-        Page
     },
     props: {},
 
