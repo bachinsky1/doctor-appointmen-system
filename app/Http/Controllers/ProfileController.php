@@ -78,8 +78,9 @@ class ProfileController extends Controller
         foreach ($request->workplaces as $workplaceData) {
             UserMedicalEstablishment::updateOrCreate([
                 'user_id' => $user->id,
-                'medicalestablishment_id' => $workplaceData['medicalestablishment_id']
-            ], ['position_id' => $workplaceData['position_id']]);
+                'medicalestablishment_id' => $workplaceData['medicalestablishment_id'],
+                'position_id' => $workplaceData['position_id']
+            ]);
         }
 
         return response()->json(['message' => 'Data saved successfully']);

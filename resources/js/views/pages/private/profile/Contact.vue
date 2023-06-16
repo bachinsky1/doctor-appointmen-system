@@ -98,14 +98,12 @@ export default {
             try {
                 const response = await service.updateContact(this.form)
                 const data = response.data
-                console.log(data)
                 const store = useAuthStore()
                 store.getCurrentUser()
                 alertStore.success(response.data.message)
             } catch (error) {
 
                 alertStore.error(getResponseError(error))
-                console.log(error)
             }
         },
 

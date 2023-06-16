@@ -29,7 +29,7 @@
             </div>
             <div class="sm:col-span-6 mt-4 pt-4 flex items-center justify-end gap-x-6 border-t">
                 <Button class="ml-5" @click="addAddress" type="button" :label="trans('global.buttons.add')" />
-                <Button @click="onSubmitForm" :label="trans('global.buttons.submit')" />
+                <Button :label="trans('global.buttons.submit')" />
             </div>
         </Form>
     </Panel>
