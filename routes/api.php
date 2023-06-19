@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
 
 
     Route::get('/appointment', [AppointmentController::class, 'index']);
+    Route::delete('/appointment/{id}', [AppointmentController::class, 'destroy']);
     Route::post('/appointment', [AppointmentController::class, 'store']);
 
     /**

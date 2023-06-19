@@ -12,6 +12,10 @@ export default class CalendarService extends ModelService {
         return this.get(`/appointment`)
     }
 
+    public destroyAppointment(id) {
+        return this.delete(id)
+    }
+
     public storeAppointment(payload) {
         console.log(payload)
         const { id, title, start, end, allDay } = payload.event

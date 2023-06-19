@@ -17,6 +17,8 @@
                 </div>
             </div>
         </Form>
+        <!-- <Button @click="handleEventChange" /> -->
+        <Button @click="handleEventRemove" :label="trans('global.buttons.delete')" />
     </Panel>
 </template>
 
@@ -34,7 +36,10 @@ import { useCalendarStore } from '@/stores'
 
 export default {
     emits: ['done'],
-
+    props: {
+        onEventChange: Function,
+        onEventRemove: Function
+    },
     components: {
         Form,
         Panel,
@@ -53,6 +58,18 @@ export default {
                 end: store.end,
                 title: store.title,
             });
+        },
+        handleEventChange() {
+            if (this.onEventChange) {
+                const e = this.store.getCurrentEvent()
+                this.onEventChange(e)
+            }
+        },
+        handleEventRemove() {
+            if (this.onEventRemove) {
+                const e = this.store.getCurrentEvent()
+                this.onEventRemove(e)
+            }
         }
 
     },

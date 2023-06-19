@@ -1,9 +1,6 @@
 
 
 <template>
-    <Modal :is-showing="isShowing" @close="isShowing = false;">
-        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" />
-    </Modal>
     <div class='demo-app'>
         <div class='demo-app-sidebar'>
             <div class='demo-app-sidebar-section'>
@@ -37,6 +34,9 @@
             </FullCalendar>
         </div>
     </div>
+    <Modal :is-showing="isShowing" @close="isShowing = false;">
+        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" />
+    </Modal>
 </template>
 
 <script>
@@ -123,15 +123,28 @@ export default defineComponent({
         async eventAdd(event) {
             const service = new CalendarService()
             await service.storeAppointment(event)
-            console.log('eventAdd', event.toPlainObject())
+            console.log('eventAdd', event)
         },
 
         eventChange(event) {
-            console.log('eventChange', event)
+            const index = this.calendarOptions.events.findIndex(e => e.id === Number(event.id))
+
+            // console.log('eventChange', index, event.id)
+            if (index !== -1) {
+                // console.log('eventChange', event.id, this.calendarOptions.events[index])
+                this.calendarOptions.events[index] = event
+
+                console.log(event.start, event.end)
+            }
         },
 
-        eventRemove(event) {
-            console.log('eventRemove', event)
+        async eventRemove(event) {
+            console.log('eventRemove', event.id)
+            this.isShowing = false
+            const service = new CalendarService()
+            await service.destroyAppointment(event.id)
+
+            this.calendarOptions.events = this.calendarOptions.events.filter(e => e.id !== Number(event.id))
         },
 
         handleCalendarEvent(event) {
@@ -181,7 +194,8 @@ export default defineComponent({
                 end,
             })
             // console.log(clickInfo.view.getCurrentData())
-            console.log({ start, end, title, id })
+            store.setCurrentEvent(clickInfo.event)
+            console.log(clickInfo.event)
         },
 
         handleEvents(events) {

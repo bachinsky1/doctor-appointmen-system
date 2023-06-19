@@ -40,7 +40,7 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        response()->json(['message' => $request]);
+        
         $user = Auth::user();
         $appointment = new Appointment();
 
@@ -88,7 +88,8 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointments $appointments)
     {
-        //
+        $user = Auth::user();
+        // Appointment::where('id', $id)->where('user_id', $user_id)->delete();
     }
 
     /**
@@ -97,8 +98,11 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointments  $appointments
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Appointment $appointment)
+    public function destroy($id)
     {
-        //
+        $user = Auth::user();
+        Appointment::where('id', $id)->where('user_id', $user->id)->delete();
+
+        return response()->json(['message' => 'Data deleted successfully']);
     }
 }
