@@ -168,16 +168,18 @@ export default defineComponent({
 
         handleEventClick(clickInfo) {
             this.isShowing = true
+            const id = clickInfo.event.id
+            const title = clickInfo.event.title
             const start = clickInfo.event.start
             const end = clickInfo.event.end
-            const title = clickInfo.event.title
-            const id = clickInfo.event.id
 
-            // const store = useCalendarStore()
-            // store.setPopupInputs({
-            //     start: selectInfo.startStr,
-            //     end: selectInfo.endStr,
-            // })
+            const store = useCalendarStore()
+            store.setPopupInputs({
+                id,
+                title,
+                start,
+                end,
+            })
             // console.log(clickInfo.view.getCurrentData())
             console.log({ start, end, title, id })
         },
