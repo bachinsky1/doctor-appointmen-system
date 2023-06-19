@@ -7,10 +7,10 @@
                     <TextInput :required="true" name="start" v-model="title" :label="trans('agenda.labels.appointment_title')" />
                 </div>
                 <div class="sm:col-span-3">
-                    <TextInput type="datetime-local" :required="true" name="start" v-model="start" :label="trans('users.labels.start_time')" />
+                    <TextInput type="datetime-local" :required="true" name="start" v-model="store.start" :label="trans('users.labels.start_time')" />
                 </div>
                 <div class="sm:col-span-3">
-                    <TextInput type="datetime-local" :required="true" name="start" v-model="end" :label="trans('users.labels.end_time')" />
+                    <TextInput type="datetime-local" :required="true" name="start" v-model="store.end" :label="trans('users.labels.end_time')" />
                 </div>
                 <div class="sm:col-span-6">
                     <Button />
@@ -30,6 +30,7 @@ import Button from "@/views/components/input/Button"
 import TextInput from "@/views/components/input/TextInput"
 import Panel from "@/views/components/Panel"
 import Form from "@/views/components/Form"
+import { useCalendarStore } from '@/stores'
 
 export default {
     emits: ['done'],
@@ -42,16 +43,15 @@ export default {
     },
 
     data: () => ({
-        start: '',
-        end: '',
         title: '',
     }),
 
     methods: {
         onSubmitForm() {
+            const store = useCalendarStore()
             this.$emit('done', {
-                start: this.start,
-                end: this.end,
+                start: store.start,
+                end: store.end,
                 title: this.title,
             });
         }
@@ -62,13 +62,15 @@ export default {
         const authStore = useAuthStore()
         const form = reactive({})
 
+        const store = useCalendarStore()
 
         const onChange = (event) => {
         }
 
         return {
             form,
-            trans
+            trans,
+            store
         }
     }
 

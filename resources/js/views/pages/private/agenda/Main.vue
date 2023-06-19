@@ -49,6 +49,7 @@ import { INITIAL_EVENTS, createEventId } from './../agenda/event-utils'
 import moment from 'moment'
 import Modal from '@/views/components/Modal.vue'
 import Appointment from '@/views/components/Appointment.vue'
+import { useCalendarStore } from '@/stores'
 
 export default defineComponent({
     components: {
@@ -59,7 +60,6 @@ export default defineComponent({
 
     data() {
         return {
-            isShowing: false,
             calendarOptions: {
                 plugins: [
                     dayGridPlugin,
@@ -81,16 +81,7 @@ export default defineComponent({
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                events: [
-                    // {
-                    //     id: createEventId(),
-                    //     title: 'event 1',
-                    //     date: '2023-06-16',
-                    //     start: '2023-06-16T23:50:00',
-                    //     end: '2023-06-17T00:50:00'
-                    // },
-
-                ],
+                events: [],
                 firstDay: 1,
                 dateClick: this.handleDateClick,
                 initialView: 'dayGridMonth',
@@ -111,13 +102,15 @@ export default defineComponent({
             },
             selectInfo: null,
             currentEvents: [],
+            isShowing: false,
         }
     },
     methods: {
 
         handleEvent(event) {
-            console.log(event)
-            let calendarApi = this.selectInfo.view.calendar
+            // console.log(event)
+            const calendarApi = this.selectInfo.view.calendar
+
             calendarApi.addEvent({
                 id: createEventId(),
                 title: event.title,
@@ -128,28 +121,20 @@ export default defineComponent({
         },
 
         handleWeekendsToggle() {
-            console.log(this.calendarOptions)
+            // console.log(this.calendarOptions)
             this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
         },
 
         handleDateSelect(selectInfo) {
             this.isShowing = true
             this.selectInfo = selectInfo
-            console.log(selectInfo)
-            // let title = prompt('Please enter a new title for your event')
-            // let calendarApi = selectInfo.view.calendar
 
-            // calendarApi.unselect() // clear date selection
+            const store = useCalendarStore()
 
-            // if (title) {
-            //     calendarApi.addEvent({
-            //         id: createEventId(),
-            //         title,
-            //         start: selectInfo.startStr,
-            //         end: selectInfo.endStr,
-            //         allDay: selectInfo.allDay
-            //     })
-            // }
+            store.setPopupInputs({
+                start: selectInfo.startStr,
+                end: selectInfo.endStr,
+            })
         },
         handleEventClick(clickInfo) {
             this.isShowing = true
@@ -157,7 +142,7 @@ export default defineComponent({
         },
         handleEvents(events) {
             // console.log(events)
-            // this.currentEvents = events
+            this.currentEvents = events
         },
     }
 })
