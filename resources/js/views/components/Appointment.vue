@@ -51,7 +51,7 @@ export default {
             this.$emit('done', {
                 start: store.start,
                 end: store.end,
-                title: this.title,
+                title: store.title,
             });
         }
 

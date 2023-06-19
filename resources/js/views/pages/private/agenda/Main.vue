@@ -93,12 +93,12 @@ export default defineComponent({
                 weekends: true,
                 select: this.handleDateSelect,
                 eventClick: this.handleEventClick,
-                eventsSet: this.handleEvents
-                /* you can update a remote database when these fire:
-                eventAdd:
-                eventChange:
-                eventRemove:
-                */
+                eventsSet: this.handleEvents,
+                /* you can update a remote database when these fire:*/
+                eventAdd: this.eventAdd,
+                eventChange: this.eventChange,
+                eventRemove: this.eventRemove,
+
             },
             selectInfo: null,
             currentEvents: [],
