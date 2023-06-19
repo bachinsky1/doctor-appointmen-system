@@ -10,7 +10,11 @@ return [
     | The following language lines are used for the front-end application.
     |
     */
-
+    "agenda" => [
+        "labels" => [
+            "appointment_title" => "Title"
+        ]
+    ],
     "users" => [
         "status" => [
             "verified" => "Verified",
@@ -48,6 +52,14 @@ return [
             "general_settings" => "General Settings",
             "password_settings" => "Password Settings",
             "avatar_settings" => "Avatar Settings",
+            "street" => "Street",
+            "house_number" => "House Number",
+            "city" => "City",
+            "state" => "State",
+            "zip_code" => "Zip Code",
+            "main_address" => "Main Address",
+            "start_time" => "Start time",
+            "end_time" => "End Time",
         ]
     ],
     "messages" => [
@@ -126,6 +138,7 @@ return [
             "upload" => "Upload",
             "update" => "Update",
             "delete" => "Delete",
+            "add" => "Add",
             "change_avatar" => "Change Avatar",
         ],
         "actions" => [

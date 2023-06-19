@@ -2,7 +2,7 @@
 
 <template>
     <Modal :is-showing="isShowing" @close="isShowing = false;">
-        <Appointment @error="isShowing = false;" @done="isShowing = false;" />
+        <Appointment @error="isShowing = false;" @done="handleEvent" />
     </Modal>
     <div class='demo-app'>
         <div class='demo-app-sidebar'>
@@ -82,13 +82,13 @@ export default defineComponent({
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 events: [
-                    {
-                        id: createEventId(),
-                        title: 'event 1',
-                        date: '2023-06-16',
-                        start: '2023-06-16T23:50:00',
-                        end: '2023-06-17T00:50:00'
-                    },
+                    // {
+                    //     id: createEventId(),
+                    //     title: 'event 1',
+                    //     date: '2023-06-16',
+                    //     start: '2023-06-16T23:50:00',
+                    //     end: '2023-06-17T00:50:00'
+                    // },
 
                 ],
                 firstDay: 1,
@@ -109,19 +109,35 @@ export default defineComponent({
                 eventRemove:
                 */
             },
+            selectInfo: null,
             currentEvents: [],
         }
     },
     methods: {
+
+        handleEvent(event) {
+            console.log(event)
+            let calendarApi = this.selectInfo.view.calendar
+            calendarApi.addEvent({
+                id: createEventId(),
+                title: event.title,
+                start: new Date(event.start),
+                end: new Date(event.end),
+            })
+            this.isShowing = false
+        },
+
         handleWeekendsToggle() {
             console.log(this.calendarOptions)
             this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
         },
+
         handleDateSelect(selectInfo) {
-            console.log(selectInfo)
             this.isShowing = true
+            this.selectInfo = selectInfo
+            console.log(selectInfo)
             // let title = prompt('Please enter a new title for your event')
-            let calendarApi = selectInfo.view.calendar
+            // let calendarApi = selectInfo.view.calendar
 
             // calendarApi.unselect() // clear date selection
 
@@ -138,15 +154,10 @@ export default defineComponent({
         handleEventClick(clickInfo) {
             this.isShowing = true
             console.log(clickInfo.view.getCurrentData())
-            // change the day's background color just for fun
-            // clickInfo.dayEl.style.backgroundColor = 'red';
-            // if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-            //     // clickInfo.event.remove()
-            // }
         },
         handleEvents(events) {
-            console.log(events)
-            this.currentEvents = events
+            // console.log(events)
+            // this.currentEvents = events
         },
     }
 })

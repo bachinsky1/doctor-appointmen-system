@@ -10,7 +10,11 @@ return [
     | The following language lines are used for the front-end application.
     |
     */
-
+    "agenda" => [
+        "labels" => [
+            "appointment_title" => "Title"
+        ]
+    ],
     "users" => [
         "status" => [
             "verified" => "Verified",

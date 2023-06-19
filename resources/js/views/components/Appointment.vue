@@ -3,6 +3,9 @@
         <Form id="appointment" @submit.prevent="onSubmitForm">
             <h2 class="text-base font-semibold leading-7 text-gray-900">New Appointment</h2>
             <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div class="sm:col-span-6">
+                    <TextInput :required="true" name="start" v-model="title" :label="trans('agenda.labels.appointment_title')" />
+                </div>
                 <div class="sm:col-span-3">
                     <TextInput type="datetime-local" :required="true" name="start" v-model="start" :label="trans('users.labels.start_time')" />
                 </div>
@@ -41,9 +44,17 @@ export default {
     data: () => ({
         start: '',
         end: '',
+        title: '',
     }),
 
     methods: {
+        onSubmitForm() {
+            this.$emit('done', {
+                start: this.start,
+                end: this.end,
+                title: this.title,
+            });
+        }
 
     },
     setup(props, { emit }) {
@@ -51,15 +62,11 @@ export default {
         const authStore = useAuthStore()
         const form = reactive({})
 
-        const onSubmitForm = () => {
-            emit('done');
-        }
 
         const onChange = (event) => {
         }
 
         return {
-            onSubmitForm,
             form,
             trans
         }
