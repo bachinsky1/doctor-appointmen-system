@@ -1,10 +1,10 @@
 <template>
     <Panel>
         <Form id="appointment" @submit.prevent="onSubmitForm">
-            <h2 class="text-base font-semibold leading-7 text-gray-900">New Appointment</h2>
+            <h2 class="text-base font-semibold leading-7 text-gray-900">{{ trans('agenda.new_appointment') }}</h2>
             <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-6">
-                    <TextInput :required="true" name="start" v-model="title" :label="trans('agenda.labels.appointment_title')" />
+                    <TextInput :required="true" name="start" v-model="store.title" :label="trans('agenda.labels.appointment_title')" autocomplite="off" />
                 </div>
                 <div class="sm:col-span-3">
                     <TextInput type="datetime-local" :required="true" name="start" v-model="store.start" :label="trans('users.labels.start_time')" />
@@ -43,7 +43,6 @@ export default {
     },
 
     data: () => ({
-        title: '',
     }),
 
     methods: {

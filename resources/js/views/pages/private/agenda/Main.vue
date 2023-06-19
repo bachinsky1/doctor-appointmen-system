@@ -67,10 +67,10 @@ export default defineComponent({
                     interactionPlugin // needed for dateClick
                 ],
                 validRange: function (nowDate) {
-                    // Определяем последний день недели
+                    // Determining the last day of the week
                     var momentDate = moment(nowDate)
-                    var lastDayOfWeek = momentDate.endOf('week').subtract(1, 'day');
-                    // Возвращаем диапазон дат без последних дней недели
+                    var lastDayOfWeek = momentDate.endOf('week').subtract(1, 'day')
+                    // Returning a date range without the last days of the week
                     return {
                         start: momentDate,
                         end: lastDayOfWeek
@@ -105,7 +105,20 @@ export default defineComponent({
             isShowing: false,
         }
     },
+
     methods: {
+
+        eventAdd(event) {
+            console.log('eventAdd', event)
+        },
+
+        eventChange(event) {
+            console.log('eventChange', event)
+        },
+
+        eventRemove(event) {
+            console.log('eventRemove', event)
+        },
 
         handleEvent(event) {
             // console.log(event)
@@ -117,6 +130,7 @@ export default defineComponent({
                 start: new Date(event.start),
                 end: new Date(event.end),
             })
+
             this.isShowing = false
         },
 
@@ -136,12 +150,14 @@ export default defineComponent({
                 end: selectInfo.endStr,
             })
         },
+
         handleEventClick(clickInfo) {
             this.isShowing = true
             console.log(clickInfo.view.getCurrentData())
         },
+
         handleEvents(events) {
-            // console.log(events)
+            console.log(events)
             this.currentEvents = events
         },
     }

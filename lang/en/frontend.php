@@ -13,7 +13,8 @@ return [
     "agenda" => [
         "labels" => [
             "appointment_title" => "Title"
-        ]
+        ],
+        "new_appointment" => "New Appointment",
     ],
     "users" => [
         "status" => [
@@ -153,5 +154,6 @@ return [
             "confirm" => "Confirm!",
             "confirm_action_message" => "Are you sure you want to perform this action?",
         ]
+        
     ]
 ];
