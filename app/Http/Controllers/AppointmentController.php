@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointments;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Appointment;
 
-class AppointmentsController extends Controller
+class AppointmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,11 @@ class AppointmentsController extends Controller
      */
     public function index()
     {
-        //
+        $user_id = Auth::id();
+
+        $appointments = Appointment::where('user_id', $user_id)->get();
+        
+        return response()->json($appointments);
     }
 
     /**
@@ -35,7 +40,21 @@ class AppointmentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        response()->json(['message' => $request]);
+        $user = Auth::user();
+        $appointment = new Appointment();
+
+        $appointment->internal_id = $request->input('internal_id');
+        $appointment->title = $request->input('title');
+        $appointment->start = $request->input('start');
+        $appointment->end = $request->input('end');
+        $appointment->allDay = $request->input('allDay');
+        $appointment->user_id = $user->id;
+        $appointment->type_id = 1;
+        $appointment->save();
+ 
+
+        return response()->json(['message' => 'Data saved successfully']);
     }
 
     /**
@@ -44,7 +63,7 @@ class AppointmentsController extends Controller
      * @param  \App\Models\Appointments  $appointments
      * @return \Illuminate\Http\Response
      */
-    public function show(Appointments $appointments)
+    public function show(Appointment $appointment)
     {
         //
     }
@@ -55,7 +74,7 @@ class AppointmentsController extends Controller
      * @param  \App\Models\Appointments  $appointments
      * @return \Illuminate\Http\Response
      */
-    public function edit(Appointments $appointments)
+    public function edit(Appointment $appointment)
     {
         //
     }
@@ -78,7 +97,7 @@ class AppointmentsController extends Controller
      * @param  \App\Models\Appointments  $appointments
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Appointments $appointments)
+    public function destroy(Appointment $appointment)
     {
         //
     }

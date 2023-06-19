@@ -2,7 +2,7 @@
 
 <template>
     <Modal :is-showing="isShowing" @close="isShowing = false;">
-        <Appointment @error="isShowing = false;" @done="handleEvent" />
+        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" />
     </Modal>
     <div class='demo-app'>
         <div class='demo-app-sidebar'>
@@ -50,6 +50,7 @@ import moment from 'moment'
 import Modal from '@/views/components/Modal.vue'
 import Appointment from '@/views/components/Appointment.vue'
 import { useCalendarStore } from '@/stores'
+import CalendarService from '@/services/CalendarService'
 
 export default defineComponent({
     components: {
@@ -59,6 +60,8 @@ export default defineComponent({
     },
 
     data() {
+        // const service = new CalendarService()
+        // const appointmentsawait service.getAppointments()
         return {
             calendarOptions: {
                 plugins: [
@@ -83,9 +86,11 @@ export default defineComponent({
                 },
                 events: [],
                 firstDay: 1,
+                scrollTime: 0,
+                locale: 'en-GB',
                 dateClick: this.handleDateClick,
                 initialView: 'dayGridMonth',
-                initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+                // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
                 editable: true,
                 selectable: true,
                 selectMirror: true,
@@ -106,10 +111,19 @@ export default defineComponent({
         }
     },
 
+    mounted() {
+        const service = new CalendarService()
+        service.getAppointments().then((response) => {
+            this.calendarOptions.events = response.data
+        })
+    },
+
     methods: {
 
-        eventAdd(event) {
-            console.log('eventAdd', event)
+        async eventAdd(event) {
+            const service = new CalendarService()
+            await service.storeAppointment(event)
+            console.log('eventAdd', event.toPlainObject())
         },
 
         eventChange(event) {
@@ -120,16 +134,17 @@ export default defineComponent({
             console.log('eventRemove', event)
         },
 
-        handleEvent(event) {
+        handleCalendarEvent(event) {
             // console.log(event)
             const calendarApi = this.selectInfo.view.calendar
 
-            calendarApi.addEvent({
+            const newAppointment = {
                 id: createEventId(),
                 title: event.title,
                 start: new Date(event.start),
                 end: new Date(event.end),
-            })
+            }
+            calendarApi.addEvent(newAppointment)
 
             this.isShowing = false
         },
@@ -153,7 +168,18 @@ export default defineComponent({
 
         handleEventClick(clickInfo) {
             this.isShowing = true
-            console.log(clickInfo.view.getCurrentData())
+            const start = clickInfo.event.start
+            const end = clickInfo.event.end
+            const title = clickInfo.event.title
+            const id = clickInfo.event.id
+
+            // const store = useCalendarStore()
+            // store.setPopupInputs({
+            //     start: selectInfo.startStr,
+            //     end: selectInfo.endStr,
+            // })
+            // console.log(clickInfo.view.getCurrentData())
+            console.log({ start, end, title, id })
         },
 
         handleEvents(events) {

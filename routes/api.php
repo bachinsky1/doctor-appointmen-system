@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,10 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/profile/address', [ProfileController::class, 'getAddress']);
     Route::get('/profile/workplace', [ProfileController::class, 'getWorkplace']);
     Route::post('/profile/workplace', [ProfileController::class, 'updateWorkplace']);
+
+
+    Route::get('/appointment', [AppointmentController::class, 'index']);
+    Route::post('/appointment', [AppointmentController::class, 'store']);
 
     /**
      * Auth related

@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AppointmentType;
+use App\Models\User;
 
-class Appointments extends Model
+class Appointment extends Model
 {
     use HasFactory;
 
@@ -16,8 +17,13 @@ class Appointments extends Model
         'name',
     ];
 
-    public function medicalestablishment()
+    public function type()
     {
         return $this->belongsTo(AppointmentType::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
