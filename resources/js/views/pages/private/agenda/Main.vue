@@ -35,7 +35,7 @@
         </div>
     </div>
     <Modal :is-showing="isShowing" @close="isShowing = false;">
-        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" :appointmentTypes="appointmentTypes" />
+        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" :appointmentTypes="appointmentTypes" :patients="patients" />
     </Modal>
 </template>
 
@@ -108,6 +108,7 @@ export default defineComponent({
             isShowing: false,
             mode: '',
             appointmentTypes: [],
+            patients: [],
         }
     },
 
@@ -116,6 +117,7 @@ export default defineComponent({
         service.getAppointments().then((response) => {
             this.calendarOptions.events = response.data.appointments
             this.appointmentTypes = response.data.appointmentTypes
+            this.patients = response.data.patients
         })
     },
 
@@ -156,6 +158,7 @@ export default defineComponent({
                 start: new Date(event.start),
                 end: new Date(event.end),
                 type_id: event.type_id,
+                patient_id: event.patient_id,
             }
             this.calendarOptions.events.push(newAppointment)
             calendarApi.addEvent(newAppointment)
@@ -190,6 +193,7 @@ export default defineComponent({
             const start = clickInfo.event.start
             const end = clickInfo.event.end
             const type_id = clickInfo.event.extendedProps.type_id
+            const patient_id = clickInfo.event.extendedProps.patient_id
 
             const store = useCalendarStore()
 
@@ -199,6 +203,7 @@ export default defineComponent({
                 start,
                 end,
                 type_id,
+                patient_id,
             })
 
             // console.log('handleEventClick', clickInfo.event, clickInfo.view.getCurrentData())

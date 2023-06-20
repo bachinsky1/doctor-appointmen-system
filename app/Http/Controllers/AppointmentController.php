@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Appointment;
 use App\Models\AppointmentType;
+use App\Models\User;
 
 class AppointmentController extends Controller
 {
@@ -20,9 +21,14 @@ class AppointmentController extends Controller
 
         $appointments = Appointment::where('user_id', $user_id)->get(); 
 
+        $patients = User::whereHas('roles', function ($query) {
+            $query->where('name', 'patient');
+        })->get();
+
         return response()->json([
             'appointments' => $appointments,
             'appointmentTypes' => AppointmentType::all(),
+            'patients' => $patients,
         ]);
     }
 
@@ -55,6 +61,7 @@ class AppointmentController extends Controller
         $appointment->allDay = $request->input('allDay');
         $appointment->user_id = $user->id;
         $appointment->type_id = $request->input('type_id');
+        $appointment->patient_id = $request->input('patient_id');
         $appointment->save();
  
 
