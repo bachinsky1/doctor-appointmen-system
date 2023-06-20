@@ -3,7 +3,6 @@ import moment from 'moment'
 
 export const useCalendarStore = defineStore({
     id: 'calendar',
-    
     state: () => ({
         id: '',
         title: '',
@@ -12,7 +11,6 @@ export const useCalendarStore = defineStore({
         mode: 'create',
         currentEvent: {}
     }),
-
     actions: {
         setPopupInputs({ id, title, start, end }) {
             this.id = id

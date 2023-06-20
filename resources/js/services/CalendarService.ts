@@ -1,4 +1,4 @@
-import ModelService from '@/services/ModelService'
+import ModelService from "@/services/ModelService"
 import moment from 'moment'
 
 export default class CalendarService extends ModelService {
@@ -12,11 +12,11 @@ export default class CalendarService extends ModelService {
         return this.get(`/appointment`)
     }
 
-    public destroyAppointment(id: number) {
+    public destroyAppointment(id) {
         return this.delete(id)
     }
 
-    public storeAppointment(payload: any) {
+    public storeAppointment(payload) {
         console.log(payload)
         const { id, title, start, end, allDay } = payload.event
         return this.post(`/appointment`, {
@@ -27,4 +27,5 @@ export default class CalendarService extends ModelService {
             allDay
         })
     }
+
 }
