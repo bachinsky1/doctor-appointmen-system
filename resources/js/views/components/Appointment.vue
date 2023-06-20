@@ -12,13 +12,14 @@
                 <div class="sm:col-span-3">
                     <TextInput type="datetime-local" :required="true" name="start" v-model="store.end" :label="trans('users.labels.end_time')" />
                 </div>
-                <div class="sm:col-span-6">
-                    <Button />
+                <div class="sm:col-span-6 mt-4 pt-4 border-t flex items-center justify-end gap-x-6">
+                    <!-- <Button v-if="mode === 'update'" class="ml-5" @click="handleEventChange" type="button" :label="trans('global.buttons.update')" /> -->
+                    <Button v-if="mode === 'update'" class="ml-5" @click="handleEventRemove" type="button" :label="trans('global.buttons.delete')" />
+                    <Button v-if="mode === 'new'" :label="trans('global.buttons.submit')" />
                 </div>
             </div>
         </Form>
         <!-- <Button @click="handleEventChange" /> -->
-        <Button @click="handleEventRemove" :label="trans('global.buttons.delete')" />
     </Panel>
 </template>
 
@@ -38,7 +39,8 @@ export default {
     emits: ['done'],
     props: {
         onEventChange: Function,
-        onEventRemove: Function
+        onEventRemove: Function,
+        mode: String,
     },
     components: {
         Form,
@@ -60,10 +62,15 @@ export default {
             });
         },
         handleEventChange() {
-            if (this.onEventChange) {
-                const e = this.store.getCurrentEvent()
-                this.onEventChange(e)
-            }
+            // if (this.onEventChange) {
+            //     const e = this.store.getCurrentEvent()
+
+            //     console.log(111, e)
+            //     e.title = this.title
+            //     e.start = this.title
+            //     e.end = this.end
+            //     this.onEventChange(e)
+            // }
         },
         handleEventRemove() {
             if (this.onEventRemove) {

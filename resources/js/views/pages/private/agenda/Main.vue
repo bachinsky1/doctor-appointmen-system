@@ -35,7 +35,7 @@
         </div>
     </div>
     <Modal :is-showing="isShowing" @close="isShowing = false;">
-        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" />
+        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" />
     </Modal>
 </template>
 
@@ -106,6 +106,7 @@ export default defineComponent({
             selectInfo: null,
             currentEvents: [],
             isShowing: false,
+            mode: '',
         }
     },
 
@@ -125,11 +126,9 @@ export default defineComponent({
         },
 
         eventChange(event) {
-            const index = this.calendarOptions.events.findIndex(e => e.id === Number(event.id))
+            const index = this.calendarOptions.events.findIndex(e => e.id == event.id)
 
-            // console.log('eventChange', index, event.id)
             if (index !== -1) {
-                // console.log('eventChange', event.id, this.calendarOptions.events[index])
                 this.calendarOptions.events[index] = event
 
                 console.log(event.start, event.end)
@@ -142,14 +141,11 @@ export default defineComponent({
             const service = new CalendarService()
             await service.destroyAppointment(event.extendedProps.public_id)
 
-            this.calendarOptions.events = this.calendarOptions.events.filter(e => {
-                console.log(e, event.extendedProps.public_id,)
-                return e.public_id !== event.extendedProps.public_id
-            })
+            this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
         },
 
         handleCalendarEvent(event) {
-            console.log(111, event)
+
             const calendarApi = this.selectInfo.view.calendar
 
             const newAppointment = {
@@ -180,10 +176,13 @@ export default defineComponent({
                 start: selectInfo.startStr,
                 end: selectInfo.endStr,
             })
+
+            this.mode = 'new'
         },
 
         handleEventClick(clickInfo) {
             this.isShowing = true
+            this.mode = 'update'
             const id = clickInfo.event.id
             const title = clickInfo.event.title
             const start = clickInfo.event.start
