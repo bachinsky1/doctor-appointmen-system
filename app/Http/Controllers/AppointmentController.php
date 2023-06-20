@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Appointment;
+use App\Models\AppointmentType;
 
 class AppointmentController extends Controller
 {
@@ -17,9 +18,12 @@ class AppointmentController extends Controller
     {
         $user_id = Auth::id();
 
-        $appointments = Appointment::where('user_id', $user_id)->get();
-        
-        return response()->json($appointments);
+        $appointments = Appointment::where('user_id', $user_id)->get(); 
+
+        return response()->json([
+            'appointments' => $appointments,
+            'appointmentTypes' => AppointmentType::all(),
+        ]);
     }
 
     /**
@@ -50,7 +54,7 @@ class AppointmentController extends Controller
         $appointment->end = $request->input('end');
         $appointment->allDay = $request->input('allDay');
         $appointment->user_id = $user->id;
-        $appointment->type_id = 1;
+        $appointment->type_id = $request->input('type_id');
         $appointment->save();
  
 

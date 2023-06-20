@@ -6,6 +6,12 @@
                 <div class="sm:col-span-6">
                     <TextInput :required="true" name="start" v-model="store.title" :label="trans('agenda.labels.appointment_title')" autocomplite="off" />
                 </div>
+                <div class="sm:col-span-6">
+                    <label :required="true" for="appointmentType" class="text-sm text-gray-500">Select appointment type</label>
+                    <select id="appointmentType" v-model="type_id" class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
+                        <option v-for="t in appointmentTypes" :key="t.id" :value="t.id">{{ t.name }}</option>
+                    </select>
+                </div>
                 <div class="sm:col-span-3">
                     <TextInput type="datetime-local" :required="true" name="start" v-model="store.start" :label="trans('users.labels.start_time')" />
                 </div>
@@ -41,6 +47,7 @@ export default {
         onEventChange: Function,
         onEventRemove: Function,
         mode: String,
+        appointmentTypes: Array,
     },
     components: {
         Form,
@@ -50,6 +57,7 @@ export default {
     },
 
     data: () => ({
+        type_id: null,
     }),
 
     methods: {
@@ -59,6 +67,7 @@ export default {
                 start: store.start,
                 end: store.end,
                 title: store.title,
+                type_id: this.type_id,
             });
         },
         handleEventChange() {

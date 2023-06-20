@@ -35,7 +35,7 @@
         </div>
     </div>
     <Modal :is-showing="isShowing" @close="isShowing = false;">
-        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" />
+        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" :appointmentTypes="appointmentTypes" />
     </Modal>
 </template>
 
@@ -107,13 +107,15 @@ export default defineComponent({
             currentEvents: [],
             isShowing: false,
             mode: '',
+            appointmentTypes: [],
         }
     },
 
     mounted() {
         const service = new CalendarService()
         service.getAppointments().then((response) => {
-            this.calendarOptions.events = response.data
+            this.calendarOptions.events = response.data.appointments
+            this.appointmentTypes = response.data.appointmentTypes
         })
     },
 
@@ -154,10 +156,11 @@ export default defineComponent({
                 title: event.title,
                 start: new Date(event.start),
                 end: new Date(event.end),
+                type_id: event.type_id,
             }
             this.calendarOptions.events.push(newAppointment)
             calendarApi.addEvent(newAppointment)
-            console.log('newAppointment', this.calendarOptions.events)
+            console.log('newAppointment', newAppointment)
             this.isShowing = false
         },
 
@@ -176,7 +179,7 @@ export default defineComponent({
                 start: selectInfo.startStr,
                 end: selectInfo.endStr,
             })
-
+            console.log('handleDateSelect', selectInfo)
             this.mode = 'new'
         },
 
@@ -195,7 +198,7 @@ export default defineComponent({
                 start,
                 end,
             })
-            // console.log(clickInfo.view.getCurrentData())
+            console.log('handleEventClick', clickInfo.view.getCurrentData())
             store.setCurrentEvent(clickInfo.event)
             console.log(clickInfo.event)
         },

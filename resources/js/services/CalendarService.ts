@@ -22,6 +22,7 @@ export default class CalendarService extends ModelService {
         return this.post(`/appointment`, {
             id,
             public_id: extendedProps.public_id,
+            type_id: extendedProps.type_id,
             title,
             start: moment(start).format('YYYY-MM-DD HH:mm:ss'),
             end: moment(end).format('YYYY-MM-DD HH:mm:ss'),
