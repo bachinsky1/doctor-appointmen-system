@@ -12,16 +12,16 @@ export default class CalendarService extends ModelService {
         return this.get(`/appointment`)
     }
 
-    public destroyAppointment(id) {
-        return this.delete(id)
+    public destroyAppointment(public_id: string) {
+        return this.delete(public_id)
     }
 
     public storeAppointment(payload) {
-        console.log(payload)
+        // console.log(payload)
         const { id, extendedProps, title, start, end, allDay } = payload.event
         return this.post(`/appointment`, {
             id,
-            internal_id: extendedProps.internal_id,
+            public_id: extendedProps.public_id,
             title,
             start: moment(start).format('YYYY-MM-DD HH:mm:ss'),
             end: moment(end).format('YYYY-MM-DD HH:mm:ss'),

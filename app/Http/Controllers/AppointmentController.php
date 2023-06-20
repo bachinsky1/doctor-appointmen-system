@@ -44,7 +44,7 @@ class AppointmentController extends Controller
         $user = Auth::user();
         $appointment = new Appointment();
 
-        $appointment->internal_id = $request->input('internal_id');
+        $appointment->public_id = $request->input('public_id');
         $appointment->title = $request->input('title');
         $appointment->start = $request->input('start');
         $appointment->end = $request->input('end');
@@ -101,7 +101,7 @@ class AppointmentController extends Controller
     public function destroy($id)
     {
         $user = Auth::user();
-        Appointment::where('internal_id', $id)->where('user_id', $user->id)->delete();
+        Appointment::where('public_id', $id)->where('user_id', $user->id)->delete();
 
         return response()->json(['message' => 'Data deleted successfully']);
     }

@@ -45,7 +45,7 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './../agenda/event-utils'
+import { createEventId } from './../agenda/utils'
 import moment from 'moment'
 import Modal from '@/views/components/Modal.vue'
 import Appointment from '@/views/components/Appointment.vue'
@@ -60,8 +60,6 @@ export default defineComponent({
     },
 
     data() {
-        // const service = new CalendarService()
-        // const appointmentsawait service.getAppointments()
         return {
             calendarOptions: {
                 plugins: [
@@ -142,11 +140,11 @@ export default defineComponent({
             console.log('eventRemove', event.extendedProps)
             this.isShowing = false
             const service = new CalendarService()
-            await service.destroyAppointment(event.extendedProps.internal_id)
+            await service.destroyAppointment(event.extendedProps.public_id)
 
             this.calendarOptions.events = this.calendarOptions.events.filter(e => {
-                console.log(e, event.extendedProps.internal_id,)
-                return e.internal_id !== event.extendedProps.internal_id
+                console.log(e, event.extendedProps.public_id,)
+                return e.public_id !== event.extendedProps.public_id
             })
         },
 
@@ -156,7 +154,7 @@ export default defineComponent({
 
             const newAppointment = {
                 id: createEventId(),
-                internal_id: createEventId(),
+                public_id: createEventId(),
                 title: event.title,
                 start: new Date(event.start),
                 end: new Date(event.end),

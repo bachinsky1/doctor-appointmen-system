@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
 
             $table->id();
-            $table->string('internal_id');
+            $table->string('public_id')->unique();
             $table->string('title');
             $table->datetime('start');
             $table->datetime('end');
