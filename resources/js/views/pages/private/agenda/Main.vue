@@ -24,9 +24,9 @@
                 </ul>
             </div>
         </div>
-        <div class="demo-app-main">
-            <FullCalendar class="demo-app-calendar" :options="calendarOptions">
-                <template v-slot:eventContent="arg">
+        <div class='demo-app-main'>
+            <FullCalendar class='demo-app-calendar' ref="fullcalendar" :options='calendarOptions'>
+                <template v-slot:eventContent='arg'>
                     <b>{{ arg.timeText }}</b>
                     <i>{{ arg.event.title }}</i>
                 </template>
@@ -44,6 +44,7 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import { createEventId } from './../agenda/utils'
 import moment from 'moment'
 import Modal from '@/views/components/Modal.vue'
 import Appointment from '@/views/components/Appointment.vue'
@@ -97,45 +98,60 @@ export default defineComponent({
     mounted() {
         const service = new CalendarService()
         service.getAppointments().then((response) => {
+            console.log(response.data)
             this.calendarOptions.events = response.data
+            this.currentEvents = response.data
         })
+
     },
 
     methods: {
         async eventAdd(event) {
             const service = new CalendarService()
             await service.storeAppointment(event)
-            console.log('eventAdd', event)
+            // this.calendarOptions.events.push({
+            //     title: event.title,
+            //     start: event.start,
+            //     end: event.end,
+            //     extendedProps: event.extendedProps,
+            // })
+            // this.$refs.fullcalendar.refetchEvents()
+            console.log('eventAdd', event, this.calendarOptions.events)
         },
 
         eventChange(event) {
-            const index = this.calendarOptions.events.findIndex(
-                (e) => e.id === Number(event.id)
-            )
+            // const index = this.calendarOptions.events.findIndex(e => e.id === Number(event.id))
 
-            if (index !== -1) {
-                this.calendarOptions.events[index] = event
+            // // console.log('eventChange', index, event.id)
+            // if (index !== -1) {
+            //     // console.log('eventChange', event.id, this.calendarOptions.events[index])
+            //     this.calendarOptions.events[index] = event
 
-                console.log(event.start, event.end)
-            }
+            //     console.log(event.start, event.end)
+            // }
         },
 
         async eventRemove(event) {
-            console.log('eventRemove', event.id)
+            // console.log('eventRemove', event.extendedProps)
             this.isShowing = false
             const service = new CalendarService()
-            await service.destroyAppointment(event.id)
+            await service.destroyAppointment(event.extendedProps.internal_id)
+            console.log(event.extendedProps, this.calendarOptions.events)
+            // this.calendarOptions.events = this.calendarOptions.events.filter(e => {
+            //     console.log(e, event)
+            //     return false
+            //     // return e.internal_id !== event.event.extendedProps.internal_id
+            // })
 
-            this.calendarOptions.events = this.calendarOptions.events.filter(
-                (e) => e.id !== Number(event.id)
-            )
         },
 
         handleCalendarEvent(event) {
             const calendarApi = this.selectInfo.view.calendar
 
             const newAppointment = {
-                id: createEventId(),
+                extendedProps: {
+                    internal_id: createEventId(),
+                },
                 title: event.title,
                 start: new Date(event.start),
                 end: new Date(event.end),
@@ -162,7 +178,7 @@ export default defineComponent({
 
         handleEventClick(clickInfo) {
             this.isShowing = true
-            const id = clickInfo.event.id
+            const id = clickInfo.event.extendedProps.internal_id
             const title = clickInfo.event.title
             const start = clickInfo.event.start
             const end = clickInfo.event.end
@@ -175,11 +191,11 @@ export default defineComponent({
                 end,
             })
             store.setCurrentEvent(clickInfo.event)
-            console.log(clickInfo.event)
+            // console.log('handleEventClick', clickInfo.event)
         },
 
         handleEvents(events) {
-            console.log(events)
+            // console.log(events)
             this.currentEvents = events
         },
     },

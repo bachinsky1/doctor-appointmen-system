@@ -101,7 +101,7 @@ class AppointmentController extends Controller
     public function destroy($id)
     {
         $user = Auth::user();
-        Appointment::where('id', $id)->where('user_id', $user->id)->delete();
+        Appointment::where('internal_id', $id)->where('user_id', $user->id)->delete();
 
         return response()->json(['message' => 'Data deleted successfully']);
     }
