@@ -19,6 +19,7 @@ export default class CalendarService extends ModelService {
     public storeAppointment(payload) {
         // console.log(payload)
         const { id, extendedProps, title, start, end, allDay } = payload.event
+        
         return this.post(`/appointment`, {
             id,
             public_id: extendedProps.public_id,

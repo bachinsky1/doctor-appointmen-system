@@ -7,9 +7,9 @@
                     <TextInput :required="true" name="start" v-model="store.title" :label="trans('agenda.labels.appointment_title')" autocomplite="off" />
                 </div>
                 <div class="sm:col-span-6">
-                    <label :required="true" for="appointmentType" class="text-sm text-gray-500">Select appointment type</label>
-                    <select id="appointmentType" v-model="type_id" class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
-                        <option v-for="t in appointmentTypes" :key="t.id" :value="t.id">{{ t.name }}</option>
+                    <label for="appointmentType" class="text-sm text-gray-500">Select appointment type</label>
+                    <select required="true" id="appointmentType" v-model="store.type_id" v-bind:value="store.type_id" class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
+                        <option v-for="aType in appointmentTypes" :key="aType.id" :value="aType.id">{{ aType.name }}</option>
                     </select>
                 </div>
                 <div class="sm:col-span-3">
@@ -56,31 +56,25 @@ export default {
         Button,
     },
 
-    data: () => ({
-        type_id: null,
-    }),
+    data: () => ({}),
 
     methods: {
         onSubmitForm() {
-            const store = useCalendarStore()
             this.$emit('done', {
-                start: store.start,
-                end: store.end,
-                title: store.title,
-                type_id: this.type_id,
-            });
+                start: this.store.start,
+                end: this.store.end,
+                title: this.store.title,
+                type_id: this.store.type_id,
+            })
         },
+
         handleEventChange() {
             // if (this.onEventChange) {
             //     const e = this.store.getCurrentEvent()
-
-            //     console.log(111, e)
-            //     e.title = this.title
-            //     e.start = this.title
-            //     e.end = this.end
             //     this.onEventChange(e)
             // }
         },
+
         handleEventRemove() {
             if (this.onEventRemove) {
                 const e = this.store.getCurrentEvent()
@@ -89,6 +83,7 @@ export default {
         }
 
     },
+
     setup(props, { emit }) {
         const alertStore = useAlertStore()
         const authStore = useAuthStore()

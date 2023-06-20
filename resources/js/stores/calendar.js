@@ -8,15 +8,17 @@ export const useCalendarStore = defineStore({
         title: '',
         start: '',
         end: '',
+        type_id: null,
         mode: 'create',
         currentEvent: {}
     }),
     actions: {
-        setPopupInputs({ id, title, start, end }) {
+        setPopupInputs({ id, title, start, end, type_id }) {
             this.id = id
             this.title = title
             this.start = moment(start).format("YYYY-MM-DDTHH:mm")
             this.end = moment(end).format("YYYY-MM-DDTHH:mm")
+            this.type_id = type_id
         },
 
         setCurrentEvent(event) { 

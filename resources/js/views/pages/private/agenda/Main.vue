@@ -122,7 +122,7 @@ export default defineComponent({
     methods: {
 
         async eventAdd(event) {
-            console.log('eventAdd', event)
+            // console.log('eventAdd', event)
             const service = new CalendarService()
             await service.storeAppointment(event)
         },
@@ -132,13 +132,12 @@ export default defineComponent({
 
             if (index !== -1) {
                 this.calendarOptions.events[index] = event
-
-                console.log(event.start, event.end)
+                // console.log(event.start, event.end)
             }
         },
 
         async eventRemove(event) {
-            console.log('eventRemove', event.extendedProps)
+            // console.log('eventRemove', event.extendedProps)
             this.isShowing = false
             const service = new CalendarService()
             await service.destroyAppointment(event.extendedProps.public_id)
@@ -179,7 +178,7 @@ export default defineComponent({
                 start: selectInfo.startStr,
                 end: selectInfo.endStr,
             })
-            console.log('handleDateSelect', selectInfo)
+            // console.log('handleDateSelect', selectInfo)
             this.mode = 'new'
         },
 
@@ -190,21 +189,26 @@ export default defineComponent({
             const title = clickInfo.event.title
             const start = clickInfo.event.start
             const end = clickInfo.event.end
+            const type_id = clickInfo.event.extendedProps.type_id
 
             const store = useCalendarStore()
+
             store.setPopupInputs({
                 id,
                 title,
                 start,
                 end,
+                type_id,
             })
-            console.log('handleEventClick', clickInfo.view.getCurrentData())
+
+            // console.log('handleEventClick', clickInfo.event, clickInfo.view.getCurrentData())
+
             store.setCurrentEvent(clickInfo.event)
-            console.log(clickInfo.event)
+
         },
 
         handleEvents(events) {
-            console.log(events)
+            // console.log(events)
             this.currentEvents = events
         },
     }
