@@ -22,14 +22,14 @@ import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { toUrl } from "@/helpers/routing";
 import UserService from "@/services/UserService";
-import Button from "@/views/components/input/Button.vue";
-import TextInput from "@/views/components/input/TextInput.vue";
-import Dropdown from "@/views/components/input/Dropdown.vue";
-import Alert from "@/views/components/Alert.vue";
-import Panel from "@/views/components/Panel.vue";
-import Page from "@/views/layouts/Page.vue";
-import FileInput from "@/views/components/input/FileInput.vue";
-import Form from "@/views/components/Form.vue";
+import Button from "@/views/components/input/Button";
+import TextInput from "@/views/components/input/TextInput";
+import Dropdown from "@/views/components/input/Dropdown";
+import Alert from "@/views/components/Alert";
+import Panel from "@/views/components/Panel";
+import Page from "@/views/layouts/Page";
+import FileInput from "@/views/components/input/FileInput";
+import Form from "@/views/components/Form";
 
 export default defineComponent({
     components: {

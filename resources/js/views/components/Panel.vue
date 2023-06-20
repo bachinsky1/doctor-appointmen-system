@@ -7,7 +7,7 @@
             <div class="whitespace-nowrap bg-white" :class="$props.bodyPadding ? 'px-6 py-4' : ''">
                 <template v-if="isElementLoading">
                     <div class="pt-10 pb-6 text-center">
-                        <Spinner />
+                        <Spinner/>
                     </div>
                 </template>
                 <slot v-else></slot>
@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import { computed, defineComponent } from "vue";
-import Spinner from "@/views/components/icons/Spinner.vue";
-import { useGlobalStateStore } from "@/stores";
-import { storeToRefs } from "pinia";
+import {computed, defineComponent} from "vue";
+import Spinner from "@/views/components/icons/Spinner";
+import {useGlobalStateStore} from "@/stores";
+import {storeToRefs} from "pinia";
 
 export default defineComponent({
-    components: { Spinner },
+    components: {Spinner},
     props: {
         id: {
             type: String,

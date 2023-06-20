@@ -34,18 +34,17 @@
     </Panel>
 </template>
 
-<script lang="ts">
+<script>
 
 import { reactive, defineComponent } from "vue"
 import { useAlertStore, useAuthStore } from "@/stores"
 import { trans } from "@/helpers/i18n"
 import { getResponseError } from "@/helpers/api"
-import Button from "@/views/components/input/Button.vue"
-import TextInput from "@/views/components/input/TextInput.vue"
-import Panel from "@/views/components/Panel.vue"
-import Form from "@/views/components/Form.vue"
+import Button from "@/views/components/input/Button"
+import TextInput from "@/views/components/input/TextInput"
+import Panel from "@/views/components/Panel"
+import Form from "@/views/components/Form"
 import { useCalendarStore } from '@/stores'
-import type { Patient } from "@/index"
 
 export default {
     emits: ['done'],

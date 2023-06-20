@@ -2,7 +2,7 @@
     <form>
         <template v-if="isElementLoading">
             <div class="pt-10 pb-6 text-center">
-                <Spinner />
+                <Spinner/>
             </div>
         </template>
         <slot v-else></slot>
@@ -10,12 +10,12 @@
 </template>
 <script>
 
-import { useGlobalStateStore } from "@/stores";
-import Spinner from "@/views/components/icons/Spinner.vue";
-import { computed, defineComponent, watch } from "vue";
+import {useGlobalStateStore} from "@/stores";
+import Spinner from "@/views/components/icons/Spinner";
+import {computed, defineComponent, watch} from "vue";
 
 export default defineComponent({
-    components: { Spinner },
+    components: {Spinner},
     props: {
         id: {
             type: String,

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>{{env('APP_NAME')}}</title>
 
-    @vite(['resources/scss/main.scss', 'resources/js/main.ts'])
+    @vite(['resources/scss/main.scss', 'resources/js/main.js'])
 
     <script>
         window.AppConfig = {

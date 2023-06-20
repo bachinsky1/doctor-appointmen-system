@@ -11,7 +11,7 @@
 import { defineComponent, ref } from "vue"
 import { trans } from "@/helpers/i18n"
 import { useAuthStore } from "@/stores/auth"
-import Page from "@/views/layouts/Page.vue"
+import Page from "@/views/layouts/Page"
 
 export default defineComponent({
     components: {

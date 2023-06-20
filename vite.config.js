@@ -12,7 +12,7 @@ export default defineConfig({
     plugins: [
         laravel([
             'resources/scss/main.scss',
-            'resources/js/main.ts',
+            'resources/js/main.js',
         ]),
         vue({
             template: {
@@ -37,9 +37,6 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, './resources/js'),
         },
-        // extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.mjs']
-    },
-    optimizeDeps: {
-        include: ['@vue/runtime-core']
+        extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.mjs']
     }
 });

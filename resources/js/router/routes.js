@@ -1,22 +1,22 @@
-import {default as PageLogin} from "@/views/pages/auth/login/Main.vue";
-import {default as PageRegister} from "@/views/pages/auth/register/Main.vue";
-import {default as PageResetPassword} from "@/views/pages/auth/reset-password/Main.vue";
-import {default as PageForgotPassword} from "@/views/pages/auth/forgot-password/Main.vue";
-import {default as PageNotFound} from "@/views/pages/shared/404/Main.vue";
+import {default as PageLogin} from "@/views/pages/auth/login/Main";
+import {default as PageRegister} from "@/views/pages/auth/register/Main";
+import {default as PageResetPassword} from "@/views/pages/auth/reset-password/Main";
+import {default as PageForgotPassword} from "@/views/pages/auth/forgot-password/Main";
+import {default as PageNotFound} from "@/views/pages/shared/404/Main";
 
-import {default as PageDashboard} from "@/views/pages/private/dashboard/Main.vue";
-import {default as PageProfile} from "@/views/pages/private/profile/Main.vue";
-import {default as Agenda} from "@/views/pages/private/agenda/Main.vue";
-import {default as Billing} from "@/views/pages/private/billing/Main.vue";
-import {default as Tasks} from "@/views/pages/private/tasks/Main.vue";
-import {default as Statistics} from "@/views/pages/private/statistics/Main.vue";
-import {default as Settings} from "@/views/pages/private/settings/Main.vue";
+import {default as PageDashboard} from "@/views/pages/private/dashboard/Main";
+import {default as PageProfile} from "@/views/pages/private/profile/Main";
+import {default as Agenda} from "@/views/pages/private/agenda/Main";
+import {default as Billing} from "@/views/pages/private/billing/Main";
+import {default as Tasks} from "@/views/pages/private/tasks/Main";
+import {default as Statistics} from "@/views/pages/private/statistics/Main";
+import {default as Settings} from "@/views/pages/private/settings/Main";
 
-import {default as PageUsers} from "@/views/pages/private/users/Index.vue";
-import {default as PageUsersCreate} from "@/views/pages/private/users/Create.vue";
-import { default as PageUsersEdit } from "@/views/pages/private/users/Edit.vue";
+import {default as PageUsers} from "@/views/pages/private/users/Index";
+import {default as PageUsersCreate} from "@/views/pages/private/users/Create";
+import { default as PageUsersEdit } from "@/views/pages/private/users/Edit";
 
-import {default as Profile} from "@/views/pages/private/profile/Main.vue";
+import {default as Profile} from "@/views/pages/private/profile/Main";
 
 import abilities from "@/stub/abilities";
 

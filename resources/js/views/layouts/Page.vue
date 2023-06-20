@@ -44,9 +44,9 @@
 import { computed, defineComponent } from "vue";
 import { trans } from "@/helpers/i18n";
 import { toUrl } from "@/helpers/routing";
-import Button from "@/views/components/input/Button.vue";
-import Alert from "@/views/components/Alert.vue";
-import Spinner from "@/views/components/icons/Spinner.vue";
+import Button from "@/views/components/input/Button";
+import Alert from "@/views/components/Alert";
+import Spinner from "@/views/components/icons/Spinner";
 import { useGlobalStateStore } from "@/stores";
 import { storeToRefs } from "pinia";
 

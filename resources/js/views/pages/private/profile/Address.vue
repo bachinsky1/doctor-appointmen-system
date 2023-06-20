@@ -35,17 +35,17 @@
     </Panel>
 </template>
 
-<script lang="ts">
+<script>
 import { watch, onMounted, defineComponent, reactive, ref } from 'vue'
 import { useAuthStore } from "@/stores/auth"
 import { useAlertStore } from "@/stores"
-import { trans } from "@/helpers/i18n"
+import { trans } from "@/helpers/i18n";
 import { getResponseError } from "@/helpers/api"
 import ProfileService from "@/services/ProfileService"
-import Button from "@/views/components/input/Button.vue"
-import TextInput from "@/views/components/input/TextInput.vue"
-import Panel from "@/views/components/Panel.vue"
-import Form from "@/views/components/Form.vue"
+import Button from "@/views/components/input/Button"
+import TextInput from "@/views/components/input/TextInput"
+import Panel from "@/views/components/Panel"
+import Form from "@/views/components/Form"
 
 export default {
 

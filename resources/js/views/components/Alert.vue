@@ -11,14 +11,14 @@
                         </li>
                     </ul>
                     <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" @click="removeMessage">
-                        <Icon name="times" />
-                    </span>
+                    <Icon name="times"/>
+                </span>
                 </template>
                 <template v-else>
                     <strong class="font-bold mr-2">{{ trans('global.phrases.argh') }}</strong>
                     <span class="block sm:inline">{{ Array.isArray(alertStore.messages[0]) ? alertStore.messages[0][0] : alertStore.messages[0] }}</span>
                     <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" @click="removeMessage">
-                        <Icon name="times" />
+                        <Icon name="times"/>
                     </span>
                 </template>
             </template>
@@ -26,8 +26,8 @@
                 <strong class="font-bold mr-2">{{ trans('global.phrases.success') }}</strong>
                 <span class="block sm:inline">{{ Array.isArray(alertStore.messages[0]) ? alertStore.messages[0][0] : alertStore.messages[0] }}</span>
                 <span class="absolute top-0 bottom-0 right-0 px-4 py-3 cursor-pointer" @click="removeMessage">
-                    <Icon name="times" />
-                </span>
+                <Icon name="times"/>
+            </span>
             </template>
         </div>
     </div>
@@ -35,15 +35,15 @@
 
 <script>
 
-import { computed, defineComponent, ref } from "vue";
-import { trans } from "@/helpers/i18n";
-import Icon from "@/views/components/icons/Icon.vue";
-import { useAlertStore } from "@/stores";
+import {computed, defineComponent, ref} from "vue";
+import {trans} from "@/helpers/i18n";
+import Icon from "@/views/components/icons/Icon";
+import {useAlertStore} from "@/stores";
 
 export default defineComponent({
-    components: { Icon },
+    components: {Icon},
     inheritAttrs: true,
-    setup(props, { emit }) {
+    setup(props, {emit}) {
 
         const alertStore = useAlertStore();
         const wrapperClass = computed(() => {

@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import { trans } from "@/helpers/i18n";
-import Page from "@/views/layouts/Page.vue";
+import {defineComponent} from 'vue';
+import {trans} from "@/helpers/i18n";
+import Page from "@/views/layouts/Page";
 
 export default defineComponent({
     components: {
