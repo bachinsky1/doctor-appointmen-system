@@ -97,9 +97,9 @@
 import { computed, onBeforeMount, reactive } from "vue";
 
 import { trans } from '@/helpers/i18n';
-import Menu from "@/views/layouts/Menu";
-import Icon from "@/views/components/icons/Icon";
-import AvatarIcon from "@/views/components/icons/Avatar";
+import Menu from "@/views/layouts/Menu.vue";
+import Icon from "@/views/components/icons/Icon.vue";
+import AvatarIcon from "@/views/components/icons/Avatar.vue";
 import { useAuthStore } from "@/stores/auth";
 import { useGlobalStateStore } from "@/stores";
 import { useRoute } from "vue-router";

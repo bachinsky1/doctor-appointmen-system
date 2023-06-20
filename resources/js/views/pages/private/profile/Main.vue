@@ -24,10 +24,10 @@ import { trans } from "@/helpers/i18n"
 import { useAuthStore } from "@/stores/auth"
 import { toUrl } from "@/helpers/routing"
 import UserService from "@/services/UserService"
-import Contact from "@/views/pages/private/profile/Contact"
-import WorkingPlace from "@/views/pages/private/profile/WorkingPlace"
-import Address from "@/views/pages/private/profile/Address"
-import Page from "@/views/layouts/Page"
+import Contact from "@/views/pages/private/profile/Contact.vue"
+import WorkingPlace from "@/views/pages/private/profile/WorkingPlace.vue"
+import Address from "@/views/pages/private/profile/Address.vue"
+import Page from "@/views/layouts/Page.vue"
 
 export default defineComponent({
     components: {

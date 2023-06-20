@@ -2,38 +2,38 @@
     <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onAction">
         <Panel>
             <Form id="create-user" @submit.prevent="onSubmit">
-                <TextInput class="mb-4" type="text" :required="true" name="first_name" v-model="form.first_name" :label="trans('users.labels.first_name')"/>
-                <TextInput class="mb-4" type="text" :required="true" name="last_name" v-model="form.last_name" :label="trans('users.labels.last_name')"/>
-                <TextInput class="mb-4" type="text" name="middle_name" v-model="form.middle_name" :label="trans('users.labels.middle_name')"/>
-                <TextInput class="mb-4" type="email" :required="true" name="email" v-model="form.email" :label="trans('users.labels.email')"/>
-                <Dropdown class="mb-4" multiple="multiple" :server="'roles/search'" :server-per-page="15" :required="true" name="type" v-model="form.roles" :label="trans('users.labels.roles')"/>
+                <TextInput class="mb-4" type="text" :required="true" name="first_name" v-model="form.first_name" :label="trans('users.labels.first_name')" />
+                <TextInput class="mb-4" type="text" :required="true" name="last_name" v-model="form.last_name" :label="trans('users.labels.last_name')" />
+                <TextInput class="mb-4" type="text" name="middle_name" v-model="form.middle_name" :label="trans('users.labels.middle_name')" />
+                <TextInput class="mb-4" type="email" :required="true" name="email" v-model="form.email" :label="trans('users.labels.email')" />
+                <Dropdown class="mb-4" multiple="multiple" :server="'roles/search'" :server-per-page="15" :required="true" name="type" v-model="form.roles" :label="trans('users.labels.roles')" />
                 <FileInput class="mb-4" name="avatar" v-model="form.avatar" accept="image/*" :label="trans('users.labels.avatar')" @click="form.avatar = ''"></FileInput>
-                <TextInput class="mb-4" type="password" :required="true" name="password" v-model="form.password" :label="trans('users.labels.password')"/>
+                <TextInput class="mb-4" type="password" :required="true" name="password" v-model="form.password" :label="trans('users.labels.password')" />
             </Form>
         </Panel>
     </Page>
 </template>
 
 <script>
-import {defineComponent, reactive} from "vue";
-import {trans} from "@/helpers/i18n";
-import {useAuthStore} from "@/stores/auth";
-import Button from "@/views/components/input/Button";
-import TextInput from "@/views/components/input/TextInput";
-import Dropdown from "@/views/components/input/Dropdown";
-import Alert from "@/views/components/Alert";
-import Panel from "@/views/components/Panel";
-import Page from "@/views/layouts/Page";
-import FileInput from "@/views/components/input/FileInput";
+import { defineComponent, reactive } from "vue";
+import { trans } from "@/helpers/i18n";
+import { useAuthStore } from "@/stores/auth";
+import Button from "@/views/components/input/Button.vue";
+import TextInput from "@/views/components/input/TextInput.vue";
+import Dropdown from "@/views/components/input/Dropdown.vue";
+import Alert from "@/views/components/Alert.vue";
+import Panel from "@/views/components/Panel.vue";
+import Page from "@/views/layouts/Page.vue";
+import FileInput from "@/views/components/input/FileInput.vue";
 import UserService from "@/services/UserService";
-import {clearObject, reduceProperties} from "@/helpers/data";
-import {toUrl} from "@/helpers/routing";
-import Form from "@/views/components/Form";
+import { clearObject, reduceProperties } from "@/helpers/data";
+import { toUrl } from "@/helpers/routing";
+import Form from "@/views/components/Form.vue";
 
 export default defineComponent({
-    components: {Form, FileInput, Panel, Alert, Dropdown, TextInput, Button, Page},
+    components: { Form, FileInput, Panel, Alert, Dropdown, TextInput, Button, Page },
     setup() {
-        const {user} = useAuthStore();
+        const { user } = useAuthStore();
         const form = reactive({
             first_name: '',
             last_name: '',
@@ -79,7 +79,7 @@ export default defineComponent({
         const service = new UserService();
 
         function onAction(data) {
-            switch(data.action.id) {
+            switch (data.action.id) {
                 case 'submit':
                     onSubmit();
                     break;
@@ -105,6 +105,4 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

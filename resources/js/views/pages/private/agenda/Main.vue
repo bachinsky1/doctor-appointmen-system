@@ -39,7 +39,7 @@
     </Modal>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue'
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -75,7 +75,7 @@ export default defineComponent({
                     return {
                         start: momentDate,
                         end: lastDayOfWeek
-                    };
+                    }
                 },
                 headerToolbar: {
                     left: 'prev,next today',
