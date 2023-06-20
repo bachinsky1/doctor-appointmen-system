@@ -86,7 +86,7 @@ export default {
         const store = useCalendarStore()
 
         return {
-            form,
+            // form,
             trans,
             store
         }
