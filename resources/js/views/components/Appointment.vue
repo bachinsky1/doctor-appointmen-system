@@ -24,22 +24,25 @@
 
 <script>
 
-import { reactive, defineComponent } from "vue"
-import { useAlertStore, useAuthStore } from "@/stores"
-import { trans } from "@/helpers/i18n"
-import { getResponseError } from "@/helpers/api"
-import Button from "@/views/components/input/Button"
-import TextInput from "@/views/components/input/TextInput"
-import Panel from "@/views/components/Panel"
-import Form from "@/views/components/Form"
+import { reactive, defineComponent } from 'vue'
+import { useAlertStore, useAuthStore } from '@/stores'
+import { trans } from '@/helpers/i18n'
+import { getResponseError } from '@/helpers/api'
+import Button from '@/views/components/input/Button'
+import TextInput from '@/views/components/input/TextInput'
+import Panel from '@/views/components/Panel'
+import Form from '@/views/components/Form'
 import { useCalendarStore } from '@/stores'
 
 export default {
+
     emits: ['done'],
+
     props: {
         onEventChange: Function,
         onEventRemove: Function
     },
+
     components: {
         Form,
         Panel,
@@ -47,41 +50,40 @@ export default {
         Button,
     },
 
-    data: () => ({
-    }),
+    data: () => ({}),
 
     methods: {
         onSubmitForm() {
             const store = useCalendarStore()
+
             this.$emit('done', {
                 start: store.start,
                 end: store.end,
                 title: store.title,
             });
+
         },
+
         handleEventChange() {
             if (this.onEventChange) {
                 const e = this.store.getCurrentEvent()
                 this.onEventChange(e)
             }
         },
+
         handleEventRemove() {
             if (this.onEventRemove) {
                 const e = this.store.getCurrentEvent()
                 this.onEventRemove(e)
             }
         }
-
     },
+
     setup(props, { emit }) {
-        const alertStore = useAlertStore()
-        const authStore = useAuthStore()
-        const form = reactive({})
-
+        // const alertStore = useAlertStore()
+        // const authStore = useAuthStore()
+        // const form = reactive({})
         const store = useCalendarStore()
-
-        const onChange = (event) => {
-        }
 
         return {
             form,
