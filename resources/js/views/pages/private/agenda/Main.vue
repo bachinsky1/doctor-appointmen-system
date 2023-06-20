@@ -121,9 +121,9 @@ export default defineComponent({
     methods: {
 
         async eventAdd(event) {
+            console.log('eventAdd', event)
             const service = new CalendarService()
             await service.storeAppointment(event)
-            console.log('eventAdd', event)
         },
 
         eventChange(event) {
@@ -139,26 +139,31 @@ export default defineComponent({
         },
 
         async eventRemove(event) {
-            console.log('eventRemove', event.id)
+            console.log('eventRemove', event.extendedProps)
             this.isShowing = false
             const service = new CalendarService()
-            await service.destroyAppointment(event.id)
+            await service.destroyAppointment(event.extendedProps.internal_id)
 
-            this.calendarOptions.events = this.calendarOptions.events.filter(e => e.id !== Number(event.id))
+            this.calendarOptions.events = this.calendarOptions.events.filter(e => {
+                console.log(e, event.extendedProps.internal_id,)
+                return e.internal_id !== event.extendedProps.internal_id
+            })
         },
 
         handleCalendarEvent(event) {
-            // console.log(event)
+            console.log(111, event)
             const calendarApi = this.selectInfo.view.calendar
 
             const newAppointment = {
                 id: createEventId(),
+                internal_id: createEventId(),
                 title: event.title,
                 start: new Date(event.start),
                 end: new Date(event.end),
             }
+            this.calendarOptions.events.push(newAppointment)
             calendarApi.addEvent(newAppointment)
-
+            console.log('newAppointment', this.calendarOptions.events)
             this.isShowing = false
         },
 

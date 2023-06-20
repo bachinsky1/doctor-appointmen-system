@@ -18,9 +18,10 @@ export default class CalendarService extends ModelService {
 
     public storeAppointment(payload) {
         console.log(payload)
-        const { id, title, start, end, allDay } = payload.event
+        const { id, extendedProps, title, start, end, allDay } = payload.event
         return this.post(`/appointment`, {
-            internal_id: id,
+            id,
+            internal_id: extendedProps.internal_id,
             title,
             start: moment(start).format('YYYY-MM-DD HH:mm:ss'),
             end: moment(end).format('YYYY-MM-DD HH:mm:ss'),
