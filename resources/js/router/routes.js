@@ -36,25 +36,25 @@ const routes = [
     {
         name: "agenda",
         path: "/agenda",
-        meta: {requiresAuth: true},
+        meta: {requiresAuth: true, requiresAbility: abilities.AGENDA},
         component: Agenda,
     },
     {
         name: "billing",
         path: "/billing",
-        meta: {requiresAuth: true},
+        meta: {requiresAuth: true, requiresAbility: abilities.BILLING},
         component: Billing,
     },
     {
-        name: "tasks",
-        path: "/tasks",
-        meta: {requiresAuth: true},
+        name: "task",
+        path: "/task",
+        meta: {requiresAuth: true, requiresAbility: abilities.TASK},
         component: Tasks,
     },
     {
-        name: "statistics",
-        path: "/statistics",
-        meta: {requiresAuth: true},
+        name: "statistic",
+        path: "/statistic",
+        meta: {requiresAuth: true, requiresAbility: abilities.STATISTIC},
         component: Statistics,
     },
     {
@@ -86,17 +86,17 @@ const routes = [
             },
         ]
     },
-    {
-        path: "/profile",
-        children: [
-            {
-                name: "profile.contact",
-                path: "contact",
-                meta: { requiresAuth: true, isOwner: true },
-                component: Profile,
-            }
-        ]
-    },
+    // {
+    //     path: "/profile",
+    //     children: [
+    //         {
+    //             name: "profile.contact",
+    //             path: "contact",
+    //             meta: { requiresAuth: true, isOwner: true },
+    //             component: PageProfile,
+    //         }
+    //     ]
+    // },
     {
         path: "/login",
         name: "login",

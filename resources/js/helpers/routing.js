@@ -13,12 +13,14 @@ export const getAbilitiesForRoute = function (names) {
 
 
         for (let i in objects) {
+            
             if (objects[i].hasOwnProperty('name') && objects[i].name === names[j] && objects[i].hasOwnProperty('meta') && objects[i].meta.hasOwnProperty('requiresAbility')) {
+                // console.log(objects[i].meta.requiresAbility);
                 abilities.push(objects[i].meta.requiresAbility);
             }
         }
     }
-    console.log(abilities);
+    
     return abilities;
 }
 

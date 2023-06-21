@@ -103,11 +103,14 @@ export const useAuthStore = defineStore("auth", {
             window.localStorage.removeItem('currentUser');
         },
         hasAbilities(abilities) {
+            
             return this.user.hasOwnProperty('abilities') && !!this.user.abilities.find((ab) => {
+                
                 if (ab.name === '*') {
                     return true
                 }
                 if (typeof abilities === 'string') {
+                    
                     return ab.name === abilities
                 }
                 return !!abilities.find((p) => {

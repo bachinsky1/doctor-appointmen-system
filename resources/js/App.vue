@@ -121,8 +121,8 @@ export default {
         const route = useRoute();
 
         const isLoading = computed(() => {
-            var value = false;
-            for (var i in globalStateStore.loadingElements) {
+            let value = false;
+            for (const i in globalStateStore.loadingElements) {
                 if (globalStateStore.loadingElements[i]) {
                     value = true;
                     break;
@@ -181,7 +181,7 @@ export default {
                     icon: 'calendar',
                     showDesktop: true,
                     showMobile: true,
-                    requiresAbility: false,
+                    requiresAbility: getAbilitiesForRoute('agenda'),
                     to: '/agenda',
                 },
                 {
@@ -189,7 +189,7 @@ export default {
                     icon: 'money',
                     showDesktop: true,
                     showMobile: true,
-                    requiresAbility: false,
+                    requiresAbility: getAbilitiesForRoute('billing'),
                     to: '/billing',
                 },
                 {
@@ -197,16 +197,16 @@ export default {
                     icon: 'tasks',
                     showDesktop: true,
                     showMobile: true,
-                    requiresAbility: false,
-                    to: '/tasks',
+                    requiresAbility: getAbilitiesForRoute('task'),
+                    to: '/task',
                 },
                 {
                     name: trans('global.pages.statistics'),
                     icon: 'delicious',
                     showDesktop: true,
                     showMobile: true,
-                    requiresAbility: false,
-                    to: '/statistics',
+                    requiresAbility: getAbilitiesForRoute('statistic'),
+                    to: '/statistic',
                 },
             ],
             headerLeftLink: {
