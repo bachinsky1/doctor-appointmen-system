@@ -208,6 +208,14 @@ export default {
                     requiresAbility: getAbilitiesForRoute('statistic'),
                     to: '/statistic',
                 },
+                {
+                    name: trans('global.pages.appointment'),
+                    icon: 'delicious',
+                    showDesktop: true,
+                    showMobile: true,
+                    requiresAbility: getAbilitiesForRoute('appointment'),
+                    to: '/appointment',
+                },
             ],
             headerLeftLink: {
                 name: trans('global.buttons.new_record'),

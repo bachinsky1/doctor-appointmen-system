@@ -69,6 +69,7 @@ return [
     "global" => [
         "pages" => [
             "home" => "Dashboard",
+            "appointment" => "Appointments",
             "agenda" => "Agenda",
             "billing" => "Billing",
             "tasks" => "Tasks",

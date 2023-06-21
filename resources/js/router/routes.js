@@ -11,6 +11,7 @@ import {default as Billing} from "@/views/pages/private/billing/Main";
 import {default as Tasks} from "@/views/pages/private/tasks/Main";
 import {default as Statistics} from "@/views/pages/private/statistics/Main";
 import {default as Settings} from "@/views/pages/private/settings/Main";
+import {default as Appointments} from "@/views/pages/private/appointments/Main";
 
 import {default as PageUsers} from "@/views/pages/private/users/Index";
 import {default as PageUsersCreate} from "@/views/pages/private/users/Create";
@@ -56,6 +57,12 @@ const routes = [
         path: "/statistic",
         meta: {requiresAuth: true, requiresAbility: abilities.STATISTIC},
         component: Statistics,
+    },
+    {
+        name: "appointment",
+        path: "/appointment",
+        meta: {requiresAuth: true, requiresAbility: abilities.APPOINTMENT},
+        component: Appointments,
     },
     {
         name: "profile",

@@ -11,6 +11,7 @@ use App\Models\Agenda;
 use App\Models\Billing;
 use App\Models\Task;
 use App\Models\Statistic;
+use App\Models\Appointment;
 
 class BouncerSeeder extends Seeder
 {
@@ -23,6 +24,7 @@ class BouncerSeeder extends Seeder
     {
         Bouncer::allow('admin')->everything();
         Bouncer::allow('patient')->to('edit-profile', User::class);
+        Bouncer::allow('patient')->toOwn(Appointment::class)->to(['appointment']);
 
         Bouncer::allow('healthcare')->toOwn(MediaFile::class)->to(['list', 'view', 'create', 'edit', 'delete']);
         Bouncer::allow('healthcare')->toOwn(Agenda::class)->to(['agenda']);

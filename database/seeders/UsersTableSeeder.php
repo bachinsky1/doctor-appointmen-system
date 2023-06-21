@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
                 'phone2' => $faker->phoneNumber,
                 'email' => 'clint.eastwood@mail.com',
                 'email_verified_at' => null,
-                'password' => bcrypt('secret')
+                'password' => bcrypt('password')
             ]
         );
 
@@ -44,7 +44,7 @@ class UsersTableSeeder extends Seeder
                 'phone2' => $faker->phoneNumber,
                 'email' => 'lee.van.cliff@mail.com',
                 'email_verified_at' => null,
-                'password' => bcrypt('secret')
+                'password' => bcrypt('password')
             ]
         );
 
@@ -60,12 +60,27 @@ class UsersTableSeeder extends Seeder
                 'phone2' => $faker->phoneNumber,
                 'email' => 'jean.maria.volonte@mail.com',
                 'email_verified_at' => null,
-                'password' => bcrypt('secret')
+                'password' => bcrypt('password')
             ]
         );
 
         Bouncer::assign('healthcare')->to($user->first());
 
+        $user = User::factory(1)->create(
+            [
+                'first_name' => 'Ennio',
+                'last_name' => 'Morricone',
+                'birthdate' => $faker->dateTimeInInterval('-70 years', '-20 years', null)->format('Y-m-d'),
+                'gender' => 'M',
+                'phone1' => $faker->phoneNumber,
+                'phone2' => $faker->phoneNumber,
+                'email' => 'ennio.morricone@mail.com',
+                'email_verified_at' => null,
+                'password' => bcrypt('password')
+            ]
+        );
+
+        Bouncer::assign('patient')->to($user->first());
 
         $others = User::factory(20)->create();
         foreach ($others as $model) {

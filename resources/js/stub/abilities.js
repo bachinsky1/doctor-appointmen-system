@@ -8,6 +8,7 @@ const abilities = {
     BILLING: 'billing',
     TASK: 'task',
     STATISTIC: 'statistic',
+    APPOINTMENT: 'appointment',
 }
 
 export default abilities;
