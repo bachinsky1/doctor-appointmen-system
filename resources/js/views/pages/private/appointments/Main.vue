@@ -1,9 +1,20 @@
 <template>
-    <Page>
-        <div class="w-1/2 m-auto text-center pt-10">
-            <h1 class="text-6xl mb-4 font-bold text-gray-600">Appointments</h1>
+    <div class="mt-2 grid sm:grid-cols-10">
+        <div class="sm:col-span-4">
+            <label for="med-institution" class="text-gray-700 font-medium">Medical establishment:</label>
+            <select id="med-institution" v-model="selectedMedInst" @change="getDoctors" class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
+                <option value="">Select Medical establishment</option>
+                <option v-for="medInst in medInstitutions" :key="medInst.id" :value="medInst.id">{{ medInst.name }}</option>
+            </select>
         </div>
-    </Page>
+        <div class="sm:col-span-4">
+            <label for="doctor" class="text-gray-700 font-medium">Health Professional:</label>
+            <select id="doctor" v-model="selectedDoctor" class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
+                <option value="">Select Health Professional</option>
+                <option v-for="doctor in doctors" :value="doctor.id">{{ doctor.name }}</option>
+            </select>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -21,7 +32,7 @@ export default defineComponent({
 
     data() {
         return {
-            medInstitutions: [],
+            medicalestablishments: [],
             doctors: [],
             selectedMedInst: '',
             selectedDoctor: ''
@@ -30,19 +41,28 @@ export default defineComponent({
 
     methods: {
 
+        async getMedicalestablishments() {
+            const service = new PatientAppointmentSerivce()
+            this.medicalestablishments = await service.getMedicalestablishments()
+        },
+
+        async getDoctors() {
+            console.log(this.selectedMedInst)
+            if (!this.selectedMedInst) {
+                return
+            }
+            const service = new PatientAppointmentSerivce()
+            this.doctors = await service.getHealthProfessionals(this.selectedMedInst)
+        }
     },
 
-    async mounted() {
-        const service = new PatientAppointmentSerivce()
-        const medests = await service.getMedicalestablishments()
-        const medacts = await service.getHealthProfessionals(1)
-
-        console.log(medests.data, medacts.data)
+    mounted() {
+        this.getMedicalestablishments()
     },
 
     setup() {
         return {
-            trans
+            trans,
         }
     }
 })

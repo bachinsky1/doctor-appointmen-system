@@ -14,7 +14,7 @@ export default class PatientAppointmentService extends BaseService {
     }
 
     public getHealthProfessionals(medestId) {
-        return this.get(this.url + `/{${medestId}}/healthprofessionals`)
+        return this.get(`${this.url}/{${medestId}}/healthprofessionals`)
     }
     
 }
