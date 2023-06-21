@@ -68,6 +68,22 @@ class UsersTableSeeder extends Seeder
 
         $user = User::factory(1)->create(
             [
+                'first_name' => 'Eli',
+                'last_name' => 'Wallach',
+                'birthdate' => $faker->dateTimeInInterval('-70 years', '-20 years', null)->format('Y-m-d'),
+                'gender' => 'M',
+                'phone1' => $faker->phoneNumber,
+                'phone2' => $faker->phoneNumber,
+                'email' => 'eli.wallach@mail.com',
+                'email_verified_at' => null,
+                'password' => bcrypt('password')
+            ]
+        );
+
+        Bouncer::assign('healthcare')->to($user->first());
+
+        $user = User::factory(1)->create(
+            [
                 'first_name' => 'Ennio',
                 'last_name' => 'Morricone',
                 'birthdate' => $faker->dateTimeInInterval('-70 years', '-20 years', null)->format('Y-m-d'),
