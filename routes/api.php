@@ -8,6 +8,7 @@ use App\Http\Controllers\TokenController;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\MedicalestablishmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,9 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/appointment', [AppointmentController::class, 'index']);
     Route::delete('/appointment/{id}', [AppointmentController::class, 'destroy']);
     Route::post('/appointment', [AppointmentController::class, 'store']);
+
+    Route::get('/medicalestablishment', [MedicalestablishmentController::class, 'index']);
+    Route::get('/medicalestablishment/{id}/healthprofessionals', [MedicalestablishmentController::class, 'healthprofessionals']);
 
     /**
      * Auth related
