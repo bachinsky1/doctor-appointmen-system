@@ -28,78 +28,72 @@ const routes = [
         component: PageLogin,
     },
     {
-        name: "panel",
-        path: "/panel",
+        name: "dashboard",
+        path: "/dashboard",
+        meta: {requiresAuth: true},
+        component: PageDashboard,
+    },
+    {
+        name: "agenda",
+        path: "/agenda",
+        meta: {requiresAuth: true},
+        component: Agenda,
+    },
+    {
+        name: "billing",
+        path: "/billing",
+        meta: {requiresAuth: true},
+        component: Billing,
+    },
+    {
+        name: "tasks",
+        path: "/tasks",
+        meta: {requiresAuth: true},
+        component: Tasks,
+    },
+    {
+        name: "statistics",
+        path: "/statistics",
+        meta: {requiresAuth: true},
+        component: Statistics,
+    },
+    {
+        name: "profile",
+        path: "/profile",
+        meta: {requiresAuth: true, isOwner: true},
+        component: PageProfile,
+    },
+    {
+        path: "/users",
         children: [
             {
-                name: "dashboard",
-                path: "dashboard",
-                meta: {requiresAuth: true},
-                component: PageDashboard,
+                name: "users.list",
+                path: "list",
+                meta: {requiresAuth: true, requiresAbility: abilities.LIST_USER},
+                component: PageUsers,
             },
             {
-                name: "agenda",
-                path: "agenda",
-                meta: {requiresAuth: true},
-                component: Agenda,
+                name: "users.create",
+                path: "create",
+                meta: {requiresAuth: true, requiresAbility: abilities.CREATE_USER},
+                component: PageUsersCreate,
             },
             {
-                name: "billing",
-                path: "billing",
-                meta: {requiresAuth: true},
-                component: Billing,
+                name: "users.edit",
+                path: ":id/edit",
+                meta: {requiresAuth: true, requiresAbility: abilities.EDIT_USER},
+                component: PageUsersEdit,
             },
+        ]
+    },
+    {
+        path: "/profile",
+        children: [
             {
-                name: "tasks",
-                path: "tasks",
-                meta: {requiresAuth: true},
-                component: Tasks,
-            },
-            {
-                name: "statistics",
-                path: "statistics",
-                meta: {requiresAuth: true},
-                component: Statistics,
-            },
-            {
-                name: "profile",
-                path: "profile",
-                meta: {requiresAuth: true, isOwner: true},
-                component: PageProfile,
-            },
-            {
-                path: "users",
-                children: [
-                    {
-                        name: "users.list",
-                        path: "list",
-                        meta: {requiresAuth: true, requiresAbility: abilities.LIST_USER},
-                        component: PageUsers,
-                    },
-                    {
-                        name: "users.create",
-                        path: "create",
-                        meta: {requiresAuth: true, requiresAbility: abilities.CREATE_USER},
-                        component: PageUsersCreate,
-                    },
-                    {
-                        name: "users.edit",
-                        path: ":id/edit",
-                        meta: {requiresAuth: true, requiresAbility: abilities.EDIT_USER},
-                        component: PageUsersEdit,
-                    },
-                ]
-            },
-            {
-                path: "profile",
-                children: [
-                    {
-                        name: "profile.contact",
-                        path: "contact",
-                        meta: { requiresAuth: true, isOwner: true },
-                        component: Profile,
-                    }
-                ]
+                name: "profile.contact",
+                path: "contact",
+                meta: { requiresAuth: true, isOwner: true },
+                component: Profile,
             }
         ]
     },

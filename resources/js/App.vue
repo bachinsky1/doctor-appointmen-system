@@ -2,7 +2,7 @@
     <div class="bg-gray-100 flex" v-if="authStore.user && authStore.user.hasOwnProperty('id')">
         <aside class="relative bg-theme-500 h-screen w-64 hidden sm:block shadow-xl">
             <div class="p-6 border-b border-theme-600">
-                <router-link class="text-white text-3xl font-semibold uppercase hover:text-gray-300" to="/panel/dashboard">
+                <router-link class="text-white text-3xl font-semibold uppercase hover:text-gray-300" to="/dashboard">
                     <!-- <template v-if="state.app.logo">
                         <img :src="state.app.logo" :alt="state.app.name" />
                     </template>
@@ -52,7 +52,7 @@
                     </a>
                     <button v-if="state.isAccountDropdownOpen" @click="state.isAccountDropdownOpen = false" class="h-full w-full fixed inset-0 cursor-pointer"></button>
                     <div v-if="state.isAccountDropdownOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16 z-50">
-                        <router-link to="/panel/profile" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80">
+                        <router-link to="/profile" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80">
                             {{ trans('global.pages.profile') }}
                         </router-link>
                         <a href="#" @click.prevent="onLogout" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80">{{ trans('global.phrases.sign_out')
@@ -63,7 +63,7 @@
             <!-- Mobile Header & Nav -->
             <header class="w-full bg-theme-600 py-5 px-6 sm:hidden">
                 <div class="flex items-center justify-between">
-                    <router-link class="text-white text-3xl font-semibold uppercase hover:text-gray-300" to="/panel/dashboard">
+                    <router-link class="text-white text-3xl font-semibold uppercase hover:text-gray-300" to="/dashboard">
                         {{ state.app.name }}
                     </router-link>
                     <button @click="state.isMobileMenuOpen = !state.isMobileMenuOpen" class="text-white text-3xl focus:outline-none">
@@ -139,7 +139,7 @@ export default {
                     showDesktop: true,
                     showMobile: true,
                     requiresAbility: false,
-                    to: '/panel/dashboard',
+                    to: '/dashboard',
                 },
                 {
                     name: trans('global.pages.users'),
@@ -147,7 +147,7 @@ export default {
                     showDesktop: true,
                     showMobile: true,
                     requiresAbility: getAbilitiesForRoute(['users.list', 'users.create', 'users.edit']),
-                    to: '/panel/users/list',
+                    to: '/users/list',
                     children: [
                         {
                             name: trans('global.phrases.all_records'),
@@ -155,7 +155,7 @@ export default {
                             showDesktop: true,
                             showMobile: true,
                             requiresAbility: getAbilitiesForRoute('users.list'),
-                            to: '/panel/users/list',
+                            to: '/users/list',
                         },
                         {
                             name: trans('global.buttons.add_new'),
@@ -163,7 +163,7 @@ export default {
                             showDesktop: true,
                             showMobile: true,
                             requiresAbility: getAbilitiesForRoute('users.create'),
-                            to: '/panel/users/create',
+                            to: '/users/create',
                         }
                     ]
                 },
@@ -182,7 +182,7 @@ export default {
                     showDesktop: true,
                     showMobile: true,
                     requiresAbility: false,
-                    to: '/panel/agenda',
+                    to: '/agenda',
                 },
                 {
                     name: trans('global.pages.billing'),
@@ -190,7 +190,7 @@ export default {
                     showDesktop: true,
                     showMobile: true,
                     requiresAbility: false,
-                    to: '/panel/billing',
+                    to: '/billing',
                 },
                 {
                     name: trans('global.pages.tasks'),
@@ -198,7 +198,7 @@ export default {
                     showDesktop: true,
                     showMobile: true,
                     requiresAbility: false,
-                    to: '/panel/tasks',
+                    to: '/tasks',
                 },
                 {
                     name: trans('global.pages.statistics'),
@@ -206,7 +206,7 @@ export default {
                     showDesktop: true,
                     showMobile: true,
                     requiresAbility: false,
-                    to: '/panel/statistics',
+                    to: '/statistics',
                 },
             ],
             headerLeftLink: {
@@ -220,7 +220,7 @@ export default {
                 icon: 'cube',
                 showDesktop: true,
                 showMobile: true,
-                to: '/panel/settings',
+                to: '/settings',
                 href: '#',
             },
             isAccountDropdownOpen: false,
