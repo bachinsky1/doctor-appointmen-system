@@ -82,7 +82,8 @@ class SymptomController extends Controller
             ->where(function ($query) use ($symptom) {
                 $query->whereFullText('symptoms.name', $symptom)
                     ->orWhere('users.first_name', 'LIKE', '%' . $symptom . '%')
-                    ->orWhere('users.last_name', 'LIKE', '%' . $symptom . '%');
+                    ->orWhere('users.last_name', 'LIKE', '%' . $symptom . '%')
+                    ->orWhere('medicalestablishments.name', 'LIKE', '%' . $symptom . '%');
             })
             ->groupBy('users.id', 'medicalestablishments.id', 'positions.id')
             ->take(10)
