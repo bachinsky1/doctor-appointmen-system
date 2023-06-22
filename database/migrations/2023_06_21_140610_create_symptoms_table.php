@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('symptoms', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name')->fullText();
             $table->timestamps();
             $table->softDeletes();
         });
+        
     }
 
     /**

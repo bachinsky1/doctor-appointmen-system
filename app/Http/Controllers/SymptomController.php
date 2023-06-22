@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Symptom;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\DB;
+
 
 class SymptomController extends Controller
 {
@@ -61,5 +64,12 @@ class SymptomController extends Controller
     public function destroy(Symptom $symptom)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+        $symptoms = DB::table('symptoms')->whereFullText('name', $query)->take(10)->get();
+        return response()->json($symptoms); 
     }
 }

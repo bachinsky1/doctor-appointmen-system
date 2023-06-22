@@ -5,17 +5,19 @@ export default class PatientAppointmentService extends BaseService {
 
     constructor () {
         super()
-        this.url = 'api/medicalestablishment'
+        // this.url = 'api/medicalestablishment'
+        this.url = 'api'
         this.setupAPI(axios.defaults.baseURL)
     }
 
-    public getMedicalestablishments() {
-        return this.get(this.url)
-    }
+    // public getMedicalestablishments() {
+    //     return this.get(this.url)
+    // }
 
-    public getHealthProfessionals(medestId) {
-        return this.get(`${this.url}/{${medestId}}/healthprofessionals`)
-    }
+    // public getHealthProfessionals(medestId) {
+    //     return this.get(`${this.url}/{${medestId}}/healthprofessionals`)
+    // }
+
     
 }
 

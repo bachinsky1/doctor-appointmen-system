@@ -39,8 +39,12 @@
         <div class="relative w-full flex flex-col h-screen overflow-y-hidden">
             <!-- Desktop Header -->
             <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
-                <div class="w-1/2"></div>
-                <div class="relative w-1/2 flex justify-end">
+                <div class="w-1/6">
+                </div>
+                <div class="w-4/6">
+                    <Search />
+                </div>
+                <div class="relative w-1/6 flex justify-end">
                     <a class="flex cursor-pointer focus:outline-none align-middle" @click="state.isAccountDropdownOpen = !state.isAccountDropdownOpen">
                         <span class="relative pt-3 mr-2">{{ authStore.user.full_name }}
                             <Icon :name="state.isAccountDropdownOpen ? 'angle-up' : 'angle-down'" />
@@ -100,6 +104,7 @@ import { trans } from '@/helpers/i18n';
 import Menu from "@/views/layouts/Menu";
 import Icon from "@/views/components/icons/Icon";
 import AvatarIcon from "@/views/components/icons/Avatar";
+import Search from '@/views/components/Search.vue';
 import { useAuthStore } from "@/stores/auth";
 import { useGlobalStateStore } from "@/stores";
 import { useRoute } from "vue-router";
@@ -111,7 +116,8 @@ export default {
     components: {
         AvatarIcon,
         Menu,
-        Icon
+        Icon,
+        Search
     },
     setup() {
 

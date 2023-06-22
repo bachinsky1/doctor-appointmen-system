@@ -13,5 +13,9 @@ export default class SearchService extends BaseService {
         return this.get(this.url + `/?search=${phrase}&per_page=${perPage}&page=${page}`)
     }
 
+    public search(phrase) {
+        return this.get(`${this.url}/?search=${phrase}`)
+    } 
+
 }
 

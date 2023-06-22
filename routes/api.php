@@ -9,6 +9,7 @@ use App\Http\Controllers\TokenController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\MedicalestablishmentController;
+use App\Http\Controllers\SymptomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,11 +41,12 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
 
     Route::get('/medicalestablishment', [MedicalestablishmentController::class, 'index']);
     Route::get('/medicalestablishment/{id}/healthprofessionals', [MedicalestablishmentController::class, 'healthprofessionals']);
-
+    Route::get('/symptom', [SymptomController::class, 'search'])->middleware('throttle:400,1');
     /**
      * Auth related
      */
     Route::get('/users/auth', AuthController::class);
+    
 
     /**
      * Users
