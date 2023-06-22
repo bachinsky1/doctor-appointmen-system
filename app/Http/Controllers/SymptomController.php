@@ -75,7 +75,7 @@ class SymptomController extends Controller
                 'users.*',
                 'medicalestablishments.name as establishment_name',
                 'positions.name as position_name',
-                DB::raw('GROUP_CONCAT(DISTINCT symptoms.name SEPARATOR ", ") as symptom_names')
+                // DB::raw('GROUP_CONCAT(DISTINCT symptoms.name SEPARATOR ", ") as symptom_names')
             )
             ->join('user_medicalestablishments', 'users.id', '=', 'user_medicalestablishments.user_id')
             ->join('medicalestablishments', 'user_medicalestablishments.medicalestablishment_id', '=', 'medicalestablishments.id')
