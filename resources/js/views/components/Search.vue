@@ -1,21 +1,20 @@
 <template>
     <div class="relative">
         <input v-model="searchTerm" placeholder="Search..." @input="handleInput" type="search" class="w-full placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm" id="exampleSearch" />
-        <ul v-if="filteredItems.length > 0" class="mt-1 absolute top-full left-0 w-full border border-gray-300 rounded-b-md">
-            <li v-for="item in filteredItems" :key="item.id">{{ item.name }}</li>
+        <ul ref="list" v-show="!hideList && filteredItems.length > 0" class="mt-1 absolute top-full left-0 w-full bg-white border border-gray-300 border-theme-500 rounded-b-md focus:outline-none focus:ring-theme-500 focus:border-theme-500 shadow-lg">
+            <li v-for="item in filteredItems" :key="item.id" class="py-3 px-3 mr-6 cursor-pointer hover:bg-gray-100" @click="handleItemClick(item); hideList = true">{{ item.name }}</li>
         </ul>
     </div>
 </template>
 
 <script>
-
-import { defineComponent, ref } from "vue"
+import { defineComponent } from "vue"
 import { trans } from "@/helpers/i18n"
 import { useAuthStore } from "@/stores/auth"
 import SearchService from '@/services/SearchService'
 import SearchInput from 'vue-search-input'
 
-export default {
+export default defineComponent({
     components: {
         SearchInput
     },
@@ -25,8 +24,10 @@ export default {
             items: [],
             searchTerm: '',
             searchTimeout: null,
+            hideList: true
         }
     },
+
     computed: {
         filteredItems() {
             if (!Array.isArray(this.items)) {
@@ -36,8 +37,8 @@ export default {
             return this.items.filter(item => item.name.toLowerCase().includes(this.searchTerm.toLowerCase()))
         },
     },
-    methods: {
 
+    methods: {
         handleInput() {
             clearTimeout(this.searchTimeout)
             this.searchTimeout = setTimeout(async () => {
@@ -45,14 +46,33 @@ export default {
                 const result = await service.search(this.searchTerm)
                 this.items = result.data
                 console.log(this.items)
+                this.hideList = false // Show list after getting search results
             }, 500)
         },
 
+        handleItemClick(item) {
+            // Handling the click event on a list item
+            console.log(`Clicked element: "${item.id} - ${item.name}"`)
+            this.searchTerm = ''
+            this.hideList = true
+        },
+
+        handleClickOutside(event) {
+            // Handling the click event outside the list
+            if (this.$refs.list && !this.$refs.list.contains(event.target)) {
+                this.searchTerm = ''
+                this.hideList = true
+            }
+        },
+    },
+
+    mounted() {
+        document.addEventListener('click', this.handleClickOutside)
+    },
+
+    beforeUnmount() {
+        document.removeEventListener('click', this.handleClickOutside)
     }
-}
+})
+
 </script>
-<style>
-.header {
-    position: relative;
-}
-</style>

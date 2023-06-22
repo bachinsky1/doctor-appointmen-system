@@ -1,6 +1,4 @@
-<template>
-    <Search />
-</template>
+<template></template>
  
 
 <script>
