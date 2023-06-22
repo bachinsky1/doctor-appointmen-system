@@ -55,6 +55,11 @@ export default defineComponent({
             console.log(`Clicked element: "${item.id} - ${item.name}"`)
             this.searchTerm = ''
             this.hideList = true
+            this.$router.push({
+                name: 'appointment', params: {
+                    id: item.id
+                }
+            })
         },
 
         handleClickOutside(event) {

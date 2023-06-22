@@ -60,9 +60,10 @@ const routes = [
     },
     {
         name: "appointment",
-        path: "/appointment",
+        path: "/appointment/:id",
         meta: {requiresAuth: true, requiresAbility: abilities.APPOINTMENT},
         component: Appointments,
+        props: true,
     },
     {
         name: "profile",
