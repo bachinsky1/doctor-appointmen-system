@@ -15,13 +15,18 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from "vue"
 import { trans } from "@/helpers/i18n"
 import { useAuthStore } from "@/stores/auth"
 import SearchService from '@/services/SearchService'
 import SearchInput from 'vue-search-input'
 import Badge from '@/views/components/Badge'
+
+interface ListItem {
+    id: number
+    name: string
+}
 
 export default defineComponent({
     components: {
@@ -61,9 +66,8 @@ export default defineComponent({
             }, 500)
         },
 
-        handleItemClick(item) {
+        handleItemClick(item: ListItem) {
             // Handling the click event on a list item
-            console.log(`Clicked element: "${item.id} - ${item.name}"`)
             this.searchTerm = ''
             this.hideList = true
             this.$router.push({
@@ -73,9 +77,9 @@ export default defineComponent({
             })
         },
 
-        handleClickOutside(event) {
+        handleClickOutside(event: MouseEvent) {
             // Handling the click event outside the list
-            if (this.$refs.list && !this.$refs.list.contains(event.target)) {
+            if (this.$refs.list && !this.$refs.list.contains(event.target as Node)) {
                 this.searchTerm = ''
                 this.hideList = true
             }

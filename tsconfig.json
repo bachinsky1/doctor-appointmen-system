@@ -39,5 +39,10 @@
         "forceConsistentCasingInFileNames": true,
         // See <https://github.com/vuejs/vue-cli/pull/5688>
         "skipLibCheck": true
-    }
+    },
+    "include": [
+        "./resources/js/**/*.ts",
+        "./srresources/js/**/*.vue",
+        "./resources/js/**/*.js"
+    ]
 }
