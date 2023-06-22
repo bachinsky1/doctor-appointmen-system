@@ -98,7 +98,14 @@ class UsersTableSeeder extends Seeder
 
         Bouncer::assign('patient')->to($user->first());
 
-        $others = User::factory(20)->create();
+        $others = User::factory(1000)->create();
+
+        foreach ($others as $model) {
+            Bouncer::assign('healthcare')->to($model);
+        }
+
+        $others = User::factory(3000)->create();
+
         foreach ($others as $model) {
             Bouncer::assign('patient')->to($model);
         }

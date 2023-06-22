@@ -17,17 +17,15 @@ class SymptomSpecialitySeeder extends Seeder
      * Overall, this code generates random relationships between specialities and symptoms in the database.
      */
     public function run(): void
-    { 
+    {
         $specialities = DB::table('specialities')->get();
- 
         $symptoms = DB::table('symptoms')->get();
- 
-        foreach ($specialities as $speciality) { 
-            $numSymptoms = rand(1, 3);
- 
-            $randomSymptoms = $symptoms->random($numSymptoms);
- 
-            foreach ($randomSymptoms as $symptom) {
+
+        foreach ($specialities as $speciality) {
+            $symptomsCount = rand(10, 20);
+            $selectedSymptoms = $symptoms->random($symptomsCount);
+
+            foreach ($selectedSymptoms as $symptom) {
                 DB::table('symptom_specialities')->insert([
                     'speciality_id' => $speciality->id,
                     'symptom_id' => $symptom->id,

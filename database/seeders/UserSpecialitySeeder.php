@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserSpeciality;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserSpecialitySeeder extends Seeder
 {
@@ -15,19 +16,20 @@ class UserSpecialitySeeder extends Seeder
      */
     public function run(): void
     {
-        $userSpeciality = new UserSpeciality();
-        $userSpeciality->user_id = User::where('id', '2')->first()->id;
-        $userSpeciality->speciality_id = Speciality::where('id', '1')->first()->id; 
-        $userSpeciality->save();
+        // Get all users with role_id = 3 from assigned_roles table
+        $users = DB::table('assigned_roles')
+            ->where('role_id', 3)
+            ->pluck('entity_id');
 
-        $userSpeciality = new UserSpeciality();
-        $userSpeciality->user_id = User::where('id', '2')->first()->id;
-        $userSpeciality->speciality_id = Speciality::where('id', '2')->first()->id;
-        $userSpeciality->save();
-
-        $userSpeciality = new UserSpeciality();
-        $userSpeciality->user_id = User::where('id', '2')->first()->id;
-        $userSpeciality->speciality_id = Speciality::where('id', '3')->first()->id;
-        $userSpeciality->save();
+        // For each user, we get a random specialty and add it to the user_specialities table
+        foreach ($users as $user_id) {
+            $speciality_id = DB::table('specialities')->inRandomOrder()->value('id');
+            DB::table('user_specialities')->insert([
+                'user_id' => $user_id,
+                'speciality_id' => $speciality_id,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\UserMedicalestablishment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserMedicalestablishmentSeeder extends Seeder
 {
@@ -16,22 +17,31 @@ class UserMedicalestablishmentSeeder extends Seeder
      */
     public function run(): void
     {
-        $userMedicalestablishment = new UserMedicalestablishment();
-        $userMedicalestablishment->user_id = User::where('id', '2')->first()->id;
-        $userMedicalestablishment->position_id = Position::where('id', '1')->first()->id;
-        $userMedicalestablishment->medicalestablishment_id = Medicalestablishment::where('id', '1')->first()->id;
-        $userMedicalestablishment->save();
+        // Get all users with role_id = 3
+        $users = DB::table('assigned_roles')
+            ->where('role_id', 3)
+            ->pluck('entity_id');
 
-        $userMedicalestablishment = new UserMedicalestablishment();
-        $userMedicalestablishment->user_id = User::where('id', '2')->first()->id;
-        $userMedicalestablishment->position_id = Position::where('id', '2')->first()->id;
-        $userMedicalestablishment->medicalestablishment_id = Medicalestablishment::where('id', '2')->first()->id;
-        $userMedicalestablishment->save();
+        // Receive all medical facilities and positions
+        $medicalestablishments = Medicalestablishment::all();
+        $positions = Position::all();
 
-        $userMedicalestablishment = new UserMedicalestablishment();
-        $userMedicalestablishment->user_id = User::where('id', '2')->first()->id;
-        $userMedicalestablishment->position_id = Position::where('id', '3')->first()->id;
-        $userMedicalestablishment->medicalestablishment_id = Medicalestablishment::where('id', '3')->first()->id;
-        $userMedicalestablishment->save();
+        // For each user, we create from 1-2 records in the user_medicalestablishments table
+        foreach ($users as $user_id) {
+            $count = rand(1, 2);
+            $establishments = $medicalestablishments->random($count);
+
+            foreach ($establishments as $establishment) {
+                $position = $positions->random();
+                DB::table('user_medicalestablishments')->insert([
+                    'user_id' => $user_id,
+                    'medicalestablishment_id' => $establishment->id,
+                    'position_id' => $position->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
     }
 }

@@ -8,6 +8,6 @@ class MedicalestablishmentsSeeder extends Seeder
 {
     public function run()
     {
-        MedicalEstablishment::factory()->count(10)->create();
+        MedicalEstablishment::factory()->count(100)->create();
     }
 }
