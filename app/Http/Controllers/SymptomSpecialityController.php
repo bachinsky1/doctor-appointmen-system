@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserSymptom;
+use App\Models\SymptomSpeciality;
 use Illuminate\Http\Request;
 
-class UserSymptomController extends Controller
+class SymptomSpecialityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class UserSymptomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(UserSymptom $userSymptom)
+    public function show(SymptomSpeciality $symptomSpeciality)
     {
         //
     }
@@ -42,7 +42,7 @@ class UserSymptomController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UserSymptom $userSymptom)
+    public function edit(SymptomSpeciality $symptomSpeciality)
     {
         //
     }
@@ -50,7 +50,7 @@ class UserSymptomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserSymptom $userSymptom)
+    public function update(Request $request, SymptomSpeciality $symptomSpeciality)
     {
         //
     }
@@ -58,7 +58,7 @@ class UserSymptomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserSymptom $userSymptom)
+    public function destroy(SymptomSpeciality $symptomSpeciality)
     {
         //
     }

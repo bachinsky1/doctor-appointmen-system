@@ -5,17 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserSymptom extends Model
+class SymptomSpeciality extends Model
 {
     use HasFactory;
 
-    public function user()
+    public function speciality()
     {
-        return $this->belongsToMany(Symptom::class);
+        return $this->belongsToMany(Speciality::class);
     }
 
     public function symptom()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Symptom::class);
     }
 }
+

@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
             SpecialitySeeder::class,
             UserSpecialitySeeder::class,
             UserMedicalestablishmentSeeder::class,
-            SymptomSeeder::class
+            SymptomSeeder::class,
+            SymptomSpecialitySeeder::class,
         ]);
     }
 }
