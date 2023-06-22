@@ -14,6 +14,7 @@ export default class SearchService extends BaseService {
     }
 
     public search(phrase) {
+        if (phrase.trim().length === 0) return false
         return this.get(`${this.url}/?search=${phrase}`)
     } 
 
