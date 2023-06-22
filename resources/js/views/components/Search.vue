@@ -1,8 +1,10 @@
 <template>
-    <input v-model="searchTerm" placeholder="Search..." @input="handleInput" type="search" class="w-full placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm" id="exampleSearch" />
-    <ul class="mt-4">
-        <li v-for="item in filteredItems" :key="item.id">{{ item.name }}</li>
-    </ul>
+    <div class="relative">
+        <input v-model="searchTerm" placeholder="Search..." @input="handleInput" type="search" class="w-full placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm" id="exampleSearch" />
+        <ul v-if="filteredItems.length > 0" class="mt-1 absolute top-full left-0 w-full border border-gray-300 rounded-b-md">
+            <li v-for="item in filteredItems" :key="item.id">{{ item.name }}</li>
+        </ul>
+    </div>
 </template>
 
 <script>
@@ -49,3 +51,8 @@ export default {
     }
 }
 </script>
+<style>
+.header {
+    position: relative;
+}
+</style>
