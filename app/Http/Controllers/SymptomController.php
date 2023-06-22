@@ -69,9 +69,8 @@ class SymptomController extends Controller
 
     public function search(Request $request)
     {
-        $symptom = $request->input('search');
-        // $symptoms = DB::table('symptoms')->whereFullText('name', $query)->take(10)->get();
-
+        $q = $request->input('search');
+        
         $doctors = User::select('users.*', 'medicalestablishments.name as establishment_name', 'positions.name as position_name')
             ->join('user_medicalestablishments', 'users.id', '=', 'user_medicalestablishments.user_id')
             ->join('medicalestablishments', 'user_medicalestablishments.medicalestablishment_id', '=', 'medicalestablishments.id')
@@ -79,17 +78,16 @@ class SymptomController extends Controller
             ->join('user_specialities', 'users.id', '=', 'user_specialities.user_id')
             ->join('symptom_specialities', 'user_specialities.speciality_id', '=', 'symptom_specialities.speciality_id')
             ->join('symptoms', 'symptom_specialities.symptom_id', '=', 'symptoms.id')
-            ->where(function ($query) use ($symptom) {
-                $query->whereFullText('symptoms.name', $symptom)
-                    ->orWhere('users.first_name', 'LIKE', '%' . $symptom . '%')
-                    ->orWhere('users.last_name', 'LIKE', '%' . $symptom . '%')
-                    ->orWhere('medicalestablishments.name', 'LIKE', '%' . $symptom . '%');
+            ->where(function ($query) use ($q) {
+                $query->whereFullText('symptoms.name', $q)
+                    ->orWhere('users.first_name', 'LIKE', '%' . $q . '%')
+                    ->orWhere('users.last_name', 'LIKE', '%' . $q . '%')
+                    ->orWhere('positions.name', 'LIKE', '%' . $q . '%')
+                    ->orWhere('medicalestablishments.name', 'LIKE', '%' . $q . '%');
             })
             ->groupBy('users.id', 'medicalestablishments.id', 'positions.id')
             ->take(10)
             ->get();
-
-
 
         return response()->json($doctors); 
     }
