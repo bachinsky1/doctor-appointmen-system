@@ -108,6 +108,7 @@ export default defineComponent({
             mode: '',
             selectInfo: null,
             currentEvents: [],
+            appointmentTypes: [],
         }
     },
 
