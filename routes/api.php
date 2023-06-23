@@ -35,12 +35,11 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/profile/workplace', [ProfileController::class, 'getWorkplace']);
     Route::post('/profile/workplace', [ProfileController::class, 'updateWorkplace']);
 
-
-    Route::get('/appointment', [AppointmentController::class, 'index']);
-    Route::delete('/appointment/{id}', [AppointmentController::class, 'destroy']);
-    Route::post('/appointment', [AppointmentController::class, 'store']);
-    Route::post('/appointment/store', [AppointmentController::class, 'storePatient']);
-    Route::get('/agenda/{id}', [AgendaController::class, 'index']);
+    Route::get('/agenda', [AgendaController::class, 'show']);
+    Route::get('/agenda/{id}', [AgendaController::class, 'show']);
+    Route::post('/agenda/appointment/store', [AgendaController::class, 'store']);
+    Route::get('/agenda/appointments/{id}', [AgendaController::class, 'index']);
+    Route::delete('/agenda/appointment/{id}', [AppointmentController::class, 'destroy']);
 
     Route::get('/medicalestablishment', [MedicalestablishmentController::class, 'index']);
     Route::get('/medicalestablishment/{id}/healthprofessionals', [MedicalestablishmentController::class, 'healthprofessionals']);
@@ -49,7 +48,7 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
      * Auth related
      */
     Route::get('/users/auth', AuthController::class);
-    
+
 
     /**
      * Users

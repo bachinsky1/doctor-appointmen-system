@@ -49,8 +49,8 @@ import { createEventId } from './../agenda/utils'
 import moment from 'moment'
 import Modal from '@/views/components/Modal.vue'
 import Appointment from '@/views/components/Appointment.vue'
-import { useCalendarStore } from '@/stores'
-import CalendarService from '@/services/CalendarService'
+import { useAgendaStore } from '@/stores'
+import AgendaService from '@/services/AgendaService'
 
 export default defineComponent({
     components: {
@@ -113,8 +113,8 @@ export default defineComponent({
     },
 
     mounted() {
-        const service = new CalendarService()
-        service.getAppointments().then((response) => {
+        const service = new AgendaService()
+        service.getAgenda().then((response) => {
             this.calendarOptions.events = response.data.appointments
             this.appointmentTypes = response.data.appointmentTypes
             this.patients = response.data.patients
@@ -125,7 +125,7 @@ export default defineComponent({
 
         async eventAdd(event) {
             // console.log('eventAdd', event)
-            const service = new CalendarService()
+            const service = new AgendaService()
             await service.storeAppointment(event)
         },
 
@@ -141,14 +141,14 @@ export default defineComponent({
         async eventRemove(event) {
             // console.log('eventRemove', event.extendedProps)
             this.isShowing = false
-            const service = new CalendarService()
+            const service = new AgendaService()
             await service.destroyAppointment(event.extendedProps.public_id)
 
             this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
         },
 
         handleCalendarEvent(event) {
-
+            console.log(event)
             const calendarApi = this.selectInfo.view.calendar
 
             const newAppointment = {
@@ -158,7 +158,7 @@ export default defineComponent({
                 start: new Date(event.start),
                 end: new Date(event.end),
                 type_id: event.type_id,
-                patient_id: event.patient_id,
+                entity_id: event.entity_id,
             }
             this.calendarOptions.events.push(newAppointment)
             calendarApi.addEvent(newAppointment)
@@ -175,7 +175,7 @@ export default defineComponent({
             this.isShowing = true
             this.selectInfo = selectInfo
 
-            const store = useCalendarStore()
+            const store = useAgendaStore()
 
             store.setPopupInputs({
                 start: selectInfo.startStr,
@@ -193,9 +193,9 @@ export default defineComponent({
             const start = clickInfo.event.start
             const end = clickInfo.event.end
             const type_id = clickInfo.event.extendedProps.type_id
-            const patient_id = clickInfo.event.extendedProps.patient_id
+            const entity_id = clickInfo.event.extendedProps.entity_id
 
-            const store = useCalendarStore()
+            const store = useAgendaStore()
 
             store.setPopupInputs({
                 id,
@@ -203,7 +203,7 @@ export default defineComponent({
                 start,
                 end,
                 type_id,
-                patient_id,
+                entity_id,
             })
 
             // console.log('handleEventClick', clickInfo.event, clickInfo.view.getCurrentData())

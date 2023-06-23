@@ -38,7 +38,7 @@ import Button from "@/views/components/input/Button"
 import TextInput from "@/views/components/input/TextInput"
 import Panel from "@/views/components/Panel"
 import Form from "@/views/components/Form"
-import { useCalendarStore } from '@/stores'
+import { useAgendaStore } from '@/stores'
 
 export default {
     emits: ['done'],
@@ -82,7 +82,7 @@ export default {
     setup(props, { emit }) {
         const form = reactive({})
 
-        const store = useCalendarStore()
+        const store = useAgendaStore()
 
 
         return {

@@ -163,4 +163,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'medicalestablishment_id'
         );
     }
+
+    public function inRole($role)
+    {
+        return $this->isA($role);
+    }
+ 
+ 
 }

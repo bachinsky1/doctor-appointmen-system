@@ -219,8 +219,8 @@ export default {
                     icon: 'delicious',
                     showDesktop: true,
                     showMobile: true,
-                    requiresAbility: getAbilitiesForRoute('appointment'),
-                    to: '/appointment',
+                    requiresAbility: getAbilitiesForRoute('healthprofessional'),
+                    to: '/healthprofessional',
                 },
             ],
             headerLeftLink: {

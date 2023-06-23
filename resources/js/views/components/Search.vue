@@ -67,7 +67,7 @@ export default defineComponent({
             this.searchTerm = ''
             this.hideList = true
             this.$router.push({
-                name: 'appointment', params: {
+                name: 'healthprofessional', params: {
                     id: item.id
                 }
             })

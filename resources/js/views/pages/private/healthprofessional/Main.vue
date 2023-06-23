@@ -31,11 +31,10 @@ import interactionPlugin from '@fullcalendar/interaction'
 import moment from 'moment'
 import Page from "@/views/layouts/Page"
 import Modal from '@/views/components/Modal.vue'
-import CalendarService from '@/services/CalendarService'
+import AgendaService from '@/services/AgendaService'
 import Appointment from '@/views/components/AppointmentPatient.vue'
 import Alert from "@/views/components/Alert"
-import { useAlertStore } from "@/stores"
-import { useCalendarStore } from '@/stores'
+import { useAlertStore, useAgendaStore } from "@/stores"
 import { createEventId } from './../agenda/utils'
 
 export default defineComponent({
@@ -115,8 +114,8 @@ export default defineComponent({
     methods: {
         async eventAdd(event) {
             console.log('eventAdd', event)
-            const service = new CalendarService()
-            await service.storeAppointmentPatient(event)
+            const service = new AgendaService()
+            await service.storeAppointment(event)
         },
 
         eventChange(event) {
@@ -124,17 +123,13 @@ export default defineComponent({
 
             if (index !== -1) {
                 this.calendarOptions.events[index] = event
-                // console.log(event.start, event.end)
             }
         },
 
         async eventRemove(event) {
-            // console.log('eventRemove', event.extendedProps)
             this.isShowing = false
-            // const service = new CalendarService()
-            // await service.destroyAppointment(event.extendedProps.public_id)
 
-            this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
+            // this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
         },
 
         handleDateSelect(info) {
@@ -148,7 +143,7 @@ export default defineComponent({
             this.isShowing = true
             this.info = info
 
-            const store = useCalendarStore()
+            const store = useAgendaStore()
 
             store.setPopupInputs({
                 start: info.startStr,
@@ -169,7 +164,7 @@ export default defineComponent({
                 start: new Date(event.start),
                 end: new Date(event.end),
                 type_id: event.type_id,
-                doctor_id: this.id
+                entity_id: this.id
             }
             this.calendarOptions.events.push(newAppointment)
             calendarApi.addEvent(newAppointment)
@@ -180,8 +175,9 @@ export default defineComponent({
         async getAppointments() {
 
             this.showCalendar = true
-            const service = new CalendarService()
+            const service = new AgendaService()
             const response = await service.getAgenda(this.id)
+            console.log(response)
             this.calendarOptions.events = response.data.appointments
             this.appointmentTypes = response.data.appointmentTypes
         },

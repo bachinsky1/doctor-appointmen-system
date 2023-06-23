@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Appointment;
 use App\Models\AppointmentType;
 use App\Models\User;
+use App\Services\Agenda\AgendaService;
 
 class AppointmentController extends Controller
 {
@@ -17,19 +18,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $user_id = Auth::id();
-
-        $appointments = Appointment::where('user_id', $user_id)->get(); 
-
-        $patients = User::whereHas('roles', function ($query) {
-            $query->where('name', 'patient');
-        })->get();
-
-        return response()->json([
-            'appointments' => $appointments,
-            'appointmentTypes' => AppointmentType::all(),
-            'patients' => $patients,
-        ]);
+       
     }
 
     /**
@@ -51,41 +40,11 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         
-        $user = Auth::user();
-        $appointment = new Appointment();
-
-        $appointment->public_id = $request->input('public_id');
-        $appointment->title = $request->input('title');
-        $appointment->start = $request->input('start');
-        $appointment->end = $request->input('end');
-        $appointment->allDay = $request->input('allDay');
-        $appointment->user_id = $user->id;
-        $appointment->type_id = $request->input('type_id');
-        $appointment->patient_id = $request->input('patient_id');
-        $appointment->save();
- 
-
-        return response()->json(['message' => 'Data saved successfully']);
     }
 
     public function storePatient(Request $request)
     {
-
-        $user = Auth::user();
-        $appointment = new Appointment();
-
-        $appointment->public_id = $request->input('public_id');
-        $appointment->title = $request->input('title');
-        $appointment->start = $request->input('start');
-        $appointment->end = $request->input('end');
-        $appointment->allDay = $request->input('allDay');
-        $appointment->user_id = $request->input('doctor_id');
-        $appointment->type_id = $request->input('type_id');
-        $appointment->patient_id = $user->id;
-        $appointment->save();
-
-
-        return response()->json(['message' => 'Data saved successfully']);
+ 
     }
 
     /**
@@ -119,8 +78,7 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointments $appointments)
     {
-        $user = Auth::user();
-        // Appointment::where('id', $id)->where('user_id', $user_id)->delete();
+        
     }
 
     /**
@@ -131,9 +89,6 @@ class AppointmentController extends Controller
      */
     public function destroy($id)
     {
-        $user = Auth::user();
-        Appointment::where('public_id', $id)->where('user_id', $user->id)->delete();
-
-        return response()->json(['message' => 'Data deleted successfully']);
+       
     }
 }

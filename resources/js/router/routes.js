@@ -11,7 +11,7 @@ import {default as Billing} from "@/views/pages/private/billing/Main";
 import {default as Tasks} from "@/views/pages/private/tasks/Main";
 import {default as Statistics} from "@/views/pages/private/statistics/Main";
 import {default as Settings} from "@/views/pages/private/settings/Main";
-import {default as Appointments} from "@/views/pages/private/appointments/Main";
+import {default as Healthprofessional} from "@/views/pages/private/healthprofessional/Main";
 
 import {default as PageUsers} from "@/views/pages/private/users/Index";
 import {default as PageUsersCreate} from "@/views/pages/private/users/Create";
@@ -59,10 +59,10 @@ const routes = [
         component: Statistics,
     },
     {
-        name: "appointment",
-        path: "/appointment/:id",
+        name: "healthprofessional",
+        path: "/healthprofessional/:id",
         meta: {requiresAuth: true, requiresAbility: abilities.APPOINTMENT},
-        component: Appointments,
+        component: Healthprofessional,
         props: true,
     },
     {

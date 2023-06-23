@@ -14,7 +14,7 @@
                 </div>
                 <div class="sm:col-span-6">
                     <label for="patient" class="text-sm text-gray-500">Select patient<span class="text-red-600">*</span></label>
-                    <select required="true" id="patient" v-bind:disabled="mode !== 'new'" v-model="store.patient_id" v-bind:value="store.patient_id" class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
+                    <select required="true" id="patient" v-bind:disabled="mode !== 'new'" v-model="store.entity_id" v-bind:value="store.entity_id" class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
                         <option v-for="patient in patients" :key="patient.id" :value="patient.id">{{ patient.first_name }} {{ patient.last_name }} ({{ patient.gender }}) {{ patient.birthdate }}</option>
                     </select>
                 </div>
@@ -44,7 +44,7 @@ import Button from "@/views/components/input/Button"
 import TextInput from "@/views/components/input/TextInput"
 import Panel from "@/views/components/Panel"
 import Form from "@/views/components/Form"
-import { useCalendarStore } from '@/stores'
+import { useAgendaStore } from '@/stores'
 
 export default {
     emits: ['done'],
@@ -71,7 +71,7 @@ export default {
                 end: this.store.end,
                 title: this.store.title,
                 type_id: this.store.type_id,
-                patient_id: this.store.patient_id,
+                entity_id: this.store.entity_id,
             })
         },
 
@@ -91,15 +91,9 @@ export default {
 
     },
 
-    setup(props, { emit }) {
-        const alertStore = useAlertStore()
-        const authStore = useAuthStore()
+    setup() {
         const form = reactive({})
-
-        const store = useCalendarStore()
-
-        const onChange = (event) => {
-        }
+        const store = useAgendaStore()
 
         return {
             form,
