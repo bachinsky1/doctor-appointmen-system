@@ -83,15 +83,13 @@ class SymptomController extends Controller
             ->join('user_specialities', 'users.id', '=', 'user_specialities.user_id')
             ->join('symptom_specialities', 'user_specialities.speciality_id', '=', 'symptom_specialities.speciality_id')
             ->join('symptoms', 'symptom_specialities.symptom_id', '=', 'symptoms.id')
-            ->where(function ($query) use ($q) {
-                $query->whereFullText(['symptoms.name'], $q, ['mode' => 'boolean', 'language' => 'automatic', 'with_query_expansion' => true, 'in_boolean_mode' => true])
-                    ->orWhere('users.first_name', 'LIKE', '%' . $q . '%')
-                    ->orWhere('users.last_name', 'LIKE', '%' . $q . '%')
-                    ->orWhere(DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), 'LIKE', '%' . $q . '%')
-                    ->orWhere(DB::raw("CONCAT(users.last_name, ' ', users.first_name)"), 'LIKE', '%' . $q . '%')
-                    ->orWhere('positions.name', 'LIKE', '%' . $q . '%')
-                    ->orWhere('medicalestablishments.name', 'LIKE', '%' . $q . '%');
-            })
+            ->whereFullText(['symptoms.name'], $q, ['mode' => 'boolean', 'language' => 'automatic', 'with_query_expansion' => true, 'in_boolean_mode' => true])
+            ->orWhere('users.first_name', 'LIKE', '%' . $q . '%')
+            ->orWhere('users.last_name', 'LIKE', '%' . $q . '%')
+            ->orWhere(DB::raw("CONCAT(users.first_name, ' ', users.last_name)"), 'LIKE', '%' . $q . '%')
+            ->orWhere(DB::raw("CONCAT(users.last_name, ' ', users.first_name)"), 'LIKE', '%' . $q . '%')
+            ->orWhere('positions.name', 'LIKE', '%' . $q . '%')
+            ->orWhere('medicalestablishments.name', 'LIKE', '%' . $q . '%')
             ->groupBy('users.id', 'users.first_name', 'users.last_name', 'medicalestablishments.id', 'positions.id')
             ->distinct()
             ->get();

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agenda;
+use App\Models\Appointment;
+use App\Models\AppointmentType;
 use Illuminate\Http\Request;
 
 class AgendaController extends Controller
@@ -11,9 +13,20 @@ class AgendaController extends Controller
      * Display a listing of the resource.
      *
      */
-    public function index()
+    public function index($id)
     {
-        return view('agenda.index');
+        
+
+        $appointments = Appointment::where('user_id', $id)->get();
+
+        // $patients = User::whereHas('roles', function ($query) {
+        //     $query->where('name', 'patient');
+        // })->get();
+
+        return response()->json([
+            'appointments' => $appointments,
+            'appointmentTypes' => AppointmentType::all(),
+        ]);
     }
 
     /**

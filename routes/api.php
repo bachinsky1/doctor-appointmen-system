@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\MedicalestablishmentController;
 use App\Http\Controllers\SymptomController;
+use App\Http\Controllers\AgendaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,7 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/appointment', [AppointmentController::class, 'index']);
     Route::delete('/appointment/{id}', [AppointmentController::class, 'destroy']);
     Route::post('/appointment', [AppointmentController::class, 'store']);
+    Route::get('/agenda/{id}', [AgendaController::class, 'index']);
 
     Route::get('/medicalestablishment', [MedicalestablishmentController::class, 'index']);
     Route::get('/medicalestablishment/{id}/healthprofessionals', [MedicalestablishmentController::class, 'healthprofessionals']);

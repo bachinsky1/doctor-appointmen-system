@@ -2,7 +2,7 @@
     <Page>
         <div class="w-full bg-white py-2 px-6 hidden sm:flex">
             <div class="w-1/6">
-                <a href="#" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="showCalendar = true"> Create appointment </a>
+                <a href="#" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="getAppointments"> Create appointment </a>
             </div>
             <div class="w-5/6">
                 <div class='demo-app-main'>
@@ -27,11 +27,15 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import moment from 'moment'
 import Page from "@/views/layouts/Page"
+import CalendarService from '@/services/CalendarService'
+import Alert from "@/views/components/Alert"
+import { useAlertStore } from "@/stores"
 
 export default defineComponent({
     components: {
         FullCalendar,
-        Page
+        Page,
+        Alert,
     },
 
     props: {
@@ -93,6 +97,31 @@ export default defineComponent({
 
     methods: {
 
+        handleDateSelect(info) {
+            if (info.start < new Date()) {
+                const alertStore = useAlertStore()
+                alertStore.error('Cannot select past time')
+                console.log('Cannot select past time')
+                return false
+            }
+        },
+
+
+        async getAppointments() {
+
+            this.showCalendar = true
+            const service = new CalendarService()
+            const response = await service.getAgenda(this.id)
+            this.calendarOptions.events = response.data.appointments
+            this.appointmentTypes = response.data.appointmentTypes
+        },
+    },
+
+    watch: {
+        id: function () {
+            this.calendarOptions.events = []
+            this.showCalendar = false
+        }
     }
 
 })

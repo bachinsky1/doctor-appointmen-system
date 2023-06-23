@@ -12,6 +12,10 @@ export default class CalendarService extends ModelService {
         return this.get(`/appointment`)
     }
 
+    public getAgenda(id) {
+        return this.get(`/agenda/${id}`)
+    }
+
     public destroyAppointment(public_id: string) {
         return this.delete(public_id)
     }
