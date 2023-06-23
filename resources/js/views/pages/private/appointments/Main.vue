@@ -15,6 +15,9 @@
                 </div>
             </div>
         </div>
+        <Modal :is-showing="isShowing" @close="isShowing = false;">
+            <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" :appointmentTypes="appointmentTypes" />
+        </Modal>
     </Page>
 </template>
 
@@ -27,15 +30,21 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import moment from 'moment'
 import Page from "@/views/layouts/Page"
+import Modal from '@/views/components/Modal.vue'
 import CalendarService from '@/services/CalendarService'
+import Appointment from '@/views/components/AppointmentPatient.vue'
 import Alert from "@/views/components/Alert"
 import { useAlertStore } from "@/stores"
+import { useCalendarStore } from '@/stores'
+import { createEventId } from './../agenda/utils'
 
 export default defineComponent({
     components: {
         FullCalendar,
         Page,
         Alert,
+        Modal,
+        Appointment,
     },
 
     props: {
@@ -94,11 +103,38 @@ export default defineComponent({
             },
             showCalendar: false,
             calendarPlugins: [dayGridPlugin, timeGridPlugin],
-            calendarView: 'dayGridMonth'
+            calendarView: 'dayGridMonth',
+            isShowing: false,
+            mode: '',
+            selectInfo: null,
+            currentEvents: [],
         }
     },
 
     methods: {
+        async eventAdd(event) {
+            // console.log('eventAdd', event)
+            // const service = new CalendarService()
+            // await service.storeAppointment(event)
+        },
+
+        eventChange(event) {
+            const index = this.calendarOptions.events.findIndex(e => e.id == event.id)
+
+            if (index !== -1) {
+                this.calendarOptions.events[index] = event
+                // console.log(event.start, event.end)
+            }
+        },
+
+        async eventRemove(event) {
+            // console.log('eventRemove', event.extendedProps)
+            this.isShowing = false
+            // const service = new CalendarService()
+            // await service.destroyAppointment(event.extendedProps.public_id)
+
+            this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
+        },
 
         handleDateSelect(info) {
             if (info.start < new Date()) {
@@ -107,8 +143,37 @@ export default defineComponent({
                 console.log('Cannot select past time')
                 return false
             }
+
+            this.isShowing = true
+            this.info = info
+
+            const store = useCalendarStore()
+
+            store.setPopupInputs({
+                start: info.startStr,
+                end: info.endStr,
+            })
+            console.log('handleDateSelect', info)
+            this.mode = 'new'
         },
 
+        handleCalendarEvent(event) {
+
+            const calendarApi = this.selectInfo.view.calendar
+
+            const newAppointment = {
+                id: createEventId(),
+                public_id: createEventId(),
+                title: event.title,
+                start: new Date(event.start),
+                end: new Date(event.end),
+                type_id: event.type_id,
+            }
+            this.calendarOptions.events.push(newAppointment)
+            calendarApi.addEvent(newAppointment)
+            console.log('newAppointment', newAppointment)
+            this.isShowing = false
+        },
 
         async getAppointments() {
 
