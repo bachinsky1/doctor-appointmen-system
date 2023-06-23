@@ -68,6 +68,26 @@ class AppointmentController extends Controller
         return response()->json(['message' => 'Data saved successfully']);
     }
 
+    public function storePatient(Request $request)
+    {
+
+        $user = Auth::user();
+        $appointment = new Appointment();
+
+        $appointment->public_id = $request->input('public_id');
+        $appointment->title = $request->input('title');
+        $appointment->start = $request->input('start');
+        $appointment->end = $request->input('end');
+        $appointment->allDay = $request->input('allDay');
+        $appointment->user_id = $request->input('doctor_id');
+        $appointment->type_id = $request->input('type_id');
+        $appointment->patient_id = $user->id;
+        $appointment->save();
+
+
+        return response()->json(['message' => 'Data saved successfully']);
+    }
+
     /**
      * Display the specified resource.
      *

@@ -114,9 +114,9 @@ export default defineComponent({
 
     methods: {
         async eventAdd(event) {
-            // console.log('eventAdd', event)
-            // const service = new CalendarService()
-            // await service.storeAppointment(event)
+            console.log('eventAdd', event)
+            const service = new CalendarService()
+            await service.storeAppointmentPatient(event)
         },
 
         eventChange(event) {
@@ -144,7 +144,7 @@ export default defineComponent({
                 console.log('Cannot select past time')
                 return false
             }
-
+            this.selectInfo = info
             this.isShowing = true
             this.info = info
 
@@ -169,6 +169,7 @@ export default defineComponent({
                 start: new Date(event.start),
                 end: new Date(event.end),
                 type_id: event.type_id,
+                doctor_id: this.id
             }
             this.calendarOptions.events.push(newAppointment)
             calendarApi.addEvent(newAppointment)
