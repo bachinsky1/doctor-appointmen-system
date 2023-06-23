@@ -69,8 +69,8 @@ export default defineComponent({
                 ],
                 validRange: function (nowDate) {
                     // Determining the last day of the week
-                    var momentDate = moment(nowDate)
-                    var lastDayOfWeek = momentDate.endOf('week').subtract(1, 'day')
+                    const momentDate = moment(nowDate)
+                    const lastDayOfWeek = momentDate.endOf('week').subtract(1, 'day')
                     // Returning a date range without the last days of the week
                     return {
                         start: momentDate,

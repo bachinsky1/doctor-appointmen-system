@@ -1,7 +1,7 @@
 <template>
     <div class="relative">
         <input v-model="searchTerm" placeholder="Search..." @input="handleInput" type="search" class="w-full placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm" id="exampleSearch" />
-        <ul ref="list" v-show="!hideList && filteredItems.length > 0" class="overflow-y-auto max-h-64 mt-1 absolute top-full left-0 w-full bg-white border border-gray-300 border-theme-500 rounded-b-md focus:outline-none focus:ring-theme-500 focus:border-theme-500 shadow-lg">
+        <ul ref="list" v-show="!hideList && filteredItems.length > 0" class="z-50 overflow-y-auto max-h-64 mt-1 absolute top-full left-0 w-full bg-white border border-gray-300 border-theme-500 rounded-b-md focus:outline-none focus:ring-theme-500 focus:border-theme-500 shadow-lg">
             <li v-for="item in filteredItems" :key="Math.random()" class="py-3 px-3 mr-6 cursor-pointer hover:bg-gray-100" @click="handleItemClick(item); hideList = true">
                 {{ item.full_name }}
                 <Badge theme="success" class="inline">
@@ -23,10 +23,6 @@ import SearchService from '@/services/SearchService'
 import SearchInput from 'vue-search-input'
 import Badge from '@/views/components/Badge'
 
-interface ListItem {
-    id: number
-    name: string
-}
 
 export default defineComponent({
     components: {
@@ -66,7 +62,7 @@ export default defineComponent({
             }, 500)
         },
 
-        handleItemClick(item: ListItem) {
+        handleItemClick(item) {
             // Handling the click event on a list item
             this.searchTerm = ''
             this.hideList = true

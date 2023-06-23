@@ -22,7 +22,7 @@ class SymptomSpecialitySeeder extends Seeder
         $symptoms = DB::table('symptoms')->get();
 
         foreach ($specialities as $speciality) {
-            $symptomsCount = rand(5, 10);
+            $symptomsCount = rand(3, 6);
             $selectedSymptoms = $symptoms->random($symptomsCount);
 
             foreach ($selectedSymptoms as $symptom) {
