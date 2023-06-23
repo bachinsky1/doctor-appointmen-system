@@ -68,13 +68,16 @@ export default defineComponent({
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
+                selectConstraint: {
+                    start: moment().startOf('day').format(),
+                },
                 events: [],
                 firstDay: 1,
                 scrollTime: 0,
                 locale: 'en-GB',
                 dateClick: this.handleDateClick,
                 initialView: 'dayGridMonth',
-
+                selectOverlap: false,
                 editable: true,
                 selectable: true,
                 selectMirror: true,
