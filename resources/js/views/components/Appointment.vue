@@ -13,10 +13,9 @@
                     </select>
                 </div>
                 <div class="sm:col-span-6">
-                    <label for="patient" class="text-sm text-gray-500">Select patient<span class="text-red-600">*</span></label>
-                    <select required="true" id="patient" v-bind:disabled="mode !== 'new'" v-model="store.entity_id" v-bind:value="store.entity_id" class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
-                        <option v-for="patient in patients" :key="patient.id" :value="patient.id">{{ patient.first_name }} {{ patient.last_name }} ({{ patient.gender }}) {{ patient.birthdate }}</option>
-                    </select>
+                    <label for="patient" class="text-sm text-gray-500">Select patient or health professional<span class="text-red-600">*</span></label>
+                    <multiselect v-model="store.entity" :options="patients" :multiple="false" :close-on-select="true" :clear-on-select="false" :preserve-search="true" placeholder="Select patient or health professional" label="full_name" track-by="id" :preselect-first="false" :loading="isLoading" @search-change="onSearchChange">
+                    </multiselect>
                 </div>
                 <div class="sm:col-span-3">
                     <TextInput type="datetime-local" v-bind:disabled="mode !== 'new'" :required="true" name="start" v-model="store.start" :label="trans('users.labels.start_time')" />
@@ -45,6 +44,9 @@ import TextInput from "@/views/components/input/TextInput"
 import Panel from "@/views/components/Panel"
 import Form from "@/views/components/Form"
 import { useAgendaStore } from '@/stores'
+import Multiselect from 'vue-multiselect'
+import AgendaService from '@/services/AgendaService'
+
 
 export default {
     emits: ['done'],
@@ -53,16 +55,19 @@ export default {
         onEventRemove: Function,
         mode: String,
         appointmentTypes: Array,
-        patients: Array,
     },
     components: {
         Form,
         Panel,
         TextInput,
         Button,
+        Multiselect,
     },
 
-    data: () => ({}),
+    data: () => ({
+        isLoading: false,
+        patients: []
+    }),
 
     methods: {
         onSubmitForm() {
@@ -71,8 +76,18 @@ export default {
                 end: this.store.end,
                 title: this.store.title,
                 type_id: this.store.type_id,
-                entity_id: this.store.entity_id,
+                entity: this.store.entity,
             })
+        },
+
+        async onSearchChange(searchTerm) {
+            if (searchTerm === '') return []
+            this.isLoading = true
+            const service = new AgendaService()
+            const response = await service.searchPatient(searchTerm)
+            this.patients = response.data
+            this.isLoading = false
+            // console.log(response.data) 
         },
 
         handleEventChange() {

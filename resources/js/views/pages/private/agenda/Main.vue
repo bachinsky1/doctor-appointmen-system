@@ -35,7 +35,7 @@
         </div>
     </div>
     <Modal :is-showing="isShowing" @close="isShowing = false;">
-        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" :appointmentTypes="appointmentTypes" :patients="patients" />
+        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" :appointmentTypes="appointmentTypes" />
     </Modal>
 </template>
 
@@ -108,7 +108,7 @@ export default defineComponent({
             isShowing: false,
             mode: '',
             appointmentTypes: [],
-            patients: [],
+            // patients: [],
         }
     },
 
@@ -117,7 +117,7 @@ export default defineComponent({
         service.getAgenda().then((response) => {
             this.calendarOptions.events = response.data.appointments
             this.appointmentTypes = response.data.appointmentTypes
-            this.patients = response.data.patients
+            // this.patients = response.data.patients
         })
     },
 
@@ -158,7 +158,7 @@ export default defineComponent({
                 start: new Date(event.start),
                 end: new Date(event.end),
                 type_id: event.type_id,
-                entity_id: event.entity_id,
+                entity_id: event.entity.id,
             }
             this.calendarOptions.events.push(newAppointment)
             calendarApi.addEvent(newAppointment)
@@ -193,8 +193,8 @@ export default defineComponent({
             const start = clickInfo.event.start
             const end = clickInfo.event.end
             const type_id = clickInfo.event.extendedProps.type_id
-            const entity_id = clickInfo.event.extendedProps.entity_id
-
+            const entity = clickInfo.event.extendedProps.entity
+            console.log(clickInfo.event.extendedProps)
             const store = useAgendaStore()
 
             store.setPopupInputs({
@@ -203,7 +203,7 @@ export default defineComponent({
                 start,
                 end,
                 type_id,
-                entity_id,
+                entity_id: clickInfo.event.extendedProps.patient_id,
             })
 
             // console.log('handleEventClick', clickInfo.event, clickInfo.view.getCurrentData())

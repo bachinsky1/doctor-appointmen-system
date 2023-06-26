@@ -6,6 +6,7 @@ use App\Http\Requests\StoreAppointmentRequest;
 use App\Models\Appointment;
 use App\Models\AppointmentType;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -98,6 +99,16 @@ class AgendaService
         return Appointment::where('public_id', $public_id)
             ->where('user_id', $user->id)
             ->delete();
+    }
+
+
+    public function searchPatient($search): Collection
+    {
+        $users = User::where('first_name', 'LIKE', '%' . $search . '%')
+            ->orWhere('last_name', 'LIKE', '%' . $search . '%')
+            ->get();
+
+        return $users;
     }
 
 }

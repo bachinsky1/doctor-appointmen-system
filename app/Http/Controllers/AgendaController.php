@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchPatientRequest;
 use App\Http\Requests\StoreAppointmentRequest; 
+use App\Models\User;
 use App\Services\Agenda\AgendaService;
 use App\Services\Patient\PatientService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
@@ -104,5 +107,12 @@ class AgendaController extends Controller
         return response(404)->json(['message' => 'Stub'], 404);
     }
 
+    public function searchPatient(SearchPatientRequest $request) : JsonResponse
+    {
+        $search = $request->input('search');
+        $result = $this->agendaService->searchPatient($search);
+        
+        return response()->json($result);
+    }
 
 }

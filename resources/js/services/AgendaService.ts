@@ -41,4 +41,9 @@ export default class AgendaService extends ModelService {
             allDay
         })
     }
+
+    public searchPatient(phrase) {
+        if (phrase.trim().length === 0) return false
+        return this.get(`${this.url}/search/patient?search=${phrase}`)
+    }
 }
