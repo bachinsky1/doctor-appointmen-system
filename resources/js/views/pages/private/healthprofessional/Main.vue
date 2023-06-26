@@ -84,7 +84,7 @@ export default defineComponent({
                 scrollTime: 0,
                 locale: 'en-GB',
                 dateClick: this.handleDateClick,
-                initialView: 'dayGridMonth',
+                initialView: 'timeGridWeek',
                 selectOverlap: false,
                 editable: true,
                 selectable: true,
@@ -173,14 +173,25 @@ export default defineComponent({
         },
 
         async getAppointments() {
-
             this.showCalendar = true
             const service = new AgendaService()
             const response = await service.getAgenda(this.id)
-            console.log(response)
-            this.calendarOptions.events = response.data.appointments
+
+            const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+
+            this.calendarOptions.events = response.data.appointments.map(appointment => {
+                // If the apppointment was created by the current user, then return it "as is"
+
+                if (appointment.patient_id === currentUser.id) {
+                    appointment.backgroundColor = 'green'
+                    return appointment
+                }
+
+                appointment.title = ''
+            })
             this.appointmentTypes = response.data.appointmentTypes
         },
+
     },
 
     watch: {
