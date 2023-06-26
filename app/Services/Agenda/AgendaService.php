@@ -100,10 +100,20 @@ class AgendaService
     public function destroyAppointment($public_id): bool
     {
         $user = Auth::user();
+        
+        if (Auth::user()->inRole('patient')) {
+            return Appointment::where('public_id', $public_id)
+                ->where('patient_id', $user->id)
+                ->delete();
+        }
 
-        return Appointment::where('public_id', $public_id)
-            ->where('user_id', $user->id)
-            ->delete();
+        if (Auth::user()->inRole('healthcare')) {
+            return Appointment::where('public_id', $public_id)
+                ->where('user_id', $user->id)
+                ->delete();
+        }
+
+        return false;
     }
 
 

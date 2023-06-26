@@ -125,8 +125,23 @@ export default defineComponent({
         },
 
         async eventRemove(event) {
+            // console.log('eventRemove', event.extendedProps)
             this.isShowing = false
-            // this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
+            const service = new AgendaService()
+            await service.destroyAppointment(event.extendedProps.public_id)
+
+            this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
+        },
+
+        handleEventClick(clickInfo) {
+            const event = clickInfo.event
+            if (event.extendedProps.patient.id === this.currentUser.id) {
+                this.isShowing = true
+                this.mode = 'update'
+
+                const store = useAgendaStore()
+                store.setCurrentEvent(clickInfo.event.toPlainObject())
+            }
         },
 
         handleDateSelect(clickInfo) {
@@ -180,11 +195,11 @@ export default defineComponent({
             const service = new AgendaService()
             const response = await service.getAgenda(this.id) 
 
-            const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+            
 
             this.calendarOptions.events = response.data.map(e => {
                 
-                if (e.patient_id === currentUser.id) {
+                if (e.patient_id === this.currentUser.id) {
                     // If the apppointment was created by the current user, change background color"
                     e.backgroundColor = 'green'
                     return e
@@ -194,6 +209,14 @@ export default defineComponent({
             })
         },
 
+    },
+
+    setup() {
+        const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+
+        return {  
+            currentUser
+        };
     },
 
     watch: {
