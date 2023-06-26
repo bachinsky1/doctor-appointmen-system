@@ -35,7 +35,7 @@
         </div>
     </div>
     <Modal :is-showing="isShowing" @close="isShowing = false;">
-        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" :appointmentTypes="appointmentTypes" />
+        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" />
     </Modal>
 </template>
 
@@ -50,7 +50,8 @@ import moment from 'moment'
 import Modal from '@/views/components/Modal.vue'
 import Appointment from '@/views/components/Appointment.vue'
 import { useAgendaStore } from '@/stores'
-import AgendaService from '@/services/AgendaService'
+import AgendaService from '@/services/AgendaService' 
+
 
 export default defineComponent({
     components: {
@@ -107,7 +108,6 @@ export default defineComponent({
             currentEvents: [],
             isShowing: false,
             mode: '',
-            appointmentTypes: [],
             // patients: [],
         }
     },
@@ -115,8 +115,7 @@ export default defineComponent({
     mounted() {
         const service = new AgendaService()
         service.getAgenda().then((response) => {
-            this.calendarOptions.events = response.data.appointments
-            this.appointmentTypes = response.data.appointmentTypes
+            this.calendarOptions.events = response.data
             // this.patients = response.data.patients
         })
     },
@@ -148,19 +147,18 @@ export default defineComponent({
         },
 
         handleCalendarEvent(event) {
-            console.log(event)
-            const calendarApi = this.selectInfo.view.calendar
-
+            // console.log(event)
             const newAppointment = {
                 id: createEventId(),
                 public_id: createEventId(),
                 title: event.title,
                 start: new Date(event.start),
                 end: new Date(event.end),
-                type_id: event.type_id,
-                entity_id: event.entity.id,
+                type_id: event.extendedProps.type.id,
+                entity_id: event.extendedProps.patient.id,
             }
-            this.calendarOptions.events.push(newAppointment)
+            
+            const calendarApi = this.selectInfo.view.calendar
             calendarApi.addEvent(newAppointment)
             console.log('newAppointment', newAppointment)
             this.isShowing = false
@@ -171,45 +169,28 @@ export default defineComponent({
             this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
         },
 
-        handleDateSelect(selectInfo) {
+        handleDateSelect(clickInfo) {
+            this.selectInfo = clickInfo
             this.isShowing = true
-            this.selectInfo = selectInfo
-
-            const store = useAgendaStore()
-
-            store.setPopupInputs({
-                start: selectInfo.startStr,
-                end: selectInfo.endStr,
-            })
-            // console.log('handleDateSelect', selectInfo)
             this.mode = 'new'
+
+            clickInfo.title = ''
+            clickInfo.extendedProps = {}
+            clickInfo.extendedProps.patient = {}
+            clickInfo.extendedProps.type = {}
+            clickInfo.extendedProps.type_id = null
+            clickInfo.extendedProps.patient_id = null
+            
+            const store = useAgendaStore()
+            store.setCurrentEvent(clickInfo) 
         },
 
         handleEventClick(clickInfo) {
             this.isShowing = true
-            this.mode = 'update'
-            const id = clickInfo.event.id
-            const title = clickInfo.event.title
-            const start = clickInfo.event.start
-            const end = clickInfo.event.end
-            const type_id = clickInfo.event.extendedProps.type_id
-            const entity = clickInfo.event.extendedProps.entity
-            console.log(clickInfo.event.extendedProps)
+            this.mode = 'update' 
+
             const store = useAgendaStore()
-
-            store.setPopupInputs({
-                id,
-                title,
-                start,
-                end,
-                type_id,
-                entity_id: clickInfo.event.extendedProps.patient_id,
-            })
-
-            // console.log('handleEventClick', clickInfo.event, clickInfo.view.getCurrentData())
-
-            store.setCurrentEvent(clickInfo.event)
-
+            store.setCurrentEvent(clickInfo.event.toPlainObject()) 
         },
 
         handleEvents(events) {

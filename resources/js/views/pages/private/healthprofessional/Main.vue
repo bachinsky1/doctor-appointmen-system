@@ -16,7 +16,7 @@
             </div>
         </div>
         <Modal :is-showing="isShowing" @close="isShowing = false;">
-            <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" :appointmentTypes="appointmentTypes" />
+            <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode"  />
         </Modal>
     </Page>
 </template>
@@ -106,14 +106,12 @@ export default defineComponent({
             isShowing: false,
             mode: '',
             selectInfo: null,
-            currentEvents: [],
-            appointmentTypes: [],
+            currentEvents: [], 
         }
     },
 
     methods: {
         async eventAdd(event) {
-            console.log('eventAdd', event)
             const service = new AgendaService()
             await service.storeAppointment(event)
         },
@@ -128,29 +126,33 @@ export default defineComponent({
 
         async eventRemove(event) {
             this.isShowing = false
-
             // this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
         },
 
-        handleDateSelect(info) {
-            if (info.start < new Date()) {
+        handleDateSelect(clickInfo) {
+
+            if (clickInfo.start < new Date()) {
                 const alertStore = useAlertStore()
                 alertStore.error('Cannot select past time')
                 console.log('Cannot select past time')
                 return false
             }
-            this.selectInfo = info
+
+            this.selectInfo = clickInfo
             this.isShowing = true
-            this.info = info
+            this.clickInfo = clickInfo
+            this.mode = 'new'
 
             const store = useAgendaStore()
 
-            store.setPopupInputs({
-                start: info.startStr,
-                end: info.endStr,
-            })
-            console.log('handleDateSelect', info)
-            this.mode = 'new'
+            clickInfo.title = ''
+            clickInfo.extendedProps = {}
+            clickInfo.extendedProps.patient = {}
+            clickInfo.extendedProps.type = {}
+            clickInfo.extendedProps.type_id = null
+            clickInfo.extendedProps.patient_id = null
+
+            store.setCurrentEvent(clickInfo)
         },
 
         handleCalendarEvent(event) {
@@ -163,32 +165,32 @@ export default defineComponent({
                 title: event.title,
                 start: new Date(event.start),
                 end: new Date(event.end),
-                type_id: event.type_id,
-                entity_id: this.id
+                type_id: event.extendedProps.type.id,
+                entity_id: this.id,
+                backgroundColor: 'green'
             }
             this.calendarOptions.events.push(newAppointment)
             calendarApi.addEvent(newAppointment)
-            console.log('newAppointment', newAppointment)
+            
             this.isShowing = false
         },
 
         async getAppointments() {
             this.showCalendar = true
             const service = new AgendaService()
-            const response = await service.getAgenda(this.id)
-            this.appointmentTypes = response.data.appointmentTypes
+            const response = await service.getAgenda(this.id) 
 
             const currentUser = JSON.parse(localStorage.getItem("currentUser"))
 
-            this.calendarOptions.events = response.data.appointments.map(appointment => {
-
-                if (appointment.patient_id === currentUser.id) {
+            this.calendarOptions.events = response.data.map(e => {
+                
+                if (e.patient_id === currentUser.id) {
                     // If the apppointment was created by the current user, change background color"
-                    appointment.backgroundColor = 'green'
-                    return appointment
+                    e.backgroundColor = 'green'
+                    return e
                 }
 
-                return appointment
+                return e
             })
         },
 

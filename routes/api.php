@@ -38,9 +38,10 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/agenda', [AgendaController::class, 'show']);
     Route::get('/agenda/{id}', [AgendaController::class, 'show']);
     Route::get('/agenda/search/patient', [AgendaController::class, 'searchPatient'])->middleware('throttle:400,1');
-    Route::post('/agenda/appointment/store', [AgendaController::class, 'store']);
+    Route::get('/agenda/appointments/types', [AgendaController::class, 'getAppointmentTypes']);
+    Route::post('/agenda/appointments/store', [AgendaController::class, 'store']);
     Route::get('/agenda/appointments/{id}', [AgendaController::class, 'index']);
-    Route::delete('/agenda/appointment/{id}', [AppointmentController::class, 'destroy']);
+    Route::delete('/agenda/appointments/{id}', [AgendaController::class, 'destroy']);
 
     Route::get('/medicalestablishment', [MedicalestablishmentController::class, 'index']);
     Route::get('/medicalestablishment/{id}/healthprofessionals', [MedicalestablishmentController::class, 'healthprofessionals']);

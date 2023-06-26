@@ -39,7 +39,11 @@ class AgendaService
             $month = date('m');
         }
 
-        $appointments = Appointment::where('user_id', $user_id)
+        $appointments = Appointment::with(['user', 'type', 'patient'])
+            ->where(function ($query) use ($user_id) {
+                $query->where('user_id', $user_id)
+                    ->orWhere('patient_id', $user_id);
+            })
             ->whereMonth('start', '=', $month)
             ->get();
 
@@ -48,6 +52,7 @@ class AgendaService
             if (Auth::user()->inRole('patient') && $appointment->patient_id != Auth::id()) {
                 $appointment->title = '';
             }
+            $appointment->patient = $appointment->patient_id == Auth::id() ? $appointment->user : $appointment->patient;
         }
 
         return $appointments;

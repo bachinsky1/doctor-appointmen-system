@@ -15,20 +15,24 @@ export default class AgendaService extends ModelService {
         return this.get(this.appointmentsUrl)
     }
 
+    public getAppointmentTypes() {
+        return this.get(`${this.url}/appointments/types`)
+    }
+
     public getAgenda(id?: number) {
         const url = id ? `${this.url}/${id}` : this.url
         return this.get(url)
     }
 
     public destroyAppointment(public_id: string) {
-        const appointmentUrl = `${this.url}/appointment/${public_id}`
-        return this.delete(appointmentUrl)
+        const destroyAppointmentUrl = `appointments/${public_id}` 
+        return this.delete(destroyAppointmentUrl)
     }
 
     public storeAppointment(payload) {
         
         const { id, extendedProps, title, start, end, allDay } = payload.event
-        const appointmentStoreUrl = `${this.url}/appointment/store`
+        const appointmentStoreUrl = `${this.url}/appointments/store`
 
         return this.post(appointmentStoreUrl, {
             id,
