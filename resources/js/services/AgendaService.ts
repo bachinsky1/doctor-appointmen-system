@@ -25,8 +25,13 @@ export default class AgendaService extends ModelService {
     }
 
     public destroyAppointment(public_id: string) {
-        const destroyAppointmentUrl = `appointments/${public_id}` 
+        const destroyAppointmentUrl = `appointments/${public_id}`
         return this.delete(destroyAppointmentUrl)
+    }
+
+    public approveAppointment(public_id: string) {
+        const approveAppointmentUrl = `${ this.url }/appointments/approve`
+        return this.patch(approveAppointmentUrl, {public_id})
     }
 
     public storeAppointment(payload) {

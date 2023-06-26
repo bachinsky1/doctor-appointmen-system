@@ -14,7 +14,7 @@ return [
         "labels" => [
             "appointment_title" => "Title"
         ],
-        "new_appointment" => "New Appointment",
+        "new_appointment" => "Appointment",
     ],
     "users" => [
         "status" => [
@@ -142,6 +142,7 @@ return [
             "delete" => "Delete",
             "add" => "Add",
             "change_avatar" => "Change Avatar",
+            "approve" => "Approve",
         ],
         "actions" => [
             "name" => "Actions",

@@ -100,7 +100,7 @@ class AgendaService
     public function destroyAppointment($public_id): bool
     {
         $user = Auth::user();
-        
+
         if (Auth::user()->inRole('patient')) {
             return Appointment::where('public_id', $public_id)
                 ->where('patient_id', $user->id)
@@ -124,6 +124,17 @@ class AgendaService
             ->get();
 
         return $users;
+    }
+
+    public function approveAppointment($public_id): bool
+    {
+        $appointment = Appointment::where('public_id', $public_id)->firstOrFail();
+        if ($appointment->user_id !== auth()->id()) {
+            abort(403, 'You are not authorized to approve this appointment.');
+        }
+
+        $appointment->approved = true;
+        return $appointment->save();
     }
 
 }

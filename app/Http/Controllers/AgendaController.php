@@ -50,7 +50,7 @@ class AgendaController extends Controller
      * @param \App\Http\Requests\StoreAppointmentRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreAppointmentRequest $request): JsonResponse
+    public function storeAppointment(StoreAppointmentRequest $request): JsonResponse
     {
         $result = $this->agendaService->storeAppointment($request);
 
@@ -68,18 +68,6 @@ class AgendaController extends Controller
     public function show($user_id = null): JsonResponse
     { 
         $user_id = intval($user_id);
-
-        // Create an array with the appointments and appointment types data obtained from the agenda service
-        // $data = [
-        //     'appointments' => $this->agendaService->getAppointments($user_id),
-        //     // 'appointmentTypes' => $this->agendaService->getAppointmentTypes(),
-        // ];
-
-        // If the user is a healthcare provider, add the patients data obtained from the patient service to the data array
-        // if ($user->isA('healthcare')) {
-        //     $data['patients'] = $this->patientService->getPatients($user_id);
-        // }
-
         return response()->json($this->agendaService->getAppointments($user_id));
     }
 
@@ -118,6 +106,12 @@ class AgendaController extends Controller
     public function getAppointmentTypes(): JsonResponse
     {
         return response()->json($this->agendaService->getAppointmentTypes());
+    }
+
+    public function approveAppointment(Request $request): JsonResponse
+    {
+        $result = $this->agendaService->approveAppointment($request->public_id);
+        return  response()->json($result);
     }
 
 }

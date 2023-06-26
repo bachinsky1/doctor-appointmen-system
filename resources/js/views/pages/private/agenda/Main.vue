@@ -35,7 +35,7 @@
         </div>
     </div>
     <Modal :is-showing="isShowing" @close="isShowing = false;">
-        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" />
+        <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :onEventApprove="eventApprove" :mode="mode" />
     </Modal>
 </template>
 
@@ -107,16 +107,14 @@ export default defineComponent({
             selectInfo: null,
             currentEvents: [],
             isShowing: false,
-            mode: '',
-            // patients: [],
+            mode: '', 
         }
     },
 
     mounted() {
         const service = new AgendaService()
         service.getAgenda().then((response) => {
-            this.calendarOptions.events = response.data
-            // this.patients = response.data.patients
+            this.calendarOptions.events = response.data 
         })
     },
 
@@ -135,6 +133,12 @@ export default defineComponent({
                 this.calendarOptions.events[index] = event
                 // console.log(event.start, event.end)
             }
+        },
+
+        async eventApprove(event) {
+            this.isShowing = false
+            const service = new AgendaService()
+            const result = await service.approveAppointment(event.extendedProps.public_id)
         },
 
         async eventRemove(event) {
@@ -194,61 +198,21 @@ export default defineComponent({
         },
 
         handleEvents(events) {
-            // console.log(events)
+            // const updatedEvents = events.map(event => {
+            //     if (!!event.extendedProps.approved) { 
+            //         return {
+            //             ...event,
+            //             backgroundColor: 'green'
+            //         }
+            //     }
+            //     return event
+            // })
+            // this.currentEvents = updatedEvents
             this.currentEvents = events
+            // console.log(this.currentEvents)
         },
     }
 })
 
 </script>
 
-<style lang='css'>
-h2 {
-    margin: 0;
-    font-size: 16px;
-}
-
-ul {
-    margin: 0;
-    padding: 0 0 0 1.5em;
-}
-
-li {
-    margin: 1.5em 0;
-    padding: 0;
-}
-
-b {
-    /* used for event dates/times */
-    margin-right: 3px;
-}
-
-.demo-app {
-    display: flex;
-    min-height: 100%;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-}
-
-.demo-app-sidebar {
-    width: 300px;
-    line-height: 1.5;
-    background: #eaf9ff;
-    border-right: 1px solid #d3e2e8;
-}
-
-.demo-app-sidebar-section {
-    padding: 2em;
-}
-
-.demo-app-main {
-    flex-grow: 1;
-    padding: 3em;
-}
-
-.fc {
-    /* the calendar root */
-    max-width: 1100px;
-    margin: 0 auto;
-}
-</style>

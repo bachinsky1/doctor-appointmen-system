@@ -21,6 +21,7 @@ return new class extends Migration
             $table->datetime('start');
             $table->datetime('end');
             $table->boolean('allDay')->default(false);
+            $table->boolean('approved')->default(false);
             
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('patient_id')->nullable();

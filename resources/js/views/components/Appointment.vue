@@ -18,7 +18,7 @@
                         placeholder="Select appointment type" 
                         label="name" 
                         track-by="id" 
-                        :preselect-first="true" 
+                        :preselect-first="true"  
                         :loading="isLoading"  
                     >
                     </multiselect> 
@@ -36,7 +36,7 @@
                         label="full_name" 
                         track-by="id" 
                         :preselect-first="false" 
-                        :loading="isLoading"
+                        :loading="isLoading" 
                         @search-change="onSearchEntityChange"
                     >
                     </multiselect>
@@ -47,10 +47,15 @@
                 <div class="sm:col-span-3">
                     <TextInput type="datetime-local" v-bind:disabled="mode !== 'new'" :required="true" name="start" v-model="store.currentEvent.endStr" :label="trans('users.labels.end_time')" />
                 </div>
-                <div class="sm:col-span-6 mt-4 pt-4 border-t flex items-center justify-end gap-x-6">
-                    <!-- <Button v-if="mode === 'update'" class="ml-5" @click="handleEventChange" type="button" :label="trans('global.buttons.update')" /> -->
-                    <Button v-if="mode === 'update'" class="ml-5" @click="handleEventRemove" type="button" :label="trans('global.buttons.delete')" />
-                    <Button v-if="mode === 'new'" :label="trans('global.buttons.submit')" />
+                
+                <div class="sm:col-span-6 mt-4 pt-4 border-t flex items-center justify-between gap-x-6">
+                    <div>
+                        <Button v-if="mode === 'update'" @click="handleEventApprove" type="button" :label="trans('global.buttons.approve')" />
+                    </div>
+                    <div>
+                        <Button v-if="mode === 'update'" class="ml-5" @click="handleEventRemove" type="button" :label="trans('global.buttons.delete')" />
+                        <Button v-if="mode === 'new'" :label="trans('global.buttons.submit')" />
+                    </div>
                 </div>
             </div>
         </Form>
@@ -77,6 +82,7 @@ export default {
     props: {
         onEventChange: Function,
         onEventRemove: Function,
+        onEventApprove: Function,
         mode: String,
     },
     components: {
@@ -115,6 +121,10 @@ export default {
             // console.log(response.data) 
         },
 
+        handleEventApprove() {
+            const e = this.store.getCurrentEvent()
+            this.onEventApprove(e)
+        },
 
         handleEventChange() {
             // if (this.onEventChange) {
