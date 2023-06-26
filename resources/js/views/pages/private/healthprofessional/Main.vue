@@ -176,20 +176,20 @@ export default defineComponent({
             this.showCalendar = true
             const service = new AgendaService()
             const response = await service.getAgenda(this.id)
+            this.appointmentTypes = response.data.appointmentTypes
 
             const currentUser = JSON.parse(localStorage.getItem("currentUser"))
 
             this.calendarOptions.events = response.data.appointments.map(appointment => {
-                // If the apppointment was created by the current user, then return it "as is"
 
                 if (appointment.patient_id === currentUser.id) {
+                    // If the apppointment was created by the current user, change background color"
                     appointment.backgroundColor = 'green'
                     return appointment
                 }
 
-                appointment.title = ''
+                return appointment
             })
-            this.appointmentTypes = response.data.appointmentTypes
         },
 
     },

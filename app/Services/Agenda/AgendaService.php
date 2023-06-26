@@ -38,10 +38,18 @@ class AgendaService
             $month = date('m');
         }
 
-
-        return Appointment::where('user_id', $user_id)
+        $appointments = Appointment::where('user_id', $user_id)
             ->whereMonth('start', '=', $month)
             ->get();
+
+        // If the current user is a patient, remove all appoinment titles except those created by the patient himself
+        foreach ($appointments as $appointment) {
+            if (Auth::user()->inRole('patient') && $appointment->patient_id != Auth::id()) {
+                $appointment->title = '';
+            }
+        }
+
+        return $appointments;
     }
 
 
