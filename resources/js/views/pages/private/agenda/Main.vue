@@ -198,6 +198,7 @@ export default defineComponent({
             clickInfo.extendedProps.type = {}
             clickInfo.extendedProps.type_id = null
             clickInfo.extendedProps.patient_id = null
+            clickInfo.extendedProps.approved = 0
 
             this.store.setCurrentEvent(clickInfo)
         },

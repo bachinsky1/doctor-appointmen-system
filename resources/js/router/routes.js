@@ -12,6 +12,7 @@ import {default as Tasks} from "@/views/pages/private/tasks/Main";
 import {default as Statistics} from "@/views/pages/private/statistics/Main";
 import {default as Settings} from "@/views/pages/private/settings/Main";
 import {default as Healthprofessional} from "@/views/pages/private/healthprofessional/Main";
+import { default as Consultation } from "@/views/pages/private/consultation/Main";
 
 import {default as PageUsers} from "@/views/pages/private/users/Index";
 import {default as PageUsersCreate} from "@/views/pages/private/users/Create";
@@ -25,50 +26,57 @@ const routes = [
     {
         name: "home",
         path: "/",
-        meta: {requiresAuth: false},
+        meta: { requiresAuth: false },
         component: PageLogin,
     },
     {
         name: "dashboard",
         path: "/dashboard",
-        meta: {requiresAuth: true},
+        meta: { requiresAuth: true },
         component: PageDashboard,
     },
     {
         name: "agenda",
         path: "/agenda",
-        meta: {requiresAuth: true, requiresAbility: abilities.AGENDA},
+        meta: { requiresAuth: true, requiresAbility: abilities.AGENDA },
         component: Agenda,
     },
     {
         name: "billing",
         path: "/billing",
-        meta: {requiresAuth: true, requiresAbility: abilities.BILLING},
+        meta: { requiresAuth: true, requiresAbility: abilities.BILLING },
         component: Billing,
     },
     {
         name: "task",
         path: "/task",
-        meta: {requiresAuth: true, requiresAbility: abilities.TASK},
+        meta: { requiresAuth: true, requiresAbility: abilities.TASK },
         component: Tasks,
     },
     {
         name: "statistic",
         path: "/statistic",
-        meta: {requiresAuth: true, requiresAbility: abilities.STATISTIC},
+        meta: { requiresAuth: true, requiresAbility: abilities.STATISTIC },
         component: Statistics,
     },
     {
         name: "healthprofessional",
         path: "/healthprofessional/:id",
-        meta: {requiresAuth: true, requiresAbility: abilities.APPOINTMENT},
+        meta: { requiresAuth: true, requiresAbility: abilities.APPOINTMENT },
         component: Healthprofessional,
+        props: true,
+    },
+    {
+        name: "consultation",
+        path: "/consultation/:id",
+        meta: { requiresAuth: true, requiresAbility: abilities.CONSULTATION },
+        component: Consultation,
         props: true,
     },
     {
         name: "profile",
         path: "/profile",
-        meta: {requiresAuth: true, isOwner: true},
+        meta: { requiresAuth: true, isOwner: true },
         component: PageProfile,
     },
     {
@@ -77,22 +85,31 @@ const routes = [
             {
                 name: "users.list",
                 path: "list",
-                meta: {requiresAuth: true, requiresAbility: abilities.LIST_USER},
+                meta: {
+                    requiresAuth: true,
+                    requiresAbility: abilities.LIST_USER,
+                },
                 component: PageUsers,
             },
             {
                 name: "users.create",
                 path: "create",
-                meta: {requiresAuth: true, requiresAbility: abilities.CREATE_USER},
+                meta: {
+                    requiresAuth: true,
+                    requiresAbility: abilities.CREATE_USER,
+                },
                 component: PageUsersCreate,
             },
             {
                 name: "users.edit",
                 path: ":id/edit",
-                meta: {requiresAuth: true, requiresAbility: abilities.EDIT_USER},
+                meta: {
+                    requiresAuth: true,
+                    requiresAbility: abilities.EDIT_USER,
+                },
                 component: PageUsersEdit,
             },
-        ]
+        ],
     },
     // {
     //     path: "/profile",
@@ -108,33 +125,33 @@ const routes = [
     {
         path: "/login",
         name: "login",
-        meta: {requiresAuth: false},
+        meta: { requiresAuth: false },
         component: PageLogin,
     },
     {
         path: "/register",
         name: "register",
-        meta: {requiresAuth: false},
+        meta: { requiresAuth: false },
         component: PageRegister,
     },
     {
         path: "/reset-password",
         name: "resetPassword",
-        meta: {requiresAuth: false},
+        meta: { requiresAuth: false },
         component: PageResetPassword,
     },
     {
         path: "/forgot-password",
         name: "forgotPassword",
-        meta: {requiresAuth: false},
+        meta: { requiresAuth: false },
         component: PageForgotPassword,
     },
     {
         path: "/:catchAll(.*)",
         name: "notFound",
-        meta: {requiresAuth: false},
+        meta: { requiresAuth: false },
         component: PageNotFound,
     },
-]
+];
 
 export default routes;

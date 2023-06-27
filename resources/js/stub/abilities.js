@@ -9,6 +9,7 @@ const abilities = {
     TASK: 'task',
     STATISTIC: 'statistic',
     APPOINTMENT: 'appointment',
+    CONSULTATION: 'consultation',
 }
 
 export default abilities;

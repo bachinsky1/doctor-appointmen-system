@@ -12,6 +12,7 @@ use App\Models\Billing;
 use App\Models\Task;
 use App\Models\Statistic;
 use App\Models\Appointment;
+use App\Models\Consultation;
 
 class BouncerSeeder extends Seeder
 {
@@ -31,5 +32,6 @@ class BouncerSeeder extends Seeder
         Bouncer::allow('healthcare')->toOwn(Billing::class)->to(['billing']);
         Bouncer::allow('healthcare')->toOwn(Task::class)->to(['task']);
         Bouncer::allow('healthcare')->toOwn(Statistic::class)->to(['statistic']);
+        Bouncer::allow('healthcare')->toOwn(Consultation::class)->to(['consultation']);
     }
 }

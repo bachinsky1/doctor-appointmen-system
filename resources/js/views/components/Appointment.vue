@@ -50,7 +50,7 @@
                 
                 <div class="sm:col-span-6 mt-4 pt-4 border-t flex items-center justify-between gap-x-6">
                     <div>
-                        <Button v-if="store.currentEvent.extendedProps.approved === 0" @click="handleEventApprove" type="button" :label="trans('global.buttons.approve')" />
+                        <Button v-if="mode === 'update' && store.currentEvent.extendedProps.approved === 0" @click="handleEventApprove" type="button" :label="trans('global.buttons.approve')" />
                     </div>
                     <div>
                         <Button v-if="mode === 'update' && store.currentEvent.extendedProps.approved === 0" class="ml-5" @click="handleEventRemove" type="button" :label="trans('global.buttons.delete')" />
@@ -144,6 +144,11 @@ export default {
         handleCreateConsultation() {
             const e = this.store.getCurrentEvent()
             console.log(e)
+            this.$router.push({
+                name: 'consultation', params: {
+                    id: 5, //e.extendedProps.public_id
+                }
+            })
         }
     },
 

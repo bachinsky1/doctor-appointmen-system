@@ -83,7 +83,8 @@ return [
             "login" => "Login",
             "logout" => "Logout",
             "forgot_password" => "Forgot Password",
-            "reset_password" => "Reset Password"
+            "reset_password" => "Reset Password",
+            "consultation" => "Consultation"
         ],
         "phrases" => [
             'clear_filters' => 'Clear all',

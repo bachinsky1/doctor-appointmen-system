@@ -46,7 +46,6 @@ export default defineComponent({
             }
             // console.log(this.items)
             return this.items
-            // return this.items.filter(item => item.last_name.toLowerCase().includes(this.searchTerm.toLowerCase()))
         },
     },
 

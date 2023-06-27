@@ -222,6 +222,14 @@ export default {
                     requiresAbility: getAbilitiesForRoute('healthprofessional'),
                     to: '/healthprofessional',
                 },
+                // {
+                //     name: trans('global.pages.consultation'),
+                //     icon: 'delicious',
+                //     showDesktop: true,
+                //     showMobile: true,
+                //     requiresAbility: getAbilitiesForRoute('consultation'),
+                //     to: '/consultation',
+                // },
             ],
             headerLeftLink: {
                 name: trans('global.buttons.new_record'),
