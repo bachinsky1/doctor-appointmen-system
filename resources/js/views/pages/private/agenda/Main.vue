@@ -226,7 +226,7 @@ export default defineComponent({
             for (let index = 0; index < appointments.length; index++) {
 
                 if (!!appointments[index].approved) {
-                    appointments[index].backgroundColor = 'green'
+                    appointments[index].backgroundColor = 'orange'
                 }
             }
             this.calendarOptions.events = appointments

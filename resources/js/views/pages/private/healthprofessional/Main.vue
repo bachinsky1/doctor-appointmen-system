@@ -215,7 +215,11 @@ export default defineComponent({
              for (let index = 0; index < appointments.length; index++) {
 
                 if (appointments[index].patient_id === this.currentUser.id) {
-                    appointments[index].backgroundColor = 'green'
+                    if (!!appointments[index].approved) {
+                        appointments[index].backgroundColor = 'orange'
+                    } else {
+                        appointments[index].backgroundColor = 'green'
+                    }
                 }
 
             }
