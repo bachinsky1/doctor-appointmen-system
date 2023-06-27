@@ -2,6 +2,7 @@
 
 namespace App\Services\Agenda;
 
+use App\Http\Requests\ChangeAppointmentRequest;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Models\Appointment;
 use App\Models\AppointmentType;
@@ -31,10 +32,10 @@ class AgendaService
      */
     public function getAppointments($request): Collection
     {
-        
+
         $start = $request->input('start');
         $end = $request->input('end');
-        $user_id = $request->input('id') ? $request->input('id') : Auth::id(); 
+        $user_id = $request->input('id') ? $request->input('id') : Auth::id();
 
         $appointments = Appointment::with(['user', 'type', 'patient'])
             ->where(function ($query) use ($user_id) {
@@ -89,6 +90,27 @@ class AgendaService
         return $appointment->save();
     }
 
+
+    /**
+     * Summary of changeAppointment
+     * @param \App\Http\Requests\StoreAppointmentRequest $request
+     * @return bool
+     */
+    public function changeAppointment(ChangeAppointmentRequest $request): bool
+    {
+        $appointment = Appointment::where('public_id', $request->public_id)->first();
+
+        if (!$appointment) {
+            return false;
+        }
+
+        $appointment->start = $request->start;
+        $appointment->end = $request->end;
+        $appointment->allDay = $request->allDay;
+
+        return $appointment->save();
+    }
+
     /**
      * Summary of destroyAppointment
      * @param mixed $public_id
@@ -118,6 +140,7 @@ class AgendaService
     {
         $users = User::where('first_name', 'LIKE', '%' . $search . '%')
             ->orWhere('last_name', 'LIKE', '%' . $search . '%')
+            ->take(10)
             ->get();
 
         return $users;
@@ -133,5 +156,7 @@ class AgendaService
         $appointment->approved = true;
         return $appointment->save();
     }
+
+
 
 }

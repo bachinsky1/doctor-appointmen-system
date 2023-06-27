@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeAppointmentRequest;
 use App\Http\Requests\GetAppointmentsRequest;
 use App\Http\Requests\SearchPatientRequest;
 use App\Http\Requests\StoreAppointmentRequest; 
@@ -54,6 +55,21 @@ class AgendaController extends Controller
     public function storeAppointment(StoreAppointmentRequest $request): JsonResponse
     {
         $result = $this->agendaService->storeAppointment($request);
+
+        return !!$result
+            ? response()->json(['message' => 'Data saved successfully'])
+            : response()->json(['message' => 'Error'], 500);
+
+    }
+
+    /**
+     * Summary of change
+     * @param \App\Http\Requests\ChangeAppointmentRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeAppointment(ChangeAppointmentRequest $request): JsonResponse
+    {
+        $result = $this->agendaService->changeAppointment($request);
 
         return !!$result
             ? response()->json(['message' => 'Data saved successfully'])

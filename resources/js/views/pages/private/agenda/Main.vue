@@ -6,9 +6,9 @@
             <div class='demo-app-sidebar-section'>
                 <h2>Instructions</h2>
                 <ul>
-                    <li>Select dates and you will be prompted to create a new event</li>
-                    <li>Drag, drop, and resize events</li>
-                    <li>Click an event to delete it</li>
+                    <li>Select dates and you will be prompted to create a new appointment</li>
+                    <li>Drag, drop, and resize appointments</li>
+                    <li>Click an appointment to delete it</li>
                 </ul>
             </div>
             <div class='demo-app-sidebar-section'>
@@ -16,7 +16,7 @@
                     <input type='checkbox' :checked='calendarOptions.weekends' @change='handleWeekendsToggle' /> toggle weekends </label>
             </div>
             <div class='demo-app-sidebar-section'>
-                <h2>All Events ({{ currentEvents.length }})</h2>
+                <h2>All Appointments ({{ currentEvents.length }})</h2>
                 <ul>
                     <li v-for='event in currentEvents' :key='event.id'>
                         <b>{{ event.startStr }}</b>
@@ -100,6 +100,8 @@ export default defineComponent({
                 /* you can update a remote database when these fire:*/
                 eventAdd: this.eventAdd,
                 eventChange: this.eventChange,
+                eventDrop: this.eventDrop,
+                eventResize: this.eventResize,
                 eventRemove: this.eventRemove,
                 datesSet: this.handleDatesSet,
                 viewDidMount: this.handleViewDidMount,
@@ -118,6 +120,25 @@ export default defineComponent({
     },
 
     methods: {
+        async eventDrop(info) { 
+            if (!confirm("Are you sure about this change?")) {
+                info.revert()
+                return
+            }
+
+            const event = info.event
+            await this.service.changeAppointment(event) 
+        },
+
+        async eventResize(info) {
+            if (!confirm("Are you sure about this change?")) {
+                info.revert()
+                return
+            }
+            const event = info.event
+            await this.service.changeAppointment(event) 
+        },
+
         async loadAppointments() {
             const response = await this.service.getAgenda()
 

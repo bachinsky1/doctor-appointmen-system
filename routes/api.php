@@ -40,6 +40,7 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/agenda/search/patient', [AgendaController::class, 'searchPatient'])->middleware('throttle:400,1');
     Route::get('/agenda/appointments/types', [AgendaController::class, 'getAppointmentTypes']);
     Route::post('/agenda/appointments/store', [AgendaController::class, 'storeAppointment']);
+    Route::post('/agenda/appointments/change', [AgendaController::class, 'changeAppointment']);
     Route::get('/agenda/appointments/{id}', [AgendaController::class, 'index']);
     Route::patch('/agenda/appointments/approve', [AgendaController::class, 'approveAppointment']);
     Route::delete('/agenda/appointments/{id}', [AgendaController::class, 'destroy']);
