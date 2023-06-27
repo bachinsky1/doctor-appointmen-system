@@ -225,9 +225,17 @@ export default defineComponent({
                 start,
                 end
             })
+ 
+            const appointments = this.checkAppointments(response.data)
+        
+            this.calendarOptions.events = appointments
 
-            const appointments = response.data
+            const now = new Date()
+            this.$refs.fullCalendar.getApi().scrollToTime(now.toTimeString(), { block: 'center' })
+        },
 
+
+        checkAppointments(appointments) {
             for (let index = 0; index < appointments.length; index++) {
                 if (appointments[index].patient_id === this.currentUser.id) {
                     if (!!appointments[index].approved) {
@@ -235,14 +243,10 @@ export default defineComponent({
                     } else {
                         appointments[index].backgroundColor = 'green'
                     }
-
                 }
             }
 
-            this.calendarOptions.events = appointments
-
-            const now = new Date()
-            this.$refs.fullCalendar.getApi().scrollToTime(now.toTimeString(), { block: 'center' })
+            return appointments
         },
 
         async handleViewDidMount(info) {
@@ -255,19 +259,9 @@ export default defineComponent({
                 start,
                 end
             })
-
-            const appointments = response.data
-
-            for (let index = 0; index < appointments.length; index++) {
-                if (appointments[index].patient_id === this.currentUser.id) {
-                    if (!!appointments[index].approved) {
-                        appointments[index].backgroundColor = 'orange'
-                    } else {
-                        appointments[index].backgroundColor = 'green'
-                    }
-                }
-            }
-
+ 
+            const appointments = this.checkAppointments(response.data)
+            
             this.calendarOptions.events = appointments
         },
 

@@ -242,31 +242,29 @@ export default defineComponent({
             const dates = convertCalendarDates(info)
             const response = await this.agendaService.getAgenda(dates)
 
-            const appointments = response.data
+            const appointments = this.checkAppointments(response.data)
 
-            for (let index = 0; index < appointments.length; index++) {
-
-                if (!!appointments[index].approved) {
-                    appointments[index].backgroundColor = 'orange'
-                }
-            }
             this.calendarOptions.events = appointments
         },
 
+        checkAppointments(appointments) {
+            
+            for (let index = 0; index < appointments.length; index++) {
+                if (!!appointments[index].approved) {
+                    appointments[index].backgroundColor = 'orange'
+                } 
+            }
+
+            return appointments
+        },
 
         async handleViewDidMount(info) {
 
             const dates = convertCalendarDates(info)
             const response = await this.agendaService.getAgenda(dates)
 
-            const appointments = response.data
+            const appointments = this.checkAppointments(response.data)
 
-            for (let index = 0; index < appointments.length; index++) {
-
-                if (!!appointments[index].approved) {
-                    appointments[index].backgroundColor = 'orange'
-                }
-            }
             this.calendarOptions.events = appointments
         },
     },
