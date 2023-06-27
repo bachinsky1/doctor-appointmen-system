@@ -15,7 +15,7 @@
                 <VitalSigns />
                 <BloodGroup />
                 <Laboratory />
-                <CovidSertificates />
+                <CovidCertificates />
             </div>
             <div class="w-full md:w-1/3">
                 <Letter />
@@ -43,7 +43,7 @@ import MedicalDocument from '@/views/pages/private/consultation/MedicalDocument'
 import Prescription from '@/views/pages/private/consultation/Prescription'
 import AttachDocument from '@/views/pages/private/consultation/AttachDocument'
 import PreviousConsultations from '@/views/pages/private/consultation/PreviousConsultations'
-import CovidSertificates from '@/views/pages/private/consultation/CovidSertificates'
+import CovidCertificates from '@/views/pages/private/consultation/CovidCertificates'
 import BloodGroup from '@/views/pages/private/consultation/BloodGroup'
 
 export default defineComponent({
@@ -61,7 +61,7 @@ export default defineComponent({
         Prescription,
         AttachDocument,
         PreviousConsultations,
-        CovidSertificates,
+        CovidCertificates,
         BloodGroup,
     },
     setup() {
