@@ -212,12 +212,14 @@ export default defineComponent({
 
             const appointments = response.data
 
-            for (let index = 0; index < appointments.length; index++) {
+             for (let index = 0; index < appointments.length; index++) {
 
-                if (!!appointments[index].approved) {
+                if (appointments[index].patient_id === this.currentUser.id) {
                     appointments[index].backgroundColor = 'green'
                 }
+
             }
+            
             this.calendarOptions.events = appointments
 
             const now = new Date()
