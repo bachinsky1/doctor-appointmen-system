@@ -1,5 +1,3 @@
-
-
 <template>
     <div class='demo-app'>
         <div class='demo-app-sidebar'>
@@ -248,7 +246,7 @@ export default defineComponent({
         },
 
         checkAppointments(appointments) {
-            
+
             for (let index = 0; index < appointments.length; index++) {
                 if (!!appointments[index].approved) {
                     appointments[index].backgroundColor = 'orange'
