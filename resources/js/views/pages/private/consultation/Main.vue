@@ -1,23 +1,68 @@
+
+
 <template>
-    <Page>
-        <div class="w-1/2 m-auto text-center pt-10">
-            <h1 class="text-6xl mb-4 font-bold text-gray-600">Consultation</h1>
-            <h4 class="text-gray-500 text-2xl">{{ new Date() }}</h4>
+    <Page title="Consultation">
+        <div class="flex flex-wrap">
+            <div class="w-full md:w-1/3">
+                <MedicalNotes />
+                <ConsultationNotes />
+                <PatientNotes />
+                <MedicalHistory />
+                <PreviousConsultations />
+            </div>
+            <div class="w-full md:w-1/3">
+                <Problems />
+                <VitalSigns />
+                <BloodGroup />
+                <Laboratory />
+                <CovidSertificates />
+            </div>
+            <div class="w-full md:w-1/3">
+                <Letter />
+                <MedicalDocument />
+                <Prescription />
+                <AttachDocument />
+            </div>
         </div>
-        <footer class="py-5 text-center">
-            <p class="text-gray-400">{{ trans('global.phrases.inspire') }}</p>
-        </footer>
     </Page>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import { trans } from "@/helpers/i18n";
-import Page from "@/views/layouts/Page";
+import { defineComponent } from 'vue'
+import { trans } from "@/helpers/i18n"
+import Page from "@/views/layouts/Page"
+import MedicalNotes from '@/views/pages/private/consultation/MedicalNotes'
+import MedicalHistory from '@/views/pages/private/consultation/MedicalHistory'
+import VitalSigns from '@/views/pages/private/consultation/VitalSigns'
+import Problems from '@/views/pages/private/consultation/Problems'
+import ConsultationNotes from '@/views/pages/private/consultation/ConsultationNotes'
+import PatientNotes from '@/views/pages/private/consultation/PatientNotes'
+import Laboratory from '@/views/pages/private/consultation/Laboratory'
+import Letter from '@/views/pages/private/consultation/Letter'
+import MedicalDocument from '@/views/pages/private/consultation/MedicalDocument'
+import Prescription from '@/views/pages/private/consultation/Prescription'
+import AttachDocument from '@/views/pages/private/consultation/AttachDocument'
+import PreviousConsultations from '@/views/pages/private/consultation/PreviousConsultations'
+import CovidSertificates from '@/views/pages/private/consultation/CovidSertificates'
+import BloodGroup from '@/views/pages/private/consultation/BloodGroup'
 
 export default defineComponent({
     components: {
-        Page
+        Page,
+        MedicalNotes,
+        MedicalHistory,
+        VitalSigns,
+        Problems,
+        ConsultationNotes,
+        PatientNotes,
+        Laboratory,
+        Letter,
+        MedicalDocument,
+        Prescription,
+        AttachDocument,
+        PreviousConsultations,
+        CovidSertificates,
+        BloodGroup,
     },
     setup() {
         return {
@@ -26,3 +71,4 @@ export default defineComponent({
     }
 });
 </script>
+

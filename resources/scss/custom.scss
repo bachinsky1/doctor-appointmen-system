@@ -46,3 +46,12 @@
     /* used for event dates/times */
     margin-right: 3px;
 }
+
+.max-h-20vh {
+    max-height: 20vh;
+}
+@media (max-width: 768px) {
+    .flex-wrap>* {
+        width: 100% !important;
+    }
+}
