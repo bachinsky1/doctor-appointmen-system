@@ -50,10 +50,11 @@
                 
                 <div class="sm:col-span-6 mt-4 pt-4 border-t flex items-center justify-between gap-x-6">
                     <div>
-                        <Button v-if="mode === 'update'" @click="handleEventApprove" type="button" :label="trans('global.buttons.approve')" />
+                        <Button v-if="store.currentEvent.extendedProps.approved === 0" @click="handleEventApprove" type="button" :label="trans('global.buttons.approve')" />
                     </div>
                     <div>
-                        <Button v-if="mode === 'update'" class="ml-5" @click="handleEventRemove" type="button" :label="trans('global.buttons.delete')" />
+                        <Button v-if="mode === 'update' && store.currentEvent.extendedProps.approved === 0" class="ml-5" @click="handleEventRemove" type="button" :label="trans('global.buttons.delete')" />
+                        <Button v-if="store.currentEvent.extendedProps.approved === 1" @click="handleCreateConsultation" type="button" :label="trans('global.buttons.create_consultation')" />
                         <Button v-if="mode === 'new'" :label="trans('global.buttons.submit')" />
                     </div>
                 </div>
@@ -139,6 +140,11 @@ export default {
                 this.onEventRemove(e)
             }
         },
+
+        handleCreateConsultation() {
+            const e = this.store.getCurrentEvent()
+            console.log(e)
+        }
     },
 
     

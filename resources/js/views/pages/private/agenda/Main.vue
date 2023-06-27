@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class='demo-app-main'>
-            <FullCalendar class='demo-app-calendar' :options='calendarOptions' ref="fullCalendar">
+            <FullCalendar class='demo-app-calendar' v-if="calendarOptions" :options='calendarOptions' ref="fullCalendar" @datesSet="handleDatesSet">
                 <template v-slot:eventContent='arg'>
                     <b>{{ arg.timeText }}</b>
                     <i>{{ arg.event.title }}</i>
@@ -45,12 +45,12 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { createEventId } from '@/helpers/utils'
+import { createEventId, convertCalendarDates } from '@/helpers/utils'
 import moment from 'moment'
 import Modal from '@/views/components/Modal.vue'
 import Appointment from '@/views/components/Appointment.vue'
 import { useAgendaStore } from '@/stores'
-import AgendaService from '@/services/AgendaService' 
+import AgendaService from '@/services/AgendaService'
 
 
 export default defineComponent({
@@ -88,7 +88,7 @@ export default defineComponent({
                 scrollTime: 0,
                 locale: 'en-GB',
                 dateClick: this.handleDateClick,
-                initialView: 'timeGridWeek', 
+                initialView: 'timeGridWeek',
                 editable: true,
                 selectable: true,
                 selectMirror: true,
@@ -108,19 +108,18 @@ export default defineComponent({
             selectInfo: null,
             currentEvents: [],
             isShowing: false,
-            mode: '', 
+            mode: '',
         }
     },
 
     mounted() {
         const now = new Date()
-        this.$refs.fullCalendar.getApi().scrollToTime(now.toTimeString(), { block: 'center' }) 
+        this.$refs.fullCalendar.getApi().scrollToTime(now.toTimeString(), { block: 'center' })
     },
 
     methods: {
         async loadAppointments() {
-            const service = new AgendaService()
-            const response = await service.getAgenda()
+            const response = await this.service.getAgenda()
 
             const appointments = response.data
 
@@ -134,8 +133,7 @@ export default defineComponent({
         },
 
         async eventAdd(event) {
-            const service = new AgendaService()
-            await service.storeAppointment(event)
+            await this.service.storeAppointment(event)
         },
 
         eventChange(event) {
@@ -148,20 +146,25 @@ export default defineComponent({
 
         async eventApprove(event) {
             this.isShowing = false
-            const service = new AgendaService()
-            const result = await service.approveAppointment(event.extendedProps.public_id)
+            const result = await this.service.approveAppointment(event.extendedProps.public_id)
+
+            if (!!result == false) return
+            
+            if (this.$refs.fullCalendar) {
+                const calendar = this.$refs.fullCalendar.getApi()
+                this.handleDatesSet(calendar)
+            }
         },
 
         async eventRemove(event) {
             this.isShowing = false
-            const service = new AgendaService()
-            await service.destroyAppointment(event.extendedProps.public_id)
+            await this.service.destroyAppointment(event.extendedProps.public_id)
 
             this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
         },
 
         handleCalendarEvent(event) {
-            console.log(event)
+            // console.log(event)
             const newAppointment = {
                 id: createEventId(),
                 public_id: createEventId(),
@@ -184,7 +187,7 @@ export default defineComponent({
         },
 
         handleDateSelect(clickInfo) {
-            console.log('handleDateSelect')
+            // console.log('handleDateSelect')
             this.selectInfo = clickInfo
             this.isShowing = true
             this.mode = 'new'
@@ -196,16 +199,15 @@ export default defineComponent({
             clickInfo.extendedProps.type_id = null
             clickInfo.extendedProps.patient_id = null
 
-            const store = useAgendaStore()
-            store.setCurrentEvent(clickInfo)
+            this.store.setCurrentEvent(clickInfo)
         },
 
         handleEventClick(clickInfo) {
             this.isShowing = true
             this.mode = 'update'
 
-            const store = useAgendaStore()
-            store.setCurrentEvent(clickInfo.event.toPlainObject())
+            this.store.setCurrentEvent(clickInfo.event.toPlainObject())
+            console.log(this.store.getCurrentEvent())
         },
 
         handleEvents(events) {
@@ -214,12 +216,8 @@ export default defineComponent({
         },
 
         async handleDatesSet(info) {
-            // console.log('handleDatesSet', info)
-            const start = info.startStr
-            const end = info.endStr
-
-            const service = new AgendaService()
-            const response = await service.getAgenda({start, end})
+            const dates = convertCalendarDates(info)
+            const response = await this.service.getAgenda(dates)
 
             const appointments = response.data
 
@@ -231,14 +229,12 @@ export default defineComponent({
             }
             this.calendarOptions.events = appointments
         },
+
 
         async handleViewDidMount(info) {
-            // console.log('handleViewDidMount', info)
-            const start = moment(info.view.activeStart, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ').format('YYYY-MM-DDTHH:mm:ssZ')
-            const end = moment(info.view.activeEnd, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ').format('YYYY-MM-DDTHH:mm:ssZ')
-            
-            const service = new AgendaService()
-            const response = await service.getAgenda({start, end})
+
+            const dates = convertCalendarDates(info)
+            const response = await this.service.getAgenda(dates)
 
             const appointments = response.data
 
@@ -250,6 +246,16 @@ export default defineComponent({
             }
             this.calendarOptions.events = appointments
         },
+    },
+
+    setup() {
+        const store = useAgendaStore()
+        const service = new AgendaService()
+        
+        return {
+            store,
+            service 
+        }
     }
 })
 </script>

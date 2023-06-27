@@ -20,9 +20,31 @@ export const useAgendaStore = defineStore({
                 type: {},
             },
         },
+
+        currentTime: {
+            start: "",
+            end: "",
+        }
     }),
 
     actions: {
+
+        setCurrentTime({ start, end}) {
+            this.currentTime.start = moment(
+                start,
+                "ddd MMM DD YYYY HH:mm:ss [GMT]ZZ"
+            ).format("YYYY-MM-DDTHH:mm:ssZ")
+            
+            this.currentTime.end = moment(
+                end,
+                "ddd MMM DD YYYY HH:mm:ss [GMT]ZZ"
+            ).format("YYYY-MM-DDTHH:mm:ssZ")
+            
+        },
+
+        getCurrentTime() {
+            return this.currentTime
+        },
 
         setCurrentEvent(event) {  
             this.currentEvent = event

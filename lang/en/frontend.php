@@ -143,6 +143,7 @@ return [
             "add" => "Add",
             "change_avatar" => "Change Avatar",
             "approve" => "Approve",
+            "create_consultation" => "Create Consultation",
         ],
         "actions" => [
             "name" => "Actions",
