@@ -24,7 +24,7 @@ export default class AgendaService extends ModelService {
         if (Object.keys(payload).length < 2) return []
 
         const url = this.url
-        console.log(payload)
+        // console.log(payload)
 
         const data = {
             start: payload.start,
@@ -67,7 +67,7 @@ export default class AgendaService extends ModelService {
 
     public changeAppointment(payload) {
 
-        console.log(payload)
+        // console.log(payload)
         const { extendedProps, start, end, allDay } = payload
         const url = `${this.url}/appointments/change`
 

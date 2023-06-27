@@ -100,8 +100,8 @@ export default defineComponent({
                 /* you can update a remote database when these fire:*/
                 eventAdd: this.eventAdd,
                 eventChange: this.eventChange,
-                eventDrop: this.eventDrop,
-                eventResize: this.eventResize,
+                eventDrop: this.eventDropOrResize,
+                eventResize: this.eventDropOrResize,
                 eventRemove: this.eventRemove,
                 datesSet: this.handleDatesSet,
                 viewDidMount: this.handleViewDidMount,
@@ -120,27 +120,28 @@ export default defineComponent({
     },
 
     methods: {
-        async eventDrop(info) { 
-            if (!confirm("Are you sure about this change?")) {
-                info.revert()
-                return
-            }
+        async eventDropOrResize(info) {
 
-            const event = info.event
-            await this.service.changeAppointment(event) 
+            const event = this.checkEvent(info)
+            if (!!event === false) return
+
+            await this.agendaService.changeAppointment(event)
         },
 
-        async eventResize(info) {
+        checkEvent(info) {
+            const event = info.event
+
             if (!confirm("Are you sure about this change?")) {
                 info.revert()
-                return
+                return false
             }
-            const event = info.event
-            await this.service.changeAppointment(event) 
+
+            return event
         },
+
 
         async loadAppointments() {
-            const response = await this.service.getAgenda()
+            const response = await this.agendaService.getAgenda()
 
             const appointments = response.data
 
@@ -154,7 +155,7 @@ export default defineComponent({
         },
 
         async eventAdd(event) {
-            await this.service.storeAppointment(event)
+            await this.agendaService.storeAppointment(event)
         },
 
         eventChange(event) {
@@ -167,7 +168,7 @@ export default defineComponent({
 
         async eventApprove(event) {
             this.isShowing = false
-            const result = await this.service.approveAppointment(event.extendedProps.public_id)
+            const result = await this.agendaService.approveAppointment(event.extendedProps.public_id)
 
             if (!!result == false) return
             
@@ -179,7 +180,7 @@ export default defineComponent({
 
         async eventRemove(event) {
             this.isShowing = false
-            await this.service.destroyAppointment(event.extendedProps.public_id)
+            await this.agendaService.destroyAppointment(event.extendedProps.public_id)
 
             this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
         },
@@ -221,15 +222,15 @@ export default defineComponent({
             clickInfo.extendedProps.patient_id = null
             clickInfo.extendedProps.approved = 0
 
-            this.store.setCurrentEvent(clickInfo)
+            this.agendaStore.setCurrentEvent(clickInfo)
         },
 
         handleEventClick(clickInfo) {
             this.isShowing = true
             this.mode = 'update'
 
-            this.store.setCurrentEvent(clickInfo.event.toPlainObject())
-            console.log(this.store.getCurrentEvent())
+            this.agendaStore.setCurrentEvent(clickInfo.event.toPlainObject())
+            // console.log(this.agendaStore.getCurrentEvent())
         },
 
         handleEvents(events) {
@@ -239,7 +240,7 @@ export default defineComponent({
 
         async handleDatesSet(info) {
             const dates = convertCalendarDates(info)
-            const response = await this.service.getAgenda(dates)
+            const response = await this.agendaService.getAgenda(dates)
 
             const appointments = response.data
 
@@ -256,7 +257,7 @@ export default defineComponent({
         async handleViewDidMount(info) {
 
             const dates = convertCalendarDates(info)
-            const response = await this.service.getAgenda(dates)
+            const response = await this.agendaService.getAgenda(dates)
 
             const appointments = response.data
 
@@ -271,12 +272,12 @@ export default defineComponent({
     },
 
     setup() {
-        const store = useAgendaStore()
-        const service = new AgendaService()
+        const agendaStore = useAgendaStore()
+        const agendaService = new AgendaService()
         
         return {
-            store,
-            service 
+            agendaStore,
+            agendaService 
         }
     }
 })

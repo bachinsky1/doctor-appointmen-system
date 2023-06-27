@@ -2,7 +2,7 @@
     <Page>
         <div class="w-full bg-white py-2 px-6 hidden sm:flex">
             <div class="w-1/6">
-                <a href="#" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="getAppointments"> Create appointment </a>
+                <a href="#" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="getAppointments"> Appointments </a>
             </div>
             <div class="w-5/6">
                 <div class='demo-app-main'>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <Modal :is-showing="isShowing" @close="isShowing = false;">
-            <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode"  />
+            <Appointment @error="isShowing = false;" @done="handleCalendarEvent" :onEventChange="eventChange" :onEventRemove="eventRemove" :mode="mode" />
         </Modal>
     </Page>
 </template>
@@ -97,10 +97,11 @@ export default defineComponent({
                 /* you can update a remote database when these fire:*/
                 eventAdd: this.eventAdd,
                 eventChange: this.eventChange,
+                eventDrop: this.eventDropOrResize,
+                eventResize: this.eventDropOrResize,
                 eventRemove: this.eventRemove,
                 datesSet: this.handleDatesSet,
                 viewDidMount: this.handleViewDidMount,
-
             },
             showCalendar: false,
             calendarPlugins: [dayGridPlugin, timeGridPlugin],
@@ -108,14 +109,37 @@ export default defineComponent({
             isShowing: false,
             mode: '',
             selectInfo: null,
-            currentEvents: [], 
+            currentEvents: [],
         }
     },
 
     methods: {
+        async eventDropOrResize(info) {
+
+            const event = this.checkEvent(info)
+            if (!!event === false) return
+
+            await this.agendaService.changeAppointment(event)
+        },
+
+        checkEvent(info) {
+            const event = info.event
+
+            if (event.extendedProps.patient.id !== this.currentUser.id) {
+                info.revert()
+                return false
+            }
+
+            if (!confirm("Are you sure about this change?")) {
+                info.revert()
+                return false
+            }
+
+            return event
+        },
+
         async eventAdd(event) {
-            const service = new AgendaService()
-            await service.storeAppointment(event)
+            await this.agendaService.storeAppointment(event)
         },
 
         eventChange(event) {
@@ -129,30 +153,26 @@ export default defineComponent({
         async eventRemove(event) {
             // console.log('eventRemove', event.extendedProps)
             this.isShowing = false
-            const service = new AgendaService()
-            await service.destroyAppointment(event.extendedProps.public_id)
+            await this.agendaService.destroyAppointment(event.extendedProps.public_id)
 
             this.calendarOptions.events = this.calendarOptions.events.filter(e => e.public_id !== event.extendedProps.public_id)
         },
 
         handleEventClick(clickInfo) {
             const event = clickInfo.event
-            console.log(event)
+            // console.log(event)
             if (event.extendedProps.patient.id === this.currentUser.id) {
                 this.isShowing = true
                 this.mode = 'update'
 
-                const store = useAgendaStore()
-                store.setCurrentEvent(clickInfo.event.toPlainObject())
+                this.agendaStore.setCurrentEvent(clickInfo.event.toPlainObject())
             }
         },
 
         handleDateSelect(clickInfo) {
 
             if (clickInfo.start < new Date()) {
-                const alertStore = useAlertStore()
-                alertStore.error('Cannot select past time')
-                console.log('Cannot select past time')
+                this.alertStore.error('Cannot select past time')
                 return false
             }
 
@@ -161,8 +181,6 @@ export default defineComponent({
             this.clickInfo = clickInfo
             this.mode = 'new'
 
-            const store = useAgendaStore()
-
             clickInfo.title = ''
             clickInfo.extendedProps = {}
             clickInfo.extendedProps.patient = {}
@@ -170,7 +188,7 @@ export default defineComponent({
             clickInfo.extendedProps.type_id = null
             clickInfo.extendedProps.patient_id = null
 
-            store.setCurrentEvent(clickInfo)
+            this.agendaStore.setCurrentEvent(clickInfo)
         },
 
         handleCalendarEvent(event) {
@@ -190,21 +208,19 @@ export default defineComponent({
             }
             this.calendarOptions.events.push(newAppointment)
             calendarApi.addEvent(newAppointment)
-            
+
             this.isShowing = false
         },
 
         async getAppointments() {
-            this.showCalendar = true 
+            this.showCalendar = true
         },
 
         async handleDatesSet(info) {
-            // console.log('handleDatesSet', info)
             const start = info.startStr
             const end = info.endStr
 
-            const service = new AgendaService()
-            const response = await service.getAgenda({
+            const response = await this.agendaService.getAgenda({
                 id: this.id,
                 start,
                 end
@@ -212,7 +228,7 @@ export default defineComponent({
 
             const appointments = response.data
 
-             for (let index = 0; index < appointments.length; index++) {
+            for (let index = 0; index < appointments.length; index++) {
 
                 if (appointments[index].patient_id === this.currentUser.id) {
                     if (!!appointments[index].approved) {
@@ -223,7 +239,7 @@ export default defineComponent({
                 }
 
             }
-            
+
             this.calendarOptions.events = appointments
 
             const now = new Date()
@@ -235,18 +251,18 @@ export default defineComponent({
             const start = moment(info.view.activeStart, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ').format('YYYY-MM-DDTHH:mm:ssZ')
             const end = moment(info.view.activeEnd, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ').format('YYYY-MM-DDTHH:mm:ssZ')
 
-            const service = new AgendaService()
-            const response = await service.getAgenda({
+            const response = await this.agendaService.getAgenda({
                 id: this.id,
                 start,
                 end
             })
 
             const appointments = response.data
-
             for (let index = 0; index < appointments.length; index++) {
 
                 if (!!appointments[index].approved) {
+                    appointments[index].backgroundColor = 'orange'
+                } else {
                     appointments[index].backgroundColor = 'green'
                 }
             }
@@ -257,9 +273,15 @@ export default defineComponent({
 
     setup() {
         const currentUser = JSON.parse(localStorage.getItem("currentUser"))
+        const agendaStore = useAgendaStore()
+        const agendaService = new AgendaService()
+        const alertStore = useAlertStore()
 
-        return {  
-            currentUser
+        return {
+            currentUser,
+            agendaStore,
+            agendaService,
+            alertStore
         };
     },
 
