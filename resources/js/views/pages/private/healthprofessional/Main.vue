@@ -79,6 +79,7 @@ export default defineComponent({
                 selectConstraint: {
                     start: moment().startOf('day').format(),
                 },
+                eventOverlap: false,
                 events: [],
                 firstDay: 1,
                 scrollTime: 0,
