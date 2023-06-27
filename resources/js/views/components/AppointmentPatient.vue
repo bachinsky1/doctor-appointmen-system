@@ -21,10 +21,7 @@
                             :preselect-first="true" 
                             :loading="isLoading"  
                         >
-                        </multiselect>
-                    <!-- <select required="true" id="appointmentType" v-bind:disabled="mode !== 'new'" v-model="store.type_id" v-bind:value="store.type_id" class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm">
-                        <option v-for="aType in appointmentTypes" :key="aType.id" :value="aType.id">{{ aType.name }}</option>
-                    </select> -->
+                        </multiselect> 
                 </div>
                 <div class="sm:col-span-3">
                     <TextInput type="datetime-local" v-bind:disabled="mode !== 'new'" :required="true" name="start" v-model="store.currentEvent.startStr" :label="trans('users.labels.start_time')" />
@@ -78,6 +75,8 @@ export default {
 
     methods: {
         onSubmitForm() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+            this.store.currentEvent.extendedProps.patient = currentUser
             this.$emit('done', {
                 start: this.store.currentEvent.start,
                 end: this.store.currentEvent.end,

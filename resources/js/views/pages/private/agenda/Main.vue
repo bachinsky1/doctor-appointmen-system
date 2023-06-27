@@ -45,7 +45,7 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { createEventId } from './../agenda/utils'
+import { createEventId } from '@/helpers/utils'
 import moment from 'moment'
 import Modal from '@/views/components/Modal.vue'
 import Appointment from '@/views/components/Appointment.vue'
@@ -151,7 +151,7 @@ export default defineComponent({
         },
 
         handleCalendarEvent(event) {
-            // console.log(event)
+            console.log(event)
             const newAppointment = {
                 id: createEventId(),
                 public_id: createEventId(),
@@ -160,6 +160,7 @@ export default defineComponent({
                 end: new Date(event.end),
                 type_id: event.extendedProps.type.id,
                 entity_id: event.extendedProps.patient.id,
+                extendedProps: event.extendedProps
             }
             
             const calendarApi = this.selectInfo.view.calendar
@@ -198,6 +199,7 @@ export default defineComponent({
         },
 
         handleEvents(events) {
+            console.log(events)
             // const updatedEvents = events.map(event => {
             //     if (!!event.extendedProps.approved) { 
             //         return {

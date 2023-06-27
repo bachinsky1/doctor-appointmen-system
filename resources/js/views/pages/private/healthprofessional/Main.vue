@@ -35,7 +35,7 @@ import AgendaService from '@/services/AgendaService'
 import Appointment from '@/views/components/AppointmentPatient.vue'
 import Alert from "@/views/components/Alert"
 import { useAlertStore, useAgendaStore } from "@/stores"
-import { createEventId } from './../agenda/utils'
+import { createEventId } from '@/helpers/utils'
 
 export default defineComponent({
     components: {
@@ -135,6 +135,7 @@ export default defineComponent({
 
         handleEventClick(clickInfo) {
             const event = clickInfo.event
+            console.log(event)
             if (event.extendedProps.patient.id === this.currentUser.id) {
                 this.isShowing = true
                 this.mode = 'update'
@@ -182,7 +183,8 @@ export default defineComponent({
                 end: new Date(event.end),
                 type_id: event.extendedProps.type.id,
                 entity_id: this.id,
-                backgroundColor: 'green'
+                backgroundColor: 'green',
+                extendedProps: event.extendedProps
             }
             this.calendarOptions.events.push(newAppointment)
             calendarApi.addEvent(newAppointment)
