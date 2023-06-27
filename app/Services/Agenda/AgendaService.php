@@ -31,10 +31,10 @@ class AgendaService
      */
     public function getAppointments($request): Collection
     {
-        $user_id = Auth::id();
-
+        
         $start = $request->input('start');
         $end = $request->input('end');
+        $user_id = $request->input('id') ? $request->input('id') : Auth::id(); 
 
         $appointments = Appointment::with(['user', 'type', 'patient'])
             ->where(function ($query) use ($user_id) {

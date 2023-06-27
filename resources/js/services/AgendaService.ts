@@ -20,12 +20,22 @@ export default class AgendaService extends ModelService {
     }
 
     public getAgenda(payload: any) {
+        
+        if (Object.keys(payload).length < 2) return []
+
         const url = this.url
         console.log(payload)
-        return this.post(url, {
+
+        const data = {
             start: payload.start,
             end: payload.end
-        })
+        }
+
+        if (!!payload.id) {
+            data.id = payload.id
+        }
+
+        return this.post(url, data)
     }
 
     public destroyAppointment(public_id: string) {

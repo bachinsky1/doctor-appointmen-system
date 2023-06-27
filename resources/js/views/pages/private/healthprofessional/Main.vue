@@ -98,6 +98,8 @@ export default defineComponent({
                 eventAdd: this.eventAdd,
                 eventChange: this.eventChange,
                 eventRemove: this.eventRemove,
+                datesSet: this.handleDatesSet,
+                viewDidMount: this.handleViewDidMount,
 
             },
             showCalendar: false,
@@ -209,6 +211,52 @@ export default defineComponent({
 
                 return e
             })
+        },
+
+        async handleDatesSet(info) {
+            // console.log('handleDatesSet', info)
+            const start = info.startStr
+            const end = info.endStr
+
+            const service = new AgendaService()
+            const response = await service.getAgenda({
+                id: this.id,
+                start,
+                end
+            })
+
+            const appointments = response.data
+
+            for (let index = 0; index < appointments.length; index++) {
+
+                if (!!appointments[index].approved) {
+                    appointments[index].backgroundColor = 'green'
+                }
+            }
+            this.calendarOptions.events = appointments
+        },
+
+        async handleViewDidMount(info) {
+            // console.log('handleViewDidMount', info)
+            const start = moment(info.view.activeStart, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ').format('YYYY-MM-DDTHH:mm:ssZ')
+            const end = moment(info.view.activeEnd, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ').format('YYYY-MM-DDTHH:mm:ssZ')
+
+            const service = new AgendaService()
+            const response = await service.getAgenda({
+                id: this.id,
+                start,
+                end
+            })
+
+            const appointments = response.data
+
+            for (let index = 0; index < appointments.length; index++) {
+
+                if (!!appointments[index].approved) {
+                    appointments[index].backgroundColor = 'green'
+                }
+            }
+            this.calendarOptions.events = appointments
         },
 
     },

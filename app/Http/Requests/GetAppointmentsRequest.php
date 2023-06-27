@@ -24,6 +24,7 @@ class GetAppointmentsRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => ['nullable', 'integer'],
             'start' => ['required', 'date_format:Y-m-d\TH:i:sP', 'before_or_equal:end'],
             'end' => ['required', 'date_format:Y-m-d\TH:i:sP', 'after_or_equal:start'],
         ];
