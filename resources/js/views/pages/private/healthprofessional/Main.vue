@@ -6,7 +6,7 @@
             </div>
             <div class="w-5/6">
                 <div class='demo-app-main'>
-                    <FullCalendar v-if="showCalendar" class='demo-app-calendar' :options='calendarOptions'>
+                    <FullCalendar v-if="showCalendar" class='demo-app-calendar' :options='calendarOptions' ref="fullCalendar">
                         <template v-slot:eventContent='arg'>
                             <b>{{ arg.timeText }}</b>
                             <i>{{ arg.event.title }}</i>
@@ -195,22 +195,7 @@ export default defineComponent({
         },
 
         async getAppointments() {
-            this.showCalendar = true
-            const service = new AgendaService()
-            const response = await service.getAgenda(this.id) 
-
-            
-
-            this.calendarOptions.events = response.data.map(e => {
-                
-                if (e.patient_id === this.currentUser.id) {
-                    // If the apppointment was created by the current user, change background color"
-                    e.backgroundColor = 'green'
-                    return e
-                }
-
-                return e
-            })
+            this.showCalendar = true 
         },
 
         async handleDatesSet(info) {
@@ -234,6 +219,9 @@ export default defineComponent({
                 }
             }
             this.calendarOptions.events = appointments
+
+            const now = new Date()
+            this.$refs.fullCalendar.getApi().scrollToTime(now.toTimeString(), { block: 'center' })
         },
 
         async handleViewDidMount(info) {

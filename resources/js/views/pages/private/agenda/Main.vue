@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class='demo-app-main'>
-            <FullCalendar class='demo-app-calendar' :options='calendarOptions'>
+            <FullCalendar class='demo-app-calendar' :options='calendarOptions' ref="fullCalendar">
                 <template v-slot:eventContent='arg'>
                     <b>{{ arg.timeText }}</b>
                     <i>{{ arg.event.title }}</i>
@@ -113,9 +113,8 @@ export default defineComponent({
     },
 
     mounted() {
-    //    this.loadAppointments()
-        
-        // this.handleDatesSet()
+        const now = new Date()
+        this.$refs.fullCalendar.getApi().scrollToTime(now.toTimeString(), { block: 'center' }) 
     },
 
     methods: {
