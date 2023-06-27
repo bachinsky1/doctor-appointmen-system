@@ -229,15 +229,9 @@ export default defineComponent({
             const appointments = response.data
 
             for (let index = 0; index < appointments.length; index++) {
-
                 if (appointments[index].patient_id === this.currentUser.id) {
-                    if (!!appointments[index].approved) {
-                        appointments[index].backgroundColor = 'orange'
-                    } else {
-                        appointments[index].backgroundColor = 'green'
-                    }
+                    appointments[index].backgroundColor = 'green'
                 }
-
             }
 
             this.calendarOptions.events = appointments
@@ -258,14 +252,13 @@ export default defineComponent({
             })
 
             const appointments = response.data
-            for (let index = 0; index < appointments.length; index++) {
 
-                if (!!appointments[index].approved) {
-                    appointments[index].backgroundColor = 'orange'
-                } else {
+            for (let index = 0; index < appointments.length; index++) {
+                if (appointments[index].patient_id === this.currentUser.id) {
                     appointments[index].backgroundColor = 'green'
                 }
             }
+
             this.calendarOptions.events = appointments
         },
 
