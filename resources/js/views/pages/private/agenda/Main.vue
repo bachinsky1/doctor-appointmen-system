@@ -88,8 +88,7 @@ export default defineComponent({
                 scrollTime: 0,
                 locale: 'en-GB',
                 dateClick: this.handleDateClick,
-                initialView: 'dayGridMonth',
-                // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+                initialView: 'dayGridMonth', 
                 editable: true,
                 selectable: true,
                 selectMirror: true,
@@ -102,6 +101,8 @@ export default defineComponent({
                 eventAdd: this.eventAdd,
                 eventChange: this.eventChange,
                 eventRemove: this.eventRemove,
+                datesSet: this.handleDatesSet,
+                viewDidMount: this.handleViewDidMount,
 
             },
             selectInfo: null,
@@ -112,16 +113,28 @@ export default defineComponent({
     },
 
     mounted() {
-        const service = new AgendaService()
-        service.getAgenda().then((response) => {
-            this.calendarOptions.events = response.data 
-        })
+    //    this.loadAppointments()
+        
+        // this.handleDatesSet()
     },
 
     methods: {
+        async loadAppointments() {
+            const service = new AgendaService()
+            const response = await service.getAgenda()
+
+            const appointments = response.data
+
+            for (let index = 0; index < appointments.length; index++) {
+
+                if (!!appointments[index].approved) {
+                    appointments[index].backgroundColor = 'green'
+                }
+            }
+            this.calendarOptions.events = appointments
+        },
 
         async eventAdd(event) {
-            // console.log('eventAdd', event)
             const service = new AgendaService()
             await service.storeAppointment(event)
         },
@@ -131,7 +144,6 @@ export default defineComponent({
 
             if (index !== -1) {
                 this.calendarOptions.events[index] = event
-                // console.log(event.start, event.end)
             }
         },
 
@@ -142,7 +154,6 @@ export default defineComponent({
         },
 
         async eventRemove(event) {
-            // console.log('eventRemove', event.extendedProps)
             this.isShowing = false
             const service = new AgendaService()
             await service.destroyAppointment(event.extendedProps.public_id)
@@ -162,10 +173,9 @@ export default defineComponent({
                 entity_id: event.extendedProps.patient.id,
                 extendedProps: event.extendedProps
             }
-            
+
             const calendarApi = this.selectInfo.view.calendar
             calendarApi.addEvent(newAppointment)
-            console.log('newAppointment', newAppointment)
             this.isShowing = false
         },
 
@@ -175,6 +185,7 @@ export default defineComponent({
         },
 
         handleDateSelect(clickInfo) {
+            console.log('handleDateSelect')
             this.selectInfo = clickInfo
             this.isShowing = true
             this.mode = 'new'
@@ -185,36 +196,61 @@ export default defineComponent({
             clickInfo.extendedProps.type = {}
             clickInfo.extendedProps.type_id = null
             clickInfo.extendedProps.patient_id = null
-            
+
             const store = useAgendaStore()
-            store.setCurrentEvent(clickInfo) 
+            store.setCurrentEvent(clickInfo)
         },
 
         handleEventClick(clickInfo) {
             this.isShowing = true
-            this.mode = 'update' 
+            this.mode = 'update'
 
             const store = useAgendaStore()
-            store.setCurrentEvent(clickInfo.event.toPlainObject()) 
+            store.setCurrentEvent(clickInfo.event.toPlainObject())
         },
 
         handleEvents(events) {
-            console.log(events)
-            // const updatedEvents = events.map(event => {
-            //     if (!!event.extendedProps.approved) { 
-            //         return {
-            //             ...event,
-            //             backgroundColor: 'green'
-            //         }
-            //     }
-            //     return event
-            // })
-            // this.currentEvents = updatedEvents
             this.currentEvents = events
             // console.log(this.currentEvents)
         },
+
+        async handleDatesSet(info) {
+            // console.log('handleDatesSet', info)
+            const start = info.startStr
+            const end = info.endStr
+
+            const service = new AgendaService()
+            const response = await service.getAgenda({start, end})
+
+            const appointments = response.data
+
+            for (let index = 0; index < appointments.length; index++) {
+
+                if (!!appointments[index].approved) {
+                    appointments[index].backgroundColor = 'green'
+                }
+            }
+            this.calendarOptions.events = appointments
+        },
+
+        async handleViewDidMount(info) {
+            // console.log('handleViewDidMount', info)
+            const start = moment(info.view.activeStart, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ').format('YYYY-MM-DDTHH:mm:ssZ')
+            const end = moment(info.view.activeEnd, 'ddd MMM DD YYYY HH:mm:ss [GMT]ZZ').format('YYYY-MM-DDTHH:mm:ssZ')
+            
+            const service = new AgendaService()
+            const response = await service.getAgenda({start, end})
+
+            const appointments = response.data
+
+            for (let index = 0; index < appointments.length; index++) {
+
+                if (!!appointments[index].approved) {
+                    appointments[index].backgroundColor = 'green'
+                }
+            }
+            this.calendarOptions.events = appointments
+        },
     }
 })
-
 </script>
-

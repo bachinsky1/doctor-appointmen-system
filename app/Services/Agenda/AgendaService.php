@@ -29,22 +29,19 @@ class AgendaService
      * @param int|null $month
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|\App\Models\Appointment[]
      */
-    public function getAppointments($user_id = null, $month = null): Collection
+    public function getAppointments($request): Collection
     {
-        if (!$user_id) {
-            $user_id = Auth::id();
-        }
+        $user_id = Auth::id();
 
-        if (!$month) {
-            $month = date('m');
-        }
+        $start = $request->input('start');
+        $end = $request->input('end');
 
         $appointments = Appointment::with(['user', 'type', 'patient'])
             ->where(function ($query) use ($user_id) {
                 $query->where('user_id', $user_id)
                     ->orWhere('patient_id', $user_id);
             })
-            ->whereMonth('start', '=', $month)
+            ->whereBetween('start', [$start, $end])
             ->get();
 
         // If the current user is a patient, remove all appoinment titles except those created by the patient himself

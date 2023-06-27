@@ -19,9 +19,13 @@ export default class AgendaService extends ModelService {
         return this.get(`${this.url}/appointments/types`)
     }
 
-    public getAgenda(id?: number) {
-        const url = id ? `${this.url}/${id}` : this.url
-        return this.get(url)
+    public getAgenda(payload: any) {
+        const url = this.url
+        console.log(payload)
+        return this.post(url, {
+            start: payload.start,
+            end: payload.end
+        })
     }
 
     public destroyAppointment(public_id: string) {

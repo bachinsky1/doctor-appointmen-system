@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetAppointmentsRequest;
 use App\Http\Requests\SearchPatientRequest;
 use App\Http\Requests\StoreAppointmentRequest; 
 use App\Models\User;
@@ -62,13 +63,13 @@ class AgendaController extends Controller
 
     /**
      * Summary of show
-     * @param mixed $user_id
+     * @param mixed Request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($user_id = null): JsonResponse
+    public function show(GetAppointmentsRequest $request): JsonResponse
     { 
-        $user_id = intval($user_id);
-        return response()->json($this->agendaService->getAppointments($user_id));
+        
+        return response()->json($this->agendaService->getAppointments($request));
     }
 
     /**

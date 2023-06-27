@@ -35,7 +35,7 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/profile/workplace', [ProfileController::class, 'getWorkplace']);
     Route::post('/profile/workplace', [ProfileController::class, 'updateWorkplace']);
 
-    Route::get('/agenda', [AgendaController::class, 'show']);
+    Route::post('/agenda', [AgendaController::class, 'show']);
     Route::get('/agenda/{id}', [AgendaController::class, 'show']);
     Route::get('/agenda/search/patient', [AgendaController::class, 'searchPatient'])->middleware('throttle:400,1');
     Route::get('/agenda/appointments/types', [AgendaController::class, 'getAppointmentTypes']);
