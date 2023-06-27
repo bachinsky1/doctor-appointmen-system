@@ -54,7 +54,7 @@
                     </div>
                     <div>
                         <Button v-if="mode === 'update' && store.currentEvent.extendedProps.approved === 0" class="ml-5" @click="handleEventRemove" type="button" :label="trans('global.buttons.delete')" />
-                        <Button v-if="store.currentEvent.extendedProps.approved === 1" @click="handleCreateConsultation" type="button" :label="trans('global.buttons.create_consultation')" />
+                        <Button v-if="store.currentEvent.extendedProps.approved === 1" @click="handleCreateConsultation" type="button" :label="trans('global.buttons.consultation')" />
                         <Button v-if="mode === 'new'" :label="trans('global.buttons.submit')" />
                     </div>
                 </div>
@@ -146,7 +146,7 @@ export default {
             console.log(e)
             this.$router.push({
                 name: 'consultation', params: {
-                    id: 5, //e.extendedProps.public_id
+                    id: e.extendedProps.public_id
                 }
             })
         }
