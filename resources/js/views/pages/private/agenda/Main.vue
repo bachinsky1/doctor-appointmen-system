@@ -88,7 +88,7 @@ export default defineComponent({
                 scrollTime: 0,
                 locale: 'en-GB',
                 dateClick: this.handleDateClick,
-                initialView: 'dayGridMonth', 
+                initialView: 'timeGridWeek', 
                 editable: true,
                 selectable: true,
                 selectMirror: true,
@@ -246,7 +246,7 @@ export default defineComponent({
             for (let index = 0; index < appointments.length; index++) {
 
                 if (!!appointments[index].approved) {
-                    appointments[index].backgroundColor = 'green'
+                    appointments[index].backgroundColor = 'orange'
                 }
             }
             this.calendarOptions.events = appointments
