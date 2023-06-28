@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('appointment_id')->unique()->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('patient_id')->nullable();
+            $table->boolean('is_opened')->default(true);
             $table->foreign('user_id')->references('id')->on('users'); // Consultation creator
             $table->foreign('patient_id')->references('id')->on('users');
             $table->foreign('type_id')->references('id')->on('consultation_types');
