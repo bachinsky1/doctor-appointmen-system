@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             AddressLinksSeeder::class,
             AppointmentTypesSeeder::class,
             AppointmentsSeeder::class,
+            ConsultationTypesSeeder::class,
             PositionSeeder::class,
             SpecialitySeeder::class,
             UserSpecialitySeeder::class,

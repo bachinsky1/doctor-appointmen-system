@@ -3,18 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Consultations;
+use App\Services\Consultation\ConsultationService;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ConsultationController extends Controller
 {
+    private ConsultationService $consultationService;
+
+    public function __construct(ConsultationService $consultationService)
+    {
+        $this->consultationService = $consultationService; 
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        return response()->json([]);
+    }
+
+    public function activate($id): JsonResponse
+    {
+        $result = $this->consultationService->activate($id);
+        return response()->json($result);
     }
 
     /**

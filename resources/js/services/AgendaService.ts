@@ -2,17 +2,12 @@ import ModelService from "@/services/ModelService"
 import moment from 'moment'
 import axios from "axios"
 
-export default class AgendaService extends ModelService {
-    private appointmentsUrl = `${this.url}/appointments`;
+export default class AgendaService extends ModelService { 
 
     constructor () {
         super()
         this.url = '/api/agenda'
         this.setupAPI(axios.defaults.baseURL)
-    }
-
-    public getAppointments() {
-        return this.get(this.appointmentsUrl)
     }
 
     public getAppointmentTypes() {

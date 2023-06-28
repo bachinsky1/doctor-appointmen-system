@@ -146,7 +146,7 @@ export default {
             console.log(e)
             this.$router.push({
                 name: 'consultation', params: {
-                    id: e.extendedProps.public_id
+                    appointmentId: e.extendedProps.public_id
                 }
             })
         }

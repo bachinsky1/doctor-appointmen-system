@@ -46,6 +46,9 @@ import PreviousConsultations from '@/views/pages/private/consultation/PreviousCo
 import CovidCertificates from '@/views/pages/private/consultation/CovidCertificates'
 import BloodGroup from '@/views/pages/private/consultation/BloodGroup'
 
+import { useConsultationStore } from '@/stores'
+import ConsultationService from '@/services/ConsultationService'
+
 export default defineComponent({
     components: {
         Page,
@@ -64,11 +67,46 @@ export default defineComponent({
         CovidCertificates,
         BloodGroup,
     },
-    setup() {
+
+    props: {
+        appointmentId: {
+            type: String,
+            required: true
+        }  
+    },
+
+    data: () => {
         return {
-            trans
+            consultation: null,
+        }
+    },
+
+    mounted() {
+
+        const activateConsultation = async () => {
+            const result = await this.consultationService.activate(this.appointmentId)
+            this.consultation = result.data
+            console.log(this.consultation)
+        }
+
+        activateConsultation()  
+    },
+
+    methods: {
+        
+    },
+
+    setup() {
+        const consultationStore = useConsultationStore()
+        const consultationService = new ConsultationService()
+
+        return {
+            trans,
+            consultationStore,
+            consultationService
         }
     }
-});
+
+})
 </script>
 

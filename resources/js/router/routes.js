@@ -68,7 +68,7 @@ const routes = [
     },
     {
         name: "consultation",
-        path: "/consultation/:id",
+        path: "/consultation/:appointmentId",
         meta: { requiresAuth: true, requiresAbility: abilities.CONSULTATION },
         component: Consultation,
         props: true,

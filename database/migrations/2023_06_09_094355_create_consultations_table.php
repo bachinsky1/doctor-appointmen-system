@@ -15,7 +15,17 @@ return new class extends Migration
     {
         Schema::create('consultations', function (Blueprint $table) {
             $table->id();
+            $table->string('public_id')->unique();
+            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('appointment_id')->unique()->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('patient_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users'); // Consultation creator
+            $table->foreign('patient_id')->references('id')->on('users');
+            $table->foreign('type_id')->references('id')->on('consultation_types');
+            $table->foreign('appointment_id')->references('id')->on('appointments');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
