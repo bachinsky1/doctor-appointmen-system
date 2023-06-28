@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>{{env('APP_NAME')}}</title>
 
-    @vite(['resources/scss/main.scss', 'resources/js/main.js'])
+    @vite(['resources/scss/main.scss']) 
 
     <script>
         window.AppConfig = {
@@ -29,8 +29,8 @@
     <strong>We're sorry but this application doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
 </noscript>
 
-<div id="app"></div>
-
+<div id="app"></div> 
+@vite(['resources/js/main.js']) 
 </body>
 
 </html>

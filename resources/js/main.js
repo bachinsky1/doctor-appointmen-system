@@ -4,8 +4,8 @@ import { createPinia } from 'pinia'
 import router from "@/router"
 import i18n from "@/plugins/i18n" 
 import App from "@/App"
-// import { ProCalendar } from "@lbgm/pro-calendar-vue"
 
+import "@fortawesome/fontawesome-free/css/all.css"
 
 const app = createApp(App)
 

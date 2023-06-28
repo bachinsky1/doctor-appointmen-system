@@ -5,12 +5,12 @@
         </div>
         <div class="border-t border-b border-gray-200 max-h-20vh overflow-auto p-3">
             <div class="grid grid-cols-1 sm:grid-cols-1">
-                <ul>
-                    <li v-for="(date, index) in Object.keys(consultations)" :key="index">
-                        <h3>{{ date }}</h3>
-                        <ul>
-                            <li v-for="consultation in consultations[date]" :key="consultation.id">
-                                {{ consultation.type.name }}
+                <ul class="list-none list-inside">
+                    <li v-for="(date, index) in Object.keys(consultations)" :key="index" class="border-b border-gray-200 py-2 flex items-center">
+                        <Badge theme="success" class="inline">{{ date }}</Badge>
+                        <ul class="list-none ml-4 list-disc list-inside">
+                            <li v-for="consultation in consultations[date]" :key="consultation.id" class="py-1">
+                                <i class="fas fa-circle text-blue-500 mr-2"></i> {{ consultation.type.name }}
                             </li>
                         </ul>
                     </li>
@@ -27,10 +27,15 @@ import { getResponseError } from "@/helpers/api"
 import { useConsultationStore } from "@/stores"
 import { useAlertStore } from "@/stores"
 import ConsultationService from "@/services/ConsultationService" 
+import Badge from "@/views/components/Badge"
 
 export default {
     name: 'PreviousConsultations',
     props: [],
+
+    components: {
+        Badge
+    },
 
     data() {
         return {
@@ -39,7 +44,7 @@ export default {
     },
 
     mounted() {
-        console.log('Component mounted.')
+        
 
         setTimeout(async () => {
             try {
@@ -55,7 +60,7 @@ export default {
     },
 
     methods: {
-        
+
     },
 
 
