@@ -23,7 +23,7 @@
                 </ul>
             </div>
         </div>
-        <div class='demo-app-main'>
+        <div id="demo-app-calendar" class='demo-app-main'>
             <FullCalendar class='demo-app-calendar' v-if="calendarOptions" :options='calendarOptions' ref="fullCalendar" @datesSet="handleDatesSet">
                 <template v-slot:eventContent='arg'>
                     <b>{{ arg.timeText }}</b>

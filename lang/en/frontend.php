@@ -145,6 +145,7 @@ return [
             "change_avatar" => "Change Avatar",
             "approve" => "Approve",
             "consultation" => "Consultation",
+            "close_consultation" => "Close Consultation",
         ],
         "actions" => [
             "name" => "Actions",
