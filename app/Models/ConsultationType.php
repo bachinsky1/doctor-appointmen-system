@@ -9,5 +9,10 @@ class ConsultationType extends Model
 {
     use HasFactory;
 
-    protected $table = 'consultation_types';
+
+
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class);
+    }
 }

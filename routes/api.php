@@ -52,6 +52,7 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
 
     Route::get('/consultation/activate/{id}', [ConsultationController::class, 'activate']);
     Route::post('/consultation/close', [ConsultationController::class, 'close']);
+    Route::post('/consultation/previous', [ConsultationController::class, 'previous']);
     /**
      * Auth related
      */

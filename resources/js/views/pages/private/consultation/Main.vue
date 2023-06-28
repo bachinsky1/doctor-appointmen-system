@@ -1,4 +1,4 @@
-<template> 
+<template>
     <Page :title="page.title" :actions="page.actions" @action="onAction" id="consultation">
         <div class="flex flex-wrap">
             <div class="w-full md:w-1/3">
@@ -6,7 +6,7 @@
                 <ConsultationNotes />
                 <PatientNotes />
                 <MedicalHistory />
-                <PreviousConsultations />
+                <PreviousConsultations id="previousConsultations" />
             </div>
             <div class="w-full md:w-1/3">
                 <Problems />
@@ -110,7 +110,7 @@ export default defineComponent({
             }]
         })
 
-        let consultationData = {} 
+        let consultationData = {}
 
         const activateConsultation = async () => {
             try {
@@ -119,6 +119,7 @@ export default defineComponent({
                 if (consultationData.consultation.is_opened === 0) {
                     removeCloseButton()
                 }
+                consultationStore.setCurrentConsultation(consultationData.consultation)
             } catch (error) {
                 alertStore.error(getResponseError(error))
             }
@@ -127,7 +128,7 @@ export default defineComponent({
         activateConsultation()
 
         const closeConsultation = async () => {
-            
+
             try {
                 const result = await consultationService.close({ public_id: consultationData.consultation.public_id })
                 if (result.status === 200) {

@@ -2,7 +2,8 @@
 
 namespace App\Services\Consultation;
 
-use App\Http\Requests\CloseConsultationRequest;
+use App\Http\Requests\ConsultationPublicIdRequest;
+use App\Http\Requests\PreviousConsultationRequest;
 use App\Models\Appointment;
 use App\Models\Consultation;
 use Illuminate\Database\Eloquent\Collection; 
@@ -53,10 +54,10 @@ class ConsultationService
 
     /**
      * Summary of close
-     * @param \App\Http\Requests\CloseConsultationRequest $request
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
      * @return mixed
      */
-    public function close(CloseConsultationRequest $request)
+    public function close(ConsultationPublicIdRequest $request)
     {
         $publicId = $request->input('public_id');
 
@@ -64,5 +65,22 @@ class ConsultationService
         $consultation->is_opened = false;
 
         return $consultation->save();
+    }
+
+    public function previous(ConsultationPublicIdRequest $request)
+    {
+        $publicId = $request->input('public_id');
+        $consultation = Consultation::where('public_id', $publicId)->first();
+        $patientId = $consultation->patient_id;
+
+        $consultations = Consultation::with('type')
+            ->where('patient_id', $patientId)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->groupBy(function ($consultation) {
+                return date('Y-m-d', strtotime($consultation->created_at));
+            });
+
+        return $consultations;
     }
 }

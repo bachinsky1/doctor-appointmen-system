@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CloseConsultationRequest;
+use App\Http\Requests\ConsultationPublicIdRequest; 
 use App\Models\Consultations;
 use App\Services\Consultation\ConsultationService;
 use Illuminate\Http\Request;
@@ -34,16 +34,23 @@ class ConsultationController extends Controller
 
     /**
      * Summary of close
-     * @param \App\Http\Requests\CloseConsultationRequest $request
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function close(CloseConsultationRequest $request): JsonResponse
+    public function close(ConsultationPublicIdRequest $request): JsonResponse
     {
         $result = $this->consultationService->close($request);
 
         return !!$result
             ? response()->json(['message' => 'Consultation closed successfully'])
             : response()->json(['message' => 'Error occurs during closing consultation'], 500);
+    }
+
+    public function previous(ConsultationPublicIdRequest $request): JsonResponse
+    {
+        $result = $this->consultationService->previous($request);
+
+        return response()->json($result);
     }
 
     /**

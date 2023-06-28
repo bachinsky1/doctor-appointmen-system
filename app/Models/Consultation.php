@@ -26,4 +26,9 @@ class Consultation extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function type()
+    {
+        return $this->belongsTo(ConsultationType::class);
+    }
 }

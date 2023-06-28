@@ -142,8 +142,7 @@ export default {
         },
 
         handleCreateConsultation() {
-            const e = this.store.getCurrentEvent()
-            console.log(e)
+            const e = this.store.getCurrentEvent() 
             this.$router.push({
                 name: 'consultation', params: {
                     appointmentId: e.extendedProps.public_id
