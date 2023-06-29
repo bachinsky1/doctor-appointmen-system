@@ -53,6 +53,16 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/consultation/activate/{id}', [ConsultationController::class, 'activate']);
     Route::post('/consultation/close', [ConsultationController::class, 'close']);
     Route::post('/consultation/previous', [ConsultationController::class, 'previous']);
+
+    Route::get('/consultation/notes/medical/{id}', [ConsultationController::class, 'getMedicalNotes']);
+    Route::post('/consultation/notes/medical/{id}', [ConsultationController::class, 'storeMedicalNote']);
+    Route::delete('/consultation/notes/medical/{id}/{note_id}', [ConsultationController::class, 'deleteMedicalNote']);
+    Route::patch('/consultation/notes/medical/{id}', [ConsultationController::class, 'patchMedicalNote']);
+    
+    Route::get('/consultation/notes/patient/{id}', [ConsultationController::class, 'getPatientNotes']);
+    Route::get('/consultation/notes/consultation/{id}', [ConsultationController::class, 'getConsultationNotes']);
+
+    
     /**
      * Auth related
      */

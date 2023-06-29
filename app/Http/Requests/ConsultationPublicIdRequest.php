@@ -24,7 +24,8 @@ class ConsultationPublicIdRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'public_id' => 'required|string|max:255', 
+            'public_id' => 'required|string|max:255',
+            'note_id' => 'nullable|integer'
         ];
     }
 }

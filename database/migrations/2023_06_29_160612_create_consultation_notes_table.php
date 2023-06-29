@@ -12,8 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('consultation_notes', function (Blueprint $table) {
-            $table->id();
+            $table->id(); 
+            $table->string('note');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('patient_id');
+            $table->unsignedBigInteger('consultation_id');
+            $table->foreign('user_id')->references('id')->on('users'); // Note creator
+            $table->foreign('patient_id')->references('id')->on('users');
+            $table->foreign('consultation_id')->references('id')->on('consultations');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

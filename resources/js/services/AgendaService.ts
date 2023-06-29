@@ -62,7 +62,6 @@ export default class AgendaService extends ModelService {
 
     public changeAppointment(payload) {
 
-        // console.log(payload)
         const { extendedProps, start, end, allDay } = payload
         const url = `${this.url}/appointments/change`
 

@@ -13,10 +13,10 @@
         <div v-if="!showEditor" class="border-t border-b border-gray-200 max-h-30vh overflow-auto p-3">
             <div v-if="notes.length > 0">
                 <ul class="list-none">
-                    <li v-for="(note, index) in notes" :key="index" class="flex items-start justify-between border-b py-2 border-gray-300 last:border-b-0">
-                        <div class="note-content flex-1 mr-2" v-html="note" v-tippy="{ content: note, placement: 'right' }"></div>
+                    <li v-for="(item, index) in notes" :key="index" class="flex items-start justify-between border-b py-2 border-gray-300 last:border-b-0">
+                        <div class="note-content flex-1 mr-2" v-html="item.note" v-tippy="{ content: item.note, placement: 'right' }"></div>
                         <div class="buttons ml-auto items-start">
-                            <button v-on:click.stop="editNote(note, index)" class="text-blue-500 hover:text-blue-700 focus:outline-none">
+                            <button v-on:click.stop="editNote(item.note, index)" class="text-blue-500 hover:text-blue-700 focus:outline-none">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button @click="removeNote(index)" class="text-red-500 hover:text-red-700 focus:outline-none  ml-2">
@@ -47,16 +47,23 @@
 </template>
 
 <script>
-
+import { trans } from "@/helpers/i18n"
+import { getResponseError } from "@/helpers/api"
+import { useConsultationStore } from "@/stores"
+import { useAlertStore } from "@/stores"
+import ConsultationService from "@/services/ConsultationService"
 import TextEditor from "@/views/components/input/TextEditor"
-
 
 export default {
     name: "MedicalNotes",
-    props: [],
+
+    props: { 
+    },
+
     components: {
         TextEditor,
     },
+
     data() {
         return {
             showEditor: false,
@@ -66,8 +73,16 @@ export default {
         };
     },
 
-    mounted() {
-
+    async mounted() { 
+        try {
+            setTimeout(async () => { 
+                const consultation = this.consultationStore.currentConsultation
+                const result = await this.consultationService.getMedicalNotes(consultation.public_id) 
+                this.notes = result.data 
+            }) 
+        } catch (error) {
+            console.error(error)
+        }
     },
 
     methods: {
@@ -79,26 +94,66 @@ export default {
             this.showEditor = true
             this.editingIndex = index
         },
-        saveNote() {
+
+        async saveNote() {
             const newNote = this.editorContent
             if (newNote) {
                 if (this.editingIndex >= 0) {
-                    this.notes.splice(this.editingIndex, 1, newNote)
+
+                    const note = this.notes[this.editingIndex]
+                    const data = {
+                        public_id: this.consultationStore.currentConsultation.public_id,
+                        note: newNote,
+                        note_id: note.id
+                    }
+                    
+                    const result = await this.consultationService.patchMedicalNote(data)
+                    if (result.data) {
+                        this.notes.splice(this.editingIndex, 1, result.data)
+                    }
                 } else {
-                    this.notes.push(newNote)
+                    const data = {
+                        public_id: this.consultationStore.currentConsultation.public_id,
+                        note: newNote
+                    }
+                    const result = await this.consultationService.storeMedicalNote(data)
+                    const note = result.data 
+                    this.notes.push(note)
                 }
                 this.showEditor = false
                 this.editorContent = ''
                 this.editingIndex = -1
             }
         },
-        removeNote(index) {
+        async removeNote(index) {
             if (confirm('Are you sure you want to delete this note?')) {
-                this.notes.splice(index, 1);
+                const data = {
+                    public_id: this.consultationStore.currentConsultation.public_id,
+                    note_id: this.notes[index].id
+                }
+                const result = await this.consultationService.deleteMedicalNote(data)
+
+                if (result.data) {
+                    this.notes.splice(index, 1)
+                }
             }
         },
     },
-};
+
+    setup() {
+
+        const consultationStore = useConsultationStore()
+        const alertStore = useAlertStore()
+        const consultationService = new ConsultationService()
+
+        return {
+            consultationStore,
+            alertStore,
+            consultationService
+        }
+    }
+
+}
 </script>
 
 <style></style>

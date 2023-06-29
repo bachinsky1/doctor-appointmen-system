@@ -2,7 +2,7 @@
     <Page :title="page.title" :actions="page.actions" @action="onAction" id="consultation">
         <div class="flex flex-wrap">
             <div class="w-full md:w-1/3">
-                <MedicalNotes />
+                <MedicalNotes  id="medicalNotes"/>
                 <ConsultationNotes />
                 <PatientNotes />
                 <PreviousConsultations id="previousConsultations" />
@@ -81,8 +81,8 @@ export default defineComponent({
         }
     },
 
-    mounted() {
-
+    mounted() { 
+        
     },
 
     methods: {
