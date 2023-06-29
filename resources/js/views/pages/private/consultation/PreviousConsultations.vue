@@ -3,7 +3,7 @@
         <div class="bg-white rounded-t-lg p-4">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Previous Consultations</h2>
         </div>
-        <div class="border-t border-b border-gray-200 max-h-20vh overflow-auto p-3">
+        <div class="border-t border-b border-gray-200 max-h-30vh overflow-auto p-3">
             <div class="grid grid-cols-1 sm:grid-cols-1">
                 <ul class="list-none list-inside">
                     <li v-for="(date, index) in Object.keys(consultations)" :key="index" class="border-b border-gray-200 py-2 flex items-center">

@@ -5,7 +5,6 @@
                 <MedicalNotes />
                 <ConsultationNotes />
                 <PatientNotes />
-                <MedicalHistory />
                 <PreviousConsultations id="previousConsultations" />
             </div>
             <div class="w-full md:w-1/3">
@@ -34,8 +33,7 @@ import { useAlertStore } from "@/stores"
 
 import Page from "@/views/layouts/Page"
 import Form from "@/views/components/Form"
-import MedicalNotes from "@/views/pages/private/consultation/MedicalNotes"
-import MedicalHistory from "@/views/pages/private/consultation/MedicalHistory"
+import MedicalNotes from "@/views/pages/private/consultation/MedicalNotes" 
 import VitalSigns from "@/views/pages/private/consultation/VitalSigns"
 import Problems from "@/views/pages/private/consultation/Problems"
 import ConsultationNotes from "@/views/pages/private/consultation/ConsultationNotes"
@@ -55,8 +53,7 @@ export default defineComponent({
     components: {
         Page,
         Form,
-        MedicalNotes,
-        MedicalHistory,
+        MedicalNotes, 
         VitalSigns,
         Problems,
         ConsultationNotes,
