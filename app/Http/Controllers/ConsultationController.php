@@ -81,6 +81,43 @@ class ConsultationController extends Controller
 
         return response()->json($result);
     }
+    
+    /**
+     * Summary of storePatientNote
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function storePatientNote(ConsultationPublicIdRequest $request): JsonResponse
+    {
+        $result = $this->consultationService->storePatientNote($request);
+
+        return response()->json($result);
+    }
+
+    /**
+     * Summary of deletePatientNote
+     * @param string $consultationId
+     * @param int $noteId
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function deletePatientNote(string $consultationId, int $noteId): JsonResponse
+    {
+        $result = $this->consultationService->deletePatientNote($consultationId, $noteId);
+
+        return response()->json($result);
+    }
+
+    /**
+     * Summary of patchPatientNote
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function patchPatientNote(ConsultationPublicIdRequest $request): JsonResponse
+    {
+        $result = $this->consultationService->patchPatientNote($request);
+
+        return response()->json($result);
+    }
 
     /**
      * Summary of getConsultationNotes
@@ -94,6 +131,11 @@ class ConsultationController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * Summary of storeConsultationNote
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function storeConsultationNote(ConsultationPublicIdRequest $request): JsonResponse
     {
         $result = $this->consultationService->storeConsultationNote($request);
@@ -101,6 +143,12 @@ class ConsultationController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * Summary of deleteConsultationNote
+     * @param string $consultationId
+     * @param int $noteId
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function deleteConsultationNote(string $consultationId, int $noteId): JsonResponse
     {
         $result = $this->consultationService->deleteConsultationNote($consultationId, $noteId);
@@ -108,6 +156,11 @@ class ConsultationController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * Summary of patchConsultationNote
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function patchConsultationNote(ConsultationPublicIdRequest $request): JsonResponse
     {
         $result = $this->consultationService->patchConsultationNote($request);

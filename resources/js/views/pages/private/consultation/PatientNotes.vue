@@ -10,17 +10,17 @@
                 </button> Patient notes
             </h2>
         </div>
-        <div v-if="!showEditor" class="border-t border-b border-gray-200 max-h-30vh overflow-auto p-3">
+        <div v-if="!showEditor"  id="patientNotes" class="border-t border-b border-gray-200 max-h-30vh overflow-auto p-3">
             <div v-if="notes.length > 0">
                 <ul class="list-none">
-                    <li v-for="(note, index) in notes" :key="index" class="flex items-start justify-between border-b py-2 border-gray-300 last:border-b-0">
-                        <div class="note-content flex-1 mr-2" v-html="note"></div>
+                    <li v-for="(item, index) in notes" :key="index" class="flex items-start justify-between border-b py-2 border-gray-300 last:border-b-0">
+                        <div class="note-content flex-1 mr-2" v-html="item.note" v-tippy="{ content: item.note, placement: 'right' }"></div>
                         <div class="buttons ml-auto items-start">
-                            <button @click="removeNote(index)" class="text-red-500 hover:text-red-700 focus:outline-none">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <button v-on:click.stop="editNote(note, index)" class="text-blue-500 hover:text-blue-700 focus:outline-none ml-2">
+                            <button v-on:click.stop="editNote(item.note, index)" class="text-blue-500 hover:text-blue-700 focus:outline-none">
                                 <i class="fas fa-edit"></i>
+                            </button>
+                            <button @click="removeNote(index)" class="text-red-500 hover:text-red-700 focus:outline-none  ml-2">
+                                <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </li>
@@ -35,8 +35,8 @@
         </div>
         <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
             <div v-if="!showEditor">
-                <button @click="showEditor = true; editingIndex = -1" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-                    <i class="fas fa-plus-circle"></i> {{ editingIndex >= 0 ? 'Change' : 'Add' }} note </button>
+                <button @click="showEditor = true; clearEditor()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                    <i class="fas fa-plus-circle"></i> Add note </button>
             </div>
             <button v-if="showEditor" @click="showEditor = false; editingIndex = -1" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2">
                 <i class="fas fa-times-circle"></i> Cancel </button>
@@ -47,15 +47,23 @@
 </template>
 
 <script>
-
+import { trans } from "@/helpers/i18n"
+import { getResponseError } from "@/helpers/api"
+import { useConsultationStore } from "@/stores"
+import { useAlertStore } from "@/stores"
+import PatientNoteService from "@/services/PatientNoteService"
 import TextEditor from "@/views/components/input/TextEditor"
 
 export default {
     name: "PatientNotes",
-    props: [],
+
+    props: {
+    },
+
     components: {
         TextEditor,
     },
+
     data() {
         return {
             showEditor: false,
@@ -64,31 +72,86 @@ export default {
             editingIndex: -1,
         };
     },
+
+    async mounted() {
+        try {
+            setTimeout(async () => {
+                const consultation = this.consultationStore.currentConsultation
+                const result = await this.patientNoteService.getPatientNotes(consultation.public_id)
+                this.notes = result.data
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    },
+
     methods: {
+        clearEditor() {
+            this.editorContent = ''
+        },
         editNote(note, index) {
             this.editorContent = note
             this.showEditor = true
             this.editingIndex = index
         },
-        saveNote() {
+
+        async saveNote() {
             const newNote = this.editorContent
             if (newNote) {
                 if (this.editingIndex >= 0) {
-                    this.notes.splice(this.editingIndex, 1, newNote)
+
+                    const note = this.notes[this.editingIndex]
+                    const data = {
+                        public_id: this.consultationStore.currentConsultation.public_id,
+                        note: newNote,
+                        note_id: note.id
+                    }
+
+                    const result = await this.patientNoteService.patchPatientNote(data)
+                    if (result.data) {
+                        this.notes.splice(this.editingIndex, 1, result.data)
+                    }
                 } else {
-                    this.notes.push(newNote)
+                    const data = {
+                        public_id: this.consultationStore.currentConsultation.public_id,
+                        note: newNote
+                    }
+                    const result = await this.patientNoteService.storePatientNote(data)
+                    const note = result.data
+                    this.notes.push(note)
                 }
                 this.showEditor = false
                 this.editorContent = ''
                 this.editingIndex = -1
             }
         },
-        removeNote(index) {
+        async removeNote(index) {
             if (confirm('Are you sure you want to delete this note?')) {
-                this.notes.splice(index, 1);
+                const data = {
+                    public_id: this.consultationStore.currentConsultation.public_id,
+                    note_id: this.notes[index].id
+                }
+                const result = await this.patientNoteService.deletePatientNote(data)
+
+                if (result.data) {
+                    this.notes.splice(index, 1)
+                }
             }
         },
     },
-};
-</script>
 
+    setup() {
+
+        const consultationStore = useConsultationStore()
+        const alertStore = useAlertStore()
+        const patientNoteService = new PatientNoteService()
+
+        return {
+            consultationStore,
+            alertStore,
+            patientNoteService
+        }
+    }
+
+}
+</script> 

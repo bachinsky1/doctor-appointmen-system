@@ -4,7 +4,7 @@
             <div class="w-full md:w-1/3">
                 <MedicalNotes id="medicalNotes"/>
                 <ConsultationNotes id="consultationNotes"/>
-                <PatientNotes />
+                <PatientNotes/>
                 <PreviousConsultations id="previousConsultations" />
             </div>
             <div class="w-full md:w-1/3">

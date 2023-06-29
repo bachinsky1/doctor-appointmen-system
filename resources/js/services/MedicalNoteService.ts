@@ -14,25 +14,31 @@ export default class MedicalNoteService extends ModelService {
 
     public getMedicalNotes(consultationId) {
         this.globalStateStore.loadingElements['medicalNotes'] = true
-        return this.get(`${this.url}/notes/medical/${consultationId}`).finally(() => {
-            this.globalStateStore.loadingElements['medicalNotes'] = false
-        })
+
+        return this.get(`${this.url}/notes/medical/${consultationId}`)
+            .finally(() => {
+                this.globalStateStore.loadingElements['medicalNotes'] = false
+            })
     }
 
     public storeMedicalNote(data) {
         this.globalStateStore.loadingElements['medicalNotes'] = true
         const consultationId = data.public_id
-        return this.post(`${this.url}/notes/medical/${consultationId}`, data).finally(() => {
-            this.globalStateStore.loadingElements['medicalNotes'] = true
-        })
+
+        return this.post(`${this.url}/notes/medical/${consultationId}`, data)
+            .finally(() => {
+                this.globalStateStore.loadingElements['medicalNotes'] = true
+            })
     }
 
     public patchMedicalNote(data) {
         this.globalStateStore.loadingElements['medicalNotes'] = true
         const consultationId = data.public_id
-        return this.patch(`${this.url}/notes/medical/${consultationId}`, data).finally(() => {
-            this.globalStateStore.loadingElements['medicalNotes'] = true
-        })
+        
+        return this.patch(`${this.url}/notes/medical/${consultationId}`, data)
+            .finally(() => {
+                this.globalStateStore.loadingElements['medicalNotes'] = true
+            })
     }
 
     public deleteMedicalNote(data) {

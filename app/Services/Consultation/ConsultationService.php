@@ -8,6 +8,7 @@ use App\Models\Appointment;
 use App\Models\Consultation;
 use App\Models\ConsultationMedicalNote;
 use App\Models\ConsultationNote;
+use App\Models\ConsultationPatientNote;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth; 
 /**
@@ -159,13 +160,83 @@ class ConsultationService
         return $note;
     }
 
-    public function getPatientNotes($id)
-    { 
-        $consultation = Consultation::where('public_id', $id)->firstOrFail();
-
-        return $consultation;
+    /**
+     * Summary of getPatientNotes
+     * @param mixed $publicId
+     * @return mixed
+     */
+    public function getPatientNotes($publicId)
+    {
+        return ConsultationPatientNote::whereHas('consultation', function ($query) use ($publicId) {
+            $query->where('public_id', $publicId);
+        })->get();
     }
 
+    /**
+     * Summary of storePatientNote
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
+     * @return mixed
+     */
+    public function storePatientNote(ConsultationPublicIdRequest $request)
+    {
+        $public_id = $request->input('public_id');
+        $consultation = Consultation::where('public_id', $public_id)->first();
+
+        $note = ConsultationPatientNote::create([ 
+            'note' => $request->input('note'),
+            'user_id' => $consultation->user_id,
+            'patient_id' => $consultation->patient_id,
+            'consultation_id' => $consultation->id,
+        ]);
+
+        return $note;
+    }
+
+    /**
+     * Summary of deletePatientNote
+     * @param string $consultationId
+     * @param int $noteId
+     * @return mixed
+     */
+    public function deletePatientNote(string $consultationId, int $noteId)
+    {
+        $public_id = $consultationId;
+        $note_id = $noteId;
+        $consultation = Consultation::where('public_id', $public_id)->first();
+
+        return ConsultationPatientNote::where([
+            ['id', '=', $note_id],
+            ['consultation_id', '=', $consultation->id]
+        ])->delete();
+    }
+
+    /**
+     * Summary of patchPatientNote
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
+     * @return mixed
+     */
+    public function patchPatientNote(ConsultationPublicIdRequest $request)
+    {
+        $public_id = $request->input('public_id');
+        $note_id = $request->input('note_id');
+ 
+        $consultation = Consultation::where('public_id', $public_id)->firstOrFail();
+ 
+        $note = ConsultationPatientNote::where('id', $note_id)
+            ->where('consultation_id', $consultation->id)
+            ->firstOrFail();
+
+        $note->note = $request->input('note');
+        $note->save();
+
+        return $note;
+    }
+
+    /**
+     * Summary of getConsultationNotes
+     * @param mixed $publicId
+     * @return mixed
+     */
     public function getConsultationNotes($publicId)
     {
         return ConsultationNote::whereHas('consultation', function ($query) use ($publicId) {
@@ -173,6 +244,11 @@ class ConsultationService
         })->get();
     }
 
+    /**
+     * Summary of storeConsultationNote
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
+     * @return mixed
+     */
     public function storeConsultationNote(ConsultationPublicIdRequest $request)
     {
         $public_id = $request->input('public_id');
