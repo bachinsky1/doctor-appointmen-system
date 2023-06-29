@@ -5,7 +5,7 @@
         </div>
         <div class="border-t border-b border-gray-200 max-h-20vh overflow-auto p-3">
             <div class="grid grid-cols-1 sm:grid-cols-1">
-                <p>Medical notes</p>  
+                <TextEditor />
             </div> 
         </div>
         <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
@@ -15,9 +15,13 @@
 </template>
 
 <script>
+import TextEditor from "@/views/components/input/TextEditor"
+
 export default {
     name: 'MedicalNotes',
-    props: {
-    }
+    props: [],
+    components: {
+        TextEditor
+    },
 }
 </script>
