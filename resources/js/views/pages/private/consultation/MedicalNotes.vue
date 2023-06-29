@@ -14,13 +14,13 @@
             <div v-if="notes.length > 0">
                 <ul class="list-none">
                     <li v-for="(note, index) in notes" :key="index" class="flex items-start justify-between border-b py-2 border-gray-300 last:border-b-0">
-                        <div class="note-content flex-1 mr-2" v-html="note"></div>
+                        <div class="note-content flex-1 mr-2" v-html="note" v-tippy="{ content: note, placement: 'right' }"></div>
                         <div class="buttons ml-auto items-start">
-                            <button @click="removeNote(index)" class="text-red-500 hover:text-red-700 focus:outline-none">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <button v-on:click.stop="editNote(note, index)" class="text-blue-500 hover:text-blue-700 focus:outline-none ml-2">
+                            <button v-on:click.stop="editNote(note, index)" class="text-blue-500 hover:text-blue-700 focus:outline-none">
                                 <i class="fas fa-edit"></i>
+                            </button>
+                            <button @click="removeNote(index)" class="text-red-500 hover:text-red-700 focus:outline-none  ml-2">
+                                <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </li>
@@ -35,8 +35,8 @@
         </div>
         <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
             <div v-if="!showEditor">
-                <button @click="showEditor = true; editingIndex = -1" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-                    <i class="fas fa-plus-circle"></i> {{ editingIndex >= 0 ? 'Change' : 'Add' }} note </button>
+                <button @click="showEditor = true; clearEditor()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                    <i class="fas fa-plus-circle"></i> Add note </button>
             </div>
             <button v-if="showEditor" @click="showEditor = false; editingIndex = -1" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2">
                 <i class="fas fa-times-circle"></i> Cancel </button>
@@ -49,6 +49,7 @@
 <script>
 
 import TextEditor from "@/views/components/input/TextEditor"
+
 
 export default {
     name: "MedicalNotes",
@@ -64,7 +65,15 @@ export default {
             editingIndex: -1,
         };
     },
+
+    mounted() {
+
+    },
+
     methods: {
+        clearEditor() {
+            this.editorContent = ''
+        },
         editNote(note, index) {
             this.editorContent = note
             this.showEditor = true
@@ -92,3 +101,4 @@ export default {
 };
 </script>
 
+<style></style>

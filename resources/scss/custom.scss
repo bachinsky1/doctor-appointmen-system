@@ -60,3 +60,18 @@
         width: 100% !important;
     }
 }
+
+.tippy-box {
+    background-color: hsl(199, 95%, 75%);
+    color: hsla(0, 33%, 4%, 0.87);
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.note-content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 1));
+}
