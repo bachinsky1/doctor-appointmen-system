@@ -6,7 +6,7 @@
         <div class="border-t border-b border-gray-200 max-h-30vh overflow-auto p-3">
             <div class="grid grid-cols-1 sm:grid-cols-1">
                 <ul class="list-none list-inside">
-                    <li v-for="(date, index) in Object.keys(consultations)" :key="index" class="border-b border-gray-200 py-2 flex items-center">
+                    <li v-for="(date, index) in Object.keys(consultations)" :key="index" class="border-b border-gray-200 py-2 flex flex-wrap items-center justify-start">
                         <Badge theme="success" class="inline">{{ date }}</Badge>
                         <ul class="list-none ml-4 list-disc list-inside">
                             <li v-for="consultation in consultations[date]" :key="consultation.id" class="py-1">

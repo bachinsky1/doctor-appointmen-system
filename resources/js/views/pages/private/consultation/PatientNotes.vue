@@ -3,14 +3,14 @@
         <div class="bg-white rounded-t-lg p-4 flex justify-between items-center">
             <h2 class="text-base font-semibold leading-7 text-gray-900">
                 <button v-if="!showEditor" class="text-blue-500 hover:text-blue-700 focus:outline-none ml-2">
-                    <i class="fas fa-book-medical"></i>
+                    <i class="fas fa-heartbeat"></i>
                 </button>
                 <button v-if="showEditor" @click="showEditor = false; editingIndex = -1" class="text-blue-500 hover:text-blue-700 focus:outline-none ml-2">
                     <i class="fas fa-arrow-left"></i>
                 </button> Patient notes
             </h2>
         </div>
-        <div v-if="!showEditor"  id="patientNotes" class="border-t border-b border-gray-200 max-h-30vh overflow-auto p-3">
+        <div v-if="!showEditor"  id="patientnotes" class="border-t border-b border-gray-200 max-h-30vh overflow-auto p-3">
             <div v-if="notes.length > 0">
                 <ul class="list-none">
                     <li v-for="(item, index) in notes" :key="index" class="flex items-start justify-between border-b py-2 border-gray-300 last:border-b-0">
@@ -26,7 +26,7 @@
                     </li>
                 </ul>
             </div>
-            <div v-else>No notes here</div>
+            <div v-else class="flex justify-center items-center">No notes here</div>
         </div>
         <div v-if="showEditor" class="border-t border-b border-gray-200 max-h-30vh overflow-auto p-3">
             <div class="grid grid-cols-1 sm:grid-cols-1">

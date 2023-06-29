@@ -76,7 +76,7 @@ class ConsultationController extends Controller
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function getPatientNotes($id): JsonResponse
-    {
+    { 
         $result = $this->consultationService->getPatientNotes($id);
 
         return response()->json($result);

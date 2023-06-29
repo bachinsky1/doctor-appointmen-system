@@ -13,11 +13,11 @@ export default class PatientNoteService extends ModelService {
     }
 
     public getPatientNotes(consultationId) {
-        this.globalStateStore.loadingElements['patientNotes'] = true
+        this.globalStateStore.loadingElements['patientnotes'] = true
 
         return this.get(`${this.url}/notes/patient/${consultationId}`)
             .finally(() => {
-                this.globalStateStore.loadingElements['patientNotes'] = false
+                this.globalStateStore.loadingElements['patientnotes'] = false
             })
     }
 

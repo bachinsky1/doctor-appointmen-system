@@ -3,7 +3,7 @@
         <div class="bg-white rounded-t-lg p-4 flex justify-between items-center">
             <h2 class="text-base font-semibold leading-7 text-gray-900">
                 <button v-if="!showEditor" class="text-blue-500 hover:text-blue-700 focus:outline-none ml-2">
-                    <i class="fas fa-book-medical"></i>
+                    <i class="fas fa-notes-medical"></i>
                 </button>
                 <button v-if="showEditor" @click="showEditor = false; editingIndex = -1" class="text-blue-500 hover:text-blue-700 focus:outline-none ml-2">
                     <i class="fas fa-arrow-left"></i>
@@ -26,7 +26,7 @@
                     </li>
                 </ul>
             </div>
-            <div v-else>No notes here</div>
+            <div v-else class="flex justify-center items-center">No notes here</div>
         </div>
         <div v-if="showEditor" class="border-t border-b border-gray-200 max-h-30vh overflow-auto p-3">
             <div class="grid grid-cols-1 sm:grid-cols-1">
