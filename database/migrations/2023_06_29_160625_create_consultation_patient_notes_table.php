@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('consultation_patient_notes', function (Blueprint $table) {
             $table->id(); 
-            $table->string('note');
+            $table->text('note');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('consultation_id');
