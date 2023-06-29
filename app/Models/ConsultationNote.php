@@ -9,4 +9,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ConsultationNote extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $table = 'consultation_notes';
+
+    protected $fillable = [
+        'note',
+        'user_id',
+        'patient_id',
+        'consultation_id',
+    ];
+
+    public function consultation()
+    {
+        return $this->belongsTo(Consultation::class);
+    }
 }

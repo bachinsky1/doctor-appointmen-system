@@ -33,38 +33,6 @@ export default class ConsultationService extends ModelService {
             this.globalStateStore.loadingElements['previousConsultations'] = true
         })
     }
-
-    public getMedicalNotes(consultationId) {
-        this.globalStateStore.loadingElements['medicalNotes'] = true
-        return this.get(`${this.url}/notes/medical/${consultationId}`).finally(() => {
-            this.globalStateStore.loadingElements['medicalNotes'] = false
-        })
-    }
-
-    public storeMedicalNote(data) {
-        this.globalStateStore.loadingElements['medicalNotes'] = true
-        const consultationId = data.public_id
-        return this.post(`${this.url}/notes/medical/${consultationId}`, data).finally(() => {
-            this.globalStateStore.loadingElements['medicalNotes'] = true
-        })
-    }
-
-    public patchMedicalNote(data) {
-        this.globalStateStore.loadingElements['medicalNotes'] = true
-        const consultationId = data.public_id 
-        return this.patch(`${this.url}/notes/medical/${consultationId}`, data).finally(() => {
-            this.globalStateStore.loadingElements['medicalNotes'] = true
-        })
-    }
-
-    public deleteMedicalNote(data) {
-        this.globalStateStore.loadingElements['medicalNotes'] = true
-        const consultationId = data.public_id
-        const noteId = data.note_id
-
-        return this.delete(`notes/medical/${consultationId}/${noteId}`)
-            .finally(() => {
-                this.globalStateStore.loadingElements['medicalNotes'] = true
-            })
-    }
+ 
+    
 }

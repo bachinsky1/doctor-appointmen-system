@@ -7,6 +7,7 @@ use App\Http\Requests\PreviousConsultationRequest;
 use App\Models\Appointment;
 use App\Models\Consultation;
 use App\Models\ConsultationMedicalNote;
+use App\Models\ConsultationNote;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth; 
 /**
@@ -165,10 +166,54 @@ class ConsultationService
         return $consultation;
     }
 
-    public function getConsultationNotes($id)
-    { 
-        $consultation = Consultation::where('public_id', $id)->firstOrFail();
+    public function getConsultationNotes($publicId)
+    {
+        return ConsultationNote::whereHas('consultation', function ($query) use ($publicId) {
+            $query->where('public_id', $publicId);
+        })->get();
+    }
 
-        return $consultation;
+    public function storeConsultationNote(ConsultationPublicIdRequest $request)
+    {
+        $public_id = $request->input('public_id');
+        $consultation = Consultation::where('public_id', $public_id)->first();
+
+        $note = ConsultationNote::create([ 
+            'note' => $request->input('note'),
+            'user_id' => $consultation->user_id,
+            'patient_id' => $consultation->patient_id,
+            'consultation_id' => $consultation->id,
+        ]);
+
+        return $note;
+    }
+
+    public function deleteConsultationNote(string $consultationId, int $noteId)
+    {
+        $public_id = $consultationId;
+        $note_id = $noteId;
+        $consultation = Consultation::where('public_id', $public_id)->first();
+
+        return ConsultationNote::where([
+            ['id', '=', $note_id],
+            ['consultation_id', '=', $consultation->id]
+        ])->delete();
+    }
+
+    public function patchConsultationNote(ConsultationPublicIdRequest $request)
+    {
+        $public_id = $request->input('public_id');
+        $note_id = $request->input('note_id');
+ 
+        $consultation = Consultation::where('public_id', $public_id)->firstOrFail();
+ 
+        $note = ConsultationNote::where('id', $note_id)
+            ->where('consultation_id', $consultation->id)
+            ->firstOrFail();
+
+        $note->note = $request->input('note');
+        $note->save();
+
+        return $note;
     }
 }

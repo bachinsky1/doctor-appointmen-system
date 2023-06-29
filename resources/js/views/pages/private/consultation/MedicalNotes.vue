@@ -51,7 +51,7 @@ import { trans } from "@/helpers/i18n"
 import { getResponseError } from "@/helpers/api"
 import { useConsultationStore } from "@/stores"
 import { useAlertStore } from "@/stores"
-import ConsultationService from "@/services/ConsultationService"
+import MedicalNoteService from "@/services/MedicalNoteService"
 import TextEditor from "@/views/components/input/TextEditor"
 
 export default {
@@ -77,7 +77,7 @@ export default {
         try {
             setTimeout(async () => { 
                 const consultation = this.consultationStore.currentConsultation
-                const result = await this.consultationService.getMedicalNotes(consultation.public_id) 
+                const result = await this.medicalNoteService.getMedicalNotes(consultation.public_id) 
                 this.notes = result.data 
             }) 
         } catch (error) {
@@ -107,7 +107,7 @@ export default {
                         note_id: note.id
                     }
                     
-                    const result = await this.consultationService.patchMedicalNote(data)
+                    const result = await this.medicalNoteService.patchMedicalNote(data)
                     if (result.data) {
                         this.notes.splice(this.editingIndex, 1, result.data)
                     }
@@ -116,7 +116,7 @@ export default {
                         public_id: this.consultationStore.currentConsultation.public_id,
                         note: newNote
                     }
-                    const result = await this.consultationService.storeMedicalNote(data)
+                    const result = await this.medicalNoteService.storeMedicalNote(data)
                     const note = result.data 
                     this.notes.push(note)
                 }
@@ -131,7 +131,7 @@ export default {
                     public_id: this.consultationStore.currentConsultation.public_id,
                     note_id: this.notes[index].id
                 }
-                const result = await this.consultationService.deleteMedicalNote(data)
+                const result = await this.medicalNoteService.deleteMedicalNote(data)
 
                 if (result.data) {
                     this.notes.splice(index, 1)
@@ -144,12 +144,12 @@ export default {
 
         const consultationStore = useConsultationStore()
         const alertStore = useAlertStore()
-        const consultationService = new ConsultationService()
+        const medicalNoteService = new MedicalNoteService()
 
         return {
             consultationStore,
             alertStore,
-            consultationService
+            medicalNoteService
         }
     }
 

@@ -94,6 +94,27 @@ class ConsultationController extends Controller
         return response()->json($result);
     }
 
+    public function storeConsultationNote(ConsultationPublicIdRequest $request): JsonResponse
+    {
+        $result = $this->consultationService->storeConsultationNote($request);
+
+        return response()->json($result);
+    }
+
+    public function deleteConsultationNote(string $consultationId, int $noteId): JsonResponse
+    {
+        $result = $this->consultationService->deleteConsultationNote($consultationId, $noteId);
+
+        return response()->json($result);
+    }
+
+    public function patchConsultationNote(ConsultationPublicIdRequest $request): JsonResponse
+    {
+        $result = $this->consultationService->patchConsultationNote($request);
+
+        return response()->json($result);
+    }
+
     /**
      * Summary of storeMedicalNote
      * @param \App\Http\Requests\ConsultationPublicIdRequest $request
