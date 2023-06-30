@@ -43,6 +43,7 @@
             <button v-if="showEditor" @click="saveNote" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
                 <i class="fas fa-save"></i> Save note </button>
         </div>
+        <BlockAlert :show="show" :type="type" :message="message" :description="description" @close="show=false" ref="alert" />
     </div>
 </template>
 
@@ -53,6 +54,7 @@ import { useConsultationStore } from "@/stores"
 import { useAlertStore } from "@/stores"
 import ConsultationNoteService from "@/services/ConsultationNoteService"
 import TextEditor from "@/views/components/input/TextEditor"
+import BlockAlert from '@/views/components/BlockAlert.vue'
 
 export default {
     name: "ConsultationNotes",
@@ -62,6 +64,7 @@ export default {
 
     components: {
         TextEditor,
+        BlockAlert
     },
 
     data() {
@@ -70,6 +73,10 @@ export default {
             notes: [],
             editorContent: '',
             editingIndex: -1,
+            show: false,
+            type: '',
+            message: '',
+            description: ''
         };
     },
 
@@ -86,6 +93,27 @@ export default {
     },
 
     methods: {
+        showSuccess(message, description) {
+            const alert = {
+                type: 'success',
+                message: message || 'Success!',
+                description: description,
+                show: true
+            }
+
+            this.$refs.alert.addAlert(alert)
+        },
+        showError(message, description) {
+            const alert = {
+                type: 'error',
+                message: message || 'Error!',
+                description: description,
+                show: true
+            }
+
+            this.$refs.alert.addAlert(alert)
+        },
+
         clearEditor() {
             this.editorContent = ''
         },
@@ -98,28 +126,35 @@ export default {
         async saveNote() {
             const newNote = this.editorContent
             if (newNote) {
-                if (this.editingIndex >= 0) {
+                try {
+                    if (this.editingIndex >= 0) {
 
-                    const note = this.notes[this.editingIndex]
-                    const data = {
-                        public_id: this.consultationStore.currentConsultation.public_id,
-                        note: newNote,
-                        note_id: note.id
-                    }
+                        const note = this.notes[this.editingIndex]
+                        const data = {
+                            public_id: this.consultationStore.currentConsultation.public_id,
+                            note: newNote,
+                            note_id: note.id
+                        }
 
-                    const result = await this.consultationNoteService.patchConsultationNote(data)
-                    if (result.data) {
-                        this.notes.splice(this.editingIndex, 1, result.data)
+                        const result = await this.consultationNoteService.patchConsultationNote(data)
+                        if (result.data) {
+                            this.notes.splice(this.editingIndex, 1, result.data)
+                        }
+                    } else {
+                        const data = {
+                            public_id: this.consultationStore.currentConsultation.public_id,
+                            note: newNote
+                        }
+                        const result = await this.consultationNoteService.storeConsultationNote(data)
+                        const note = result.data
+                        this.notes.push(note)
                     }
-                } else {
-                    const data = {
-                        public_id: this.consultationStore.currentConsultation.public_id,
-                        note: newNote
-                    }
-                    const result = await this.consultationNoteService.storeConsultationNote(data)
-                    const note = result.data
-                    this.notes.push(note)
+                    this.showSuccess('Success!', 'Note saved successfully!')
+                } catch (error) {
+                    const { message, description } = getResponseError(error)
+                    this.showError(message, description)
                 }
+                
                 this.showEditor = false
                 this.editorContent = ''
                 this.editingIndex = -1
@@ -131,10 +166,16 @@ export default {
                     public_id: this.consultationStore.currentConsultation.public_id,
                     note_id: this.notes[index].id
                 }
-                const result = await this.consultationNoteService.deleteConsultationNote(data)
 
-                if (result.data) {
-                    this.notes.splice(index, 1)
+                try {
+                    const result = await this.consultationNoteService.deleteConsultationNote(data)
+                    if (result.data) {
+                        this.notes.splice(index, 1)
+                        this.showSuccess('Success!', 'Note deleted successfully!')
+                    }
+                } catch (error) {
+                    const { message, description } = getResponseError(error)
+                    this.showError(message, description)
                 }
             }
         },
