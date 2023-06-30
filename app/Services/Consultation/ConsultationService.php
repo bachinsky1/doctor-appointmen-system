@@ -71,6 +71,11 @@ class ConsultationService
         return $consultation->save();
     }
 
+    /**
+     * Summary of previous
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
+     * @return Collection
+     */
     public function previous(ConsultationPublicIdRequest $request)
     {
         $publicId = $request->input('public_id');
@@ -79,6 +84,7 @@ class ConsultationService
 
         $consultations = Consultation::with('type')
             ->where('patient_id', $patientId)
+            ->whereNotIn('public_id', [$publicId])
             ->orderBy('created_at', 'desc')
             ->get()
             ->groupBy(function ($consultation) {
@@ -264,6 +270,12 @@ class ConsultationService
         return $note;
     }
 
+    /**
+     * Summary of deleteConsultationNote
+     * @param string $consultationId
+     * @param int $noteId
+     * @return mixed
+     */
     public function deleteConsultationNote(string $consultationId, int $noteId)
     {
         $public_id = $consultationId;
@@ -276,6 +288,11 @@ class ConsultationService
         ])->delete();
     }
 
+    /**
+     * Summary of patchConsultationNote
+     * @param \App\Http\Requests\ConsultationPublicIdRequest $request
+     * @return mixed
+     */
     public function patchConsultationNote(ConsultationPublicIdRequest $request)
     {
         $public_id = $request->input('public_id');

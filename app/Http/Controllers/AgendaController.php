@@ -112,6 +112,11 @@ class AgendaController extends Controller
         return response(404)->json(['message' => 'Stub'], 404);
     }
 
+    /**
+     * Summary of searchPatient
+     * @param \App\Http\Requests\SearchPatientRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function searchPatient(SearchPatientRequest $request) : JsonResponse
     {
         $search = $request->input('search');
@@ -120,11 +125,20 @@ class AgendaController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * Summary of getAppointmentTypes
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAppointmentTypes(): JsonResponse
     {
         return response()->json($this->agendaService->getAppointmentTypes());
     }
 
+    /**
+     * Summary of approveAppointment
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function approveAppointment(Request $request): JsonResponse
     {
         $result = $this->agendaService->approveAppointment($request->public_id);
