@@ -4,7 +4,7 @@
             <h2 class="text-base font-semibold leading-7 text-gray-900">
                 <button v-if="!showSearch" 
                     class="text-blue-500 hover:text-blue-700 focus:outline-none ml-2">
-                    <i class="fas fa-notes-medical"></i>
+                    <i class="fas fa-heartbeat"></i>
                 </button>
                 <button v-if="showSearch" 
                     class="text-blue-500 hover:text-blue-700 focus:outline-none ml-2"
@@ -61,6 +61,8 @@
 <script>
 
 import SearchService from '@/services/SearchService'
+import ProblemService from '@/services/ProblemService'
+import { useConsultationStore } from '@/stores'
 
 export default {
     name: 'Problems',
@@ -84,11 +86,19 @@ export default {
                 this.hideList = false
             }, 500)
         },
-        handleItemClick(item) {
+        async handleItemClick(item) {
             this.searchTerm = ''
             this.hideList = true
             this.showSearch = false
             this.items.push(item)
+
+            const data = {
+                public_id: this.consultationStore.currentConsultation.public_id,
+                problem: item
+            }
+            const result = await this.problemService.store(data)
+            // const note = result.data
+            // this.problemService.store(item)
             console.log(item)
         },
         removeItem(item) {
@@ -96,6 +106,17 @@ export default {
             if (index > -1) {
                 this.items.splice(index, 1)
             }
+        }
+    },
+
+    setup() {
+
+        const consultationStore = useConsultationStore() 
+        const problemService = new ProblemService()
+
+        return {
+            consultationStore, 
+            problemService
         }
     }
 }
