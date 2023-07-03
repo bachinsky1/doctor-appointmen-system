@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-for="(alert, index) in alerts" :key="index">
-            <div v-if="alert.show" class="fixed inset-0 z-50 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end" @click="closeAlert(index)" >
+            <div v-if="alert.show" class="fixed inset-0 z-50 flex items-end justify-center px-4 py-6 pointer-events-none cursor-pointer sm:p-6 sm:items-start sm:justify-end" @click="closeAlert(index)" >
                 
                     <div class="bg-gray-100 rounded-lg max-w-sm w-full shadow-lg rounded-lg pointer-events-auto" :style="{ marginTop: (index * 85) + 'px' }">
                         <div class="rounded-lg border-1 shadow-xs overflow-hidden" >
@@ -47,13 +47,17 @@ export default {
     },
     methods: {
         addAlert(alert) {
-            this.alerts.push(alert);
+            this.alerts.push(alert)
+            setTimeout(() => {
+                alert.show = false
+                this.alerts.splice(this.alerts.indexOf(alert), 1)
+            }, 5000)
         },
         closeAlert(index) {
-            this.alerts[index].show = false;
-            this.alerts.splice(index, 1);
+            this.alerts[index].show = false
+            this.alerts.splice(index, 1)
         },
     },
-};
+}
 </script>
 
