@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ConsultationProblemRequest;
 use App\Http\Requests\ConsultationPublicIdRequest; 
+use App\Models\Consultation;
+use App\Models\ConsultationProblem;
 use App\Models\Consultations;
 use App\Services\Consultation\ConsultationService;
 use Illuminate\Http\Request;
@@ -204,4 +207,25 @@ class ConsultationController extends Controller
 
         return response()->json($result);
     }
+
+
+    public function getProblems($id): JsonResponse
+    {
+        $result = $this->consultationService->getProblems($id);
+        return response()->json($result);
+    }
+
+    public function storeProblem(ConsultationProblemRequest $request): JsonResponse
+    {
+        $result = $this->consultationService->storeProblem($request);
+        return response()->json($result);
+    }
+
+    public function deleteProblem($consultationId, $problemId)
+    {
+        $result = $this->consultationService->deleteProblem($consultationId, $problemId);
+
+        return response()->json($result);
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Services\Consultation;
 
+use App\Http\Requests\ConsultationProblemRequest;
 use App\Http\Requests\ConsultationPublicIdRequest;
 use App\Http\Requests\PreviousConsultationRequest;
 use App\Models\Appointment;
@@ -9,6 +10,7 @@ use App\Models\Consultation;
 use App\Models\ConsultationMedicalNote;
 use App\Models\ConsultationNote;
 use App\Models\ConsultationPatientNote;
+use App\Models\ConsultationProblem;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth; 
 /**
@@ -308,5 +310,57 @@ class ConsultationService
         $note->save();
 
         return $note;
+    }
+
+    public function getProblems($publicId)
+    {
+        return ConsultationProblem::whereHas('consultation', function ($query) use ($publicId) {
+            $query->where('public_id', $publicId);
+        })->get();
+    }
+
+    public function storeProblem(ConsultationProblemRequest $request): bool
+    {
+        $publicId = $request->input('public_id');
+        $problemData = $request->input('problem');
+
+        $consultation = Consultation::where('public_id', $publicId)->first();
+        $userId = $consultation->user_id;
+        $patientId = $consultation->patient_id;
+
+        $problem = new ConsultationProblem();
+        $problem->user_id = $userId;
+        $problem->patient_id = $patientId;
+        $problem->consultation_id = $consultation->id;
+        $problem->hierarchy_level = $problemData['hierarchy_level'];
+        $problem->classification_place = $problemData['classification_place'];
+        $problem->terminal_type = $problemData['terminal_type'];
+        $problem->chapter_id = $problemData['chapter_id'];
+        $problem->code1 = $problemData['code1'];
+        $problem->code2 = $problemData['code2'];
+        $problem->code3 = $problemData['code3'];
+        $problem->code4 = $problemData['code4'];
+        $problem->title1 = $problemData['title1'];
+        $problem->title2 = $problemData['title2'];
+        $problem->title3 = $problemData['title3'];
+        $problem->reference1 = $problemData['reference1'];
+        $problem->reference2 = $problemData['reference2'];
+        $problem->reference3 = $problemData['reference3'];
+        $problem->reference4 = $problemData['reference4'];
+        $problem->reference5 = $problemData['reference5'];
+        $problem->reference6 = $problemData['reference6'];
+        $result = $problem->save();
+
+        return $result; 
+    }
+
+    public function deleteProblem(string $consultationId, int $problemId)
+    {  
+        $consultation = Consultation::where('public_id', $consultationId)->first();
+
+        return ConsultationProblem::where([
+            ['id', '=', (int)$problemId],
+            ['consultation_id', '=', $consultation->id]
+        ])->delete();
     }
 }

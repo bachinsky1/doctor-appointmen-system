@@ -12,7 +12,7 @@ export default class ProblemService extends ModelService {
         this.globalStateStore = useGlobalStateStore()
     }
 
-    public get(consultationId) {
+    public getProblems(consultationId) {
         this.globalStateStore.loadingElements['icd10diagnosis'] = true
 
         return this.get(`${this.url}/problems/${consultationId}`)
@@ -21,7 +21,7 @@ export default class ProblemService extends ModelService {
             })
     }
 
-    public store(data) {
+    public storeProblem(data) {
         this.globalStateStore.loadingElements['icd10diagnosis'] = true
         const consultationId = data.public_id
 
@@ -31,12 +31,12 @@ export default class ProblemService extends ModelService {
             })
     }
 
-    public delete(data) {
+    public deleteProblem(data) {
         this.globalStateStore.loadingElements['icd10diagnosis'] = true
         const consultationId = data.public_id
-        const noteId = data.note_id
+        const problemId = data.problem_id
 
-        return this.delete(`problems/${consultationId}/${noteId}`)
+        return this.delete(`problems/${consultationId}/${problemId}`)
             .finally(() => {
                 this.globalStateStore.loadingElements['icd10diagnosis'] = true
             })

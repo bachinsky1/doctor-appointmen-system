@@ -71,9 +71,9 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::delete('/consultation/notes/patient/{id}/{note_id}', [ConsultationController::class, 'deletePatientNote']);
     Route::patch('/consultation/notes/patient/{id}', [ConsultationController::class, 'patchPatientNote']);
 
-    Route::get('/consultation/problems/{id}', [Icd10Controller::class, 'getProblems']);
-    Route::post('/consultation/problems/{id}', [Icd10Controller::class, 'storeProblem']);
-    Route::delete('/consultation/problems/{id}/{problem_id}', [Icd10Controller::class, 'deleteProblem']);
+    Route::get('/consultation/problems/{id}', [ConsultationController::class, 'getProblems']);
+    Route::post('/consultation/problems/{id}', [ConsultationController::class, 'storeProblem']);
+    Route::delete('/consultation/problems/{id}/{problem_id}', [ConsultationController::class, 'deleteProblem']);
     
     /**
      * Auth related
