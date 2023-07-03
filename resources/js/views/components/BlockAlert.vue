@@ -51,7 +51,7 @@ export default {
         },
         closeAlert(index) {
             this.alerts[index].show = false;
-            // this.alerts.splice(index, 1);
+            this.alerts.splice(index, 1);
         },
     },
 };
