@@ -5,7 +5,10 @@
         </div>
         <div class="border-t border-b border-gray-200 max-h-20vh overflow-auto p-3">
             <div class="grid grid-cols-1 sm:grid-cols-1">
-                <p>Problems</p>
+                <input type="text" v-model="searchTerm" @input="search" placeholder="Search..." class="border border-gray-300 rounded-md py-2 px-3 mb-3">
+                <ul id="icd10Diagnosis">
+                    <li v-for="result in items" :key="result.id" class="border border-gray-300 rounded-md py-2 px-3 mb-3">{{ result.title1 }}</li>
+                </ul>
             </div>
         </div>
         <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
@@ -15,9 +18,63 @@
 </template>
 
 <script>
+ 
+import SearchService from '@/services/SearchService'
+
 export default {
     name: 'Problems',
-    props: {
+    data() {
+        return {
+            items: [],
+            searchTerm: '',
+            searchTimeout: null,
+            hideList: true
+        }
+    },
+    computed: {
+        filteredItems() {
+            if (!Array.isArray(this.items)) {
+                return []
+            }
+            // console.log(this.items)
+            return this.items
+        },
+    },
+
+    methods: { 
+        search() {
+            clearTimeout(this.searchTimeout)
+            this.searchTimeout = setTimeout(async () => {
+                const service = new SearchService(`icd10`)
+                const result = await service.search(this.searchTerm)
+                // this.items = result.data
+
+                console.log(result.data)
+
+                this.hideList = false // Show list after getting search results
+            }, 500)
+        },
+
+        handleItemClick(item) {
+            // Handling the click event on a list item
+            this.searchTerm = ''
+            this.hideList = true
+            console.log(item)
+        },
+
+        handleClickOutside(event) {
+            // Handling the click event outside the list
+            console.log(event)
+        },
+
+    },
+
+    mounted() {
+        document.addEventListener('click', this.handleClickOutside)
+    },
+
+    beforeUnmount() {
+        document.removeEventListener('click', this.handleClickOutside)
     }
 }
 </script>

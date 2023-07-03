@@ -11,6 +11,7 @@ use App\Http\Controllers\MedicalestablishmentController;
 use App\Http\Controllers\SymptomController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\Icd10Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,7 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/medicalestablishment', [MedicalestablishmentController::class, 'index']);
     Route::get('/medicalestablishment/{id}/healthprofessionals', [MedicalestablishmentController::class, 'healthprofessionals']);
     Route::get('/symptom', [SymptomController::class, 'search'])->middleware('throttle:400,1');
+    Route::get('/icd10', [Icd10Controller::class, 'search'])->middleware('throttle:400,1');
 
 
     Route::get('/consultation/activate/{id}', [ConsultationController::class, 'activate']);
