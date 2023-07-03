@@ -29,8 +29,8 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         return response()->json([
-            'firstname' => $user->firstname,
-            'lastname' => $user->lastname,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
             'phone1' => $user->phone1,
             'phone2' => $user->phone2,
             'fax' => $user->fax,
@@ -78,8 +78,9 @@ class ProfileController extends Controller
         foreach ($request->workplaces as $workplaceData) {
             UserMedicalEstablishment::updateOrCreate([
                 'user_id' => $user->id,
-                'medicalestablishment_id' => $workplaceData['medicalestablishment_id']
-            ], ['position_id' => $workplaceData['position_id']]);
+                'medicalestablishment_id' => $workplaceData['medicalestablishment_id'],
+                'position_id' => $workplaceData['position_id']
+            ]);
         }
 
         return response()->json(['message' => 'Data saved successfully']);
@@ -87,17 +88,25 @@ class ProfileController extends Controller
 
     public function updateContact(ProfileUpdateContact $request, Profile $profile)
     {
-        $user = Auth::user();
-        $user->firstname = $request->input('firstname');
-        $user->lastname = $request->input('lastname');
-        $user->birthdate = $request->input('birthdate');
-        $user->gender = $request->input('gender');
-        $user->phone1 = $request->input('phone1');
-        $user->phone2 = $request->input('phone2');
-        $user->fax = $request->input('fax');
-        $user->save();
+        try {
+            $user = Auth::user();
+            $user->first_name = $request->input('first_name');
+            $user->last_name = $request->input('last_name');
+            $user->birthdate = $request->input('birthdate');
+            $user->gender = $request->input('gender');
+            $user->phone1 = $request->input('phone1');
+            $user->phone2 = $request->input('phone2');
+            $user->fax = $request->input('fax');
+            $user->save();
+            return $this->responseUpdateSuccess(['record' => $user->fresh()]);
+        } catch (\Exception $e) {
+            return $this->responseUpdateFail();
+            // return response()->json(['message' => 'Failed to update contact info'], 500);
+        }
 
-        return response()->json(['message' => 'Contact info updated successfully']);
+
+
+        // return response()->json(['message' => 'Contact info updated successfully']);
     }
 
     public function updateAddress(ProfileUpdateAddress $request)

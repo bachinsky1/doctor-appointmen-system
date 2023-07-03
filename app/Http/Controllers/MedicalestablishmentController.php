@@ -13,13 +13,8 @@ class MedicalestablishmentController extends Controller
      */
     public function index()
     {
-        $medests = Medicalestablishment::select('id', 'name', 'address', 'type_id', 'created_at', 'updated_at', 'deleted_at') 
-            ->withTrashed() 
-            ->paginate(10);
-
-        return view('medicalestablishments.index', [
-            'medests' => $medests,
-        ]);
+        $medests = Medicalestablishment::get();
+        return response()->json($medests);
     }
 
     /**
@@ -99,5 +94,11 @@ class MedicalestablishmentController extends Controller
 
             return redirect()->route('medicalestablishments');
         }
+    }
+
+    public function healthprofessionals($id)
+    {
+        $medacts = Medicalestablishment::get();
+        return response()->json($medacts);
     }
 }

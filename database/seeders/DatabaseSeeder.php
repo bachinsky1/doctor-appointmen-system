@@ -1,15 +1,7 @@
 <?php
-/**
- * This code defines a DatabaseSeeder class that extends the Seeder class provided by Laravel. 
- * The purpose of this seeder is to seed the application's database with some initial data. 
- * The run() method is called when the seeder is run, 
- * and it calls three other seeders: RoleSeeder, PermissionSeeder, and UserSeeder. 
- * These seeders are responsible for seeding roles, permissions, and users into the database, respectively.
- * Overall, this code is a simple and effective way to seed an application's database with some initial data.
- */
+
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,18 +13,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(RoleSeeder::class);
-        $this->call(PermissionSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(MedicalestablishmentTypesSeeder::class);
-        $this->call(MedicalestablishmentsSeeder::class);
-        $this->call(AddressSeeder::class);
-        $this->call(AddressLinksSeeder::class);
-        $this->call(AppointmentTypesSeeder::class);
-        $this->call(AppointmentsSeeder::class);
-        $this->call(PositionSeeder::class);
-        $this->call(SpecialitySeeder::class);
-        $this->call(UserSpecialitySeeder::class);
-        $this->call(UserMedicalestablishmentSeeder::class);
+        $this->call([
+            BouncerSeeder::class,
+            UsersTableSeeder::class,
+            MedicalestablishmentTypesSeeder::class,
+            MedicalestablishmentsSeeder::class,
+            AddressSeeder::class,
+            AddressLinksSeeder::class,
+            AppointmentTypesSeeder::class,
+            AppointmentsSeeder::class,
+            ConsultationTypesSeeder::class,
+            PositionSeeder::class,
+            SpecialitySeeder::class,
+            UserSpecialitySeeder::class,
+            UserMedicalestablishmentSeeder::class,
+            SymptomSeeder::class,
+            SymptomSpecialitySeeder::class,
+        ]);
     }
 }

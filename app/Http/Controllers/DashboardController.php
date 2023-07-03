@@ -36,7 +36,7 @@ class DashboardController extends Controller
 
         // Return the appropriate dashboard view based on the user's role
         switch ($roles->first()->slug) {
-            case 'administrator': 
+            case 'administrator':
                 return view('dashboard.admin');
 
             case 'health-professional':

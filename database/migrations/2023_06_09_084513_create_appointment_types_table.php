@@ -15,8 +15,12 @@ return new class extends Migration
     {
         Schema::create('appointment_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->nullable()->onDelete('cascade'); 
             $table->timestamps();
+            $table->softDeletes();
+            $table->unique(['name', 'user_id']);
         });
     }
 

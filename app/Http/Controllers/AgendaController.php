@@ -2,83 +2,147 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Agenda;
+use App\Http\Requests\ChangeAppointmentRequest;
+use App\Http\Requests\GetAppointmentsRequest;
+use App\Http\Requests\SearchPatientRequest;
+use App\Http\Requests\StoreAppointmentRequest; 
+use App\Models\User;
+use App\Services\Agenda\AgendaService;
+use App\Services\Patient\PatientService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
+    private AgendaService $agendaService;
+    private PatientService $patientService;
+
     /**
-     * Display a listing of the resource.
-     *
+     * Summary of __construct
+     * @param \App\Services\Agenda\AgendaService $agendaService
+     * @param \App\Services\Patient\PatientService $patientService
      */
-    public function index()
+    public function __construct(AgendaService $agendaService, PatientService $patientService)
     {
-        return view('agenda.index');
+        $this->agendaService = $agendaService;
+        $this->patientService = $patientService;
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Summary of index
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        return response(404)->json(['message' => 'Stub'], 404);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Summary of create
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function create(): JsonResponse
     {
-        //
+        return response()->json(['message' => 'Stub'], 404);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Agenda  $agenda
-     * @return \Illuminate\Http\Response
+     * Summary of store
+     * @param \App\Http\Requests\StoreAppointmentRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Agenda $agenda)
+    public function storeAppointment(StoreAppointmentRequest $request): JsonResponse
     {
-        //
+        $result = $this->agendaService->storeAppointment($request);
+
+        return !!$result
+            ? response()->json(['message' => 'Data saved successfully'])
+            : response()->json(['message' => 'Error'], 500);
+
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Agenda  $agenda
-     * @return \Illuminate\Http\Response
+     * Summary of change
+     * @param \App\Http\Requests\ChangeAppointmentRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(Agenda $agenda)
+    public function changeAppointment(ChangeAppointmentRequest $request): JsonResponse
     {
-        //
+        $result = $this->agendaService->changeAppointment($request);
+
+        return !!$result
+            ? response()->json(['message' => 'Data saved successfully'])
+            : response()->json(['message' => 'Error'], 500);
+
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Agenda  $agenda
-     * @return \Illuminate\Http\Response
+     * Summary of show
+     * @param mixed Request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, Agenda $agenda)
-    {
-        //
+    public function show(GetAppointmentsRequest $request): JsonResponse
+    { 
+        
+        return response()->json($this->agendaService->getAppointments($request));
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Agenda  $agenda
-     * @return \Illuminate\Http\Response
+     * Summary of destroy
+     * @param mixed $public_id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Agenda $agenda)
+    public function destroy($public_id): JsonResponse
     {
-        //
+        $result = $this->agendaService->destroyAppointment($public_id);
+
+        return !!$result
+            ? response()->json(['message' => 'Data deleted successfully'])
+            : response()->json(['message' => 'Error'], 500);
     }
+
+    public function edit(): JsonResponse
+    {
+        return response(404)->json(['message' => 'Stub'], 404);
+    }
+
+    public function update(): JsonResponse
+    {
+        return response(404)->json(['message' => 'Stub'], 404);
+    }
+
+    /**
+     * Summary of searchPatient
+     * @param \App\Http\Requests\SearchPatientRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function searchPatient(SearchPatientRequest $request) : JsonResponse
+    {
+        $search = $request->input('search');
+        $result = $this->agendaService->searchPatient($search);
+        
+        return response()->json($result);
+    }
+
+    /**
+     * Summary of getAppointmentTypes
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAppointmentTypes(): JsonResponse
+    {
+        return response()->json($this->agendaService->getAppointmentTypes());
+    }
+
+    /**
+     * Summary of approveAppointment
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function approveAppointment(Request $request): JsonResponse
+    {
+        $result = $this->agendaService->approveAppointment($request->public_id);
+        return  response()->json($result);
+    }
+
 }
