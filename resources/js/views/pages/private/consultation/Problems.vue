@@ -1,13 +1,30 @@
 <template>
-    <div class="rounded-lg bg-white shadow-lg mb-3 mr-3">
+    <div class="relative rounded-lg bg-white shadow-lg mb-3 mr-3">
         <div class="bg-white rounded-t-lg p-4">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Problems</h2>
         </div>
-        <div class="border-t border-b border-gray-200 max-h-20vh overflow-auto p-3">
+        <div class="max-h-30vh overflow-auto p-3">
             <div class="grid grid-cols-1 sm:grid-cols-1">
-                <input type="text" v-model="searchTerm" @input="search" placeholder="Search..." class="border border-gray-300 rounded-md py-2 px-3 mb-3">
-                <ul id="icd10Diagnosis">
-                    <li v-for="result in items" :key="result.id" class="border border-gray-300 rounded-md py-2 px-3 mb-3">{{ result.title1 }}</li>
+                <input type="text" v-model="searchTerm" @input="search" placeholder="Search..." class="border border-gray-300 rounded-md py-2 px-3 mb-3 ">
+                <ul id="icd10Diagnosis" v-show="!hideList" 
+                class="absolute top-100 right-0 z-50 w-full bg-white border border-gray-300 rounded-b-lg overflow-auto shadow-lg mb-3 mt-12">
+                    <li v-for="result in searchItems" :key="result.id" 
+                        class="px-3 py-2 cursor-pointer hover:bg-gray-200 border-b border-gray-300" 
+                        @click="handleItemClick(result)">
+                        {{ result.code1 }}: {{ result.title1 }}
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-1">
+                <ul>
+                    <li v-for="result in items" :key="result.id" 
+                        class="px-3 py-2 cursor-pointer hover:bg-gray-200 border-b border-gray-300" 
+                        @click="handleItemClick(result)">
+                        {{ result.code1 }}: {{ result.title1 }}
+                    </li>
+
                 </ul>
             </div>
         </div>
@@ -26,19 +43,14 @@ export default {
     data() {
         return {
             items: [],
+            searchItems: [],
             searchTerm: '',
             searchTimeout: null,
             hideList: true
         }
     },
     computed: {
-        filteredItems() {
-            if (!Array.isArray(this.items)) {
-                return []
-            }
-            // console.log(this.items)
-            return this.items
-        },
+
     },
 
     methods: { 
@@ -47,23 +59,22 @@ export default {
             this.searchTimeout = setTimeout(async () => {
                 const service = new SearchService(`icd10`)
                 const result = await service.search(this.searchTerm)
-                // this.items = result.data
+                this.searchItems = result.data
 
-                console.log(result.data)
+                // console.log(result.data)
 
-                this.hideList = false // Show list after getting search results
+                this.hideList = false 
             }, 500)
         },
 
-        handleItemClick(item) {
-            // Handling the click event on a list item
+        handleItemClick(item) { 
             this.searchTerm = ''
             this.hideList = true
+            this.items.push(item)
             console.log(item)
         },
 
-        handleClickOutside(event) {
-            // Handling the click event outside the list
+        handleClickOutside(event) { 
             console.log(event)
         },
 
