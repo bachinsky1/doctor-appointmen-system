@@ -21,7 +21,8 @@
             </div>
             <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
                 <button class="bg-blue-500 text-white py-1 px-2 rounded-md focus:outline-none" @click="addingVitalSigns = true">
-                    <i class="fas fa-plus-circle"></i> Add vital signs </button>
+                    <i class="fas fa-plus-circle"></i> Add vital signs 
+                </button>
             </div>
         </div>
         <div v-else>
@@ -37,9 +38,11 @@
                 
                 <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
                     <button class="bg-orange-500 text-white py-1 px-2 rounded-md focus:outline-none" @click="addingVitalSigns = false">
-                        <i class="fas fa-times-circle"></i> Cancel </button>
-                    <button class="bg-blue-500 text-white py-1 px-2 rounded-md focus:outline-none ml-2" @click="onSubmitForm">
-                        <i class="fas fa-save"></i> Save </button>
+                        <i class="fas fa-times-circle"></i> Cancel 
+                    </button>
+                    <button class="bg-blue-500 text-white py-1 px-2 rounded-md focus:outline-none ml-2" type="submit">
+                        <i class="fas fa-save"></i> Save 
+                    </button>
                 </div>
             </Form>
         </div>
@@ -87,6 +90,8 @@ export default {
                 for (const [key, value] of formData.entries()) {
                     vitalSignsData[key] = value
                 }
+
+                vitalSignsData.public_id = this.consultationStore.currentConsultation.public_id
                 
                 // Save the vital signs data
                 const response = await this.vitalSignsService.saveVitalSigns(vitalSignsData)

@@ -256,6 +256,11 @@ class ConsultationController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * Summary of storeVitalSign
+     * @param \App\Http\Requests\VitalSignsStoreRequest $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function storeVitalSign(VitalSignsStoreRequest $request): JsonResponse
     {
         $result = $this->consultationService->storeVitalSign($request);

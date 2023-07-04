@@ -13,6 +13,7 @@ use App\Models\ConsultationNote;
 use App\Models\ConsultationPatientNote;
 use App\Models\ConsultationProblem;
 use App\Models\Unit;
+use App\Models\VitalSign;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -399,8 +400,33 @@ class ConsultationService
         return Unit::where('is_vitalsign', true)->get();
     }
 
-    public function storeVitalSign(VitalSignsStoreRequest $request)
+    /**
+     * Summary of storeVitalSign
+     * @param \App\Http\Requests\VitalSignsStoreRequest $request
+     * @return bool
+     */
+    public function storeVitalSign(VitalSignsStoreRequest $request): bool
     {
-        return $request->all();
+        $publicId = $request->input('public_id');
+
+        // Find consulation by public_id
+        $consultation = Consultation::where('public_id', $publicId)->firstOrFail();
+
+        // Get user_id, id, patient_id from consultation
+        $userId = $consultation->user_id;
+        $consultationId = $consultation->id;
+        $patientId = $consultation->patient_id;
+
+        // Remove public_id from payload
+        $payload = $request->except('public_id');
+        $payload = json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+ 
+        $vitalSign = new VitalSign();
+        $vitalSign->data = $payload;
+        $vitalSign->user_id = $userId;
+        $vitalSign->consultation_id = $consultationId;
+        $vitalSign->patient_id = $patientId; 
+
+        return $vitalSign->save();
     }
 }

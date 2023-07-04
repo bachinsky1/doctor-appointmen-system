@@ -33,6 +33,9 @@ class VitalSignsStoreRequest extends FormRequest
             'units.pt' => ['nullable', 'numeric'],
             'units.glucose' => ['nullable', 'numeric'],
             'units.hba1c' => ['nullable', 'numeric'],
+            'public_id' => ['nullable', 'string'],
+            'patient_id' => ['nullable', 'numeric'],
+            'user_id' => ['nullable', 'numeric'],
         ];
     }
 }
