@@ -34,7 +34,7 @@ class ConsultationProblemRequest extends FormRequest
             'problem.code4' => ['required', 'string', 'max:6'],
             'problem.title1' => ['required', 'string', 'max:255'],
             'problem.title2' => ['required', 'string', 'max:255'],
-            'problem.title3' => ['required', 'string', 'max:255'],
+            'problem.title3' => ['nullable', 'string', 'max:255'],
             'problem.reference1' => ['nullable', 'string', 'max:50'],
             'problem.reference2' => ['nullable', 'string', 'max:50'],
             'problem.reference3' => ['nullable', 'string', 'max:50'],

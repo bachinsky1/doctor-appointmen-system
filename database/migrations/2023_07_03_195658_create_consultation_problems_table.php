@@ -4,13 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
-    { 
+    {
         Schema::create('consultation_problems', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
@@ -26,7 +25,7 @@ return new class extends Migration
             $table->string('code4', 6);
             $table->string('title1', 255);
             $table->string('title2', 255);
-            $table->string('title3', 255);
+            $table->string('title3', 255)->nullable();
             $table->string('reference1', 50)->nullable();
             $table->string('reference2', 50)->nullable();
             $table->string('reference3', 50)->nullable();
@@ -41,7 +40,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        
+
     }
 
     /**

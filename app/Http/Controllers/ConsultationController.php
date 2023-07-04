@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ConsultationProblemRequest;
-use App\Http\Requests\ConsultationPublicIdRequest; 
+use App\Http\Requests\ConsultationPublicIdRequest;
 use App\Models\Consultation;
 use App\Models\ConsultationProblem;
 use App\Models\Consultations;
@@ -21,7 +21,7 @@ class ConsultationController extends Controller
      */
     public function __construct(ConsultationService $consultationService)
     {
-        $this->consultationService = $consultationService; 
+        $this->consultationService = $consultationService;
     }
 
     /**
@@ -79,12 +79,12 @@ class ConsultationController extends Controller
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function getPatientNotes($id): JsonResponse
-    { 
+    {
         $result = $this->consultationService->getPatientNotes($id);
 
         return response()->json($result);
     }
-    
+
     /**
      * Summary of storePatientNote
      * @param \App\Http\Requests\ConsultationPublicIdRequest $request
@@ -177,7 +177,7 @@ class ConsultationController extends Controller
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function storeMedicalNote(ConsultationPublicIdRequest $request): JsonResponse
-    { 
+    {
         $result = $this->consultationService->storeMedicalNote($request);
 
         return response()->json($result);
@@ -189,7 +189,7 @@ class ConsultationController extends Controller
      * @param int $noteId
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function deleteMedicalNote(String $consultationId, int $noteId): JsonResponse
+    public function deleteMedicalNote(string $consultationId, int $noteId): JsonResponse
     {
         $result = $this->consultationService->deleteMedicalNote($consultationId, $noteId);
 

@@ -29,7 +29,7 @@
             </div>
             <ul v-show="!hideList" class="absolute top-100 right-0 z-50 w-full bg-white border border-gray-300 rounded-b-lg overflow-auto shadow-lg mb-3">
                 <li v-for="result in searchItems" :key="result.id" class="px-3 py-2 cursor-pointer border-b border-gray-300" @click="handleItemClick(result)">
-                    {{ result.code1 }}: {{ result.title1 }}
+                    {{ result.code1 }}: ({{ result.code2 }}, {{ result.code3 }}) {{ result.title1 }}
                 </li>
             </ul>
         </div>
@@ -77,7 +77,6 @@ export default {
                 const consultation = this.consultationStore.currentConsultation
                 const response = await this.problemService.getProblems(consultation.public_id)
                 this.items = response.data
-                console.log(this.items, 1)
             })
         } catch (error) {
             console.error(error)
@@ -139,8 +138,7 @@ export default {
 
         async removeItem(item) {
             if (confirm('Are you sure you want to delete this record?')) {
-                const index = this.items.indexOf(item)
-                console.log(this.items[index])
+                const index = this.items.indexOf(item) 
                 const data = {
                     public_id: this.consultationStore.currentConsultation.public_id,
                     problem_id: this.items[index].id
@@ -160,7 +158,7 @@ export default {
                     this.showError(message, description)
                 }
 
-            } 
+            }
         }
     },
 
@@ -171,7 +169,7 @@ export default {
 
         return {
             consultationStore,
-            problemService
+            problemService,
         }
     }
 }
