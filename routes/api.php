@@ -74,6 +74,8 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::get('/consultation/problems/{id}', [ConsultationController::class, 'getProblems']);
     Route::post('/consultation/problems/{id}', [ConsultationController::class, 'storeProblem']);
     Route::delete('/consultation/problems/{id}/{problem_id}', [ConsultationController::class, 'deleteProblem']);
+
+    Route::get('/consultation/vitalsigns/units', [ConsultationController::class, 'getVitalsignsUnits']);
     
     /**
      * Auth related

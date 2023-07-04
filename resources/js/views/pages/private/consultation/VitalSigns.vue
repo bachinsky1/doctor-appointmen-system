@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded-lg bg-white shadow-lg mb-3 mr-3">
+    <div class="rounded-lg bg-white shadow-lg mb-3 mr-3" id="vitalSigns">
         <div class="bg-white rounded-t-lg pl-4 pt-4 pb-2 flex justify-between items-center">
             <h2 class="text-base font-semibold leading-7 text-gray-900">
                 <button v-if="addingVitalSigns" class="text-blue-500 hover:text-blue-700 focus:outline-none ml-2" @click="addingVitalSigns = false;">
@@ -20,7 +20,7 @@
                 <div v-else>History of vital signs</div>
             </div>
             <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md focus:outline-none" @click="addingVitalSigns = true">
+                <button class="bg-blue-500 text-white py-1 px-2 rounded-md focus:outline-none" @click="addingVitalSigns = true">
                     <i class="fas fa-plus-circle"></i> Add vital signs </button>
             </div>
         </div>
@@ -34,9 +34,9 @@
                 </li>
             </ul>
             <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
-                <button class="bg-orange-500 text-white px-4 py-2 rounded-md focus:outline-none" @click="addingVitalSigns = false">
+                <button class="bg-orange-500 text-white py-1 px-2 rounded-md focus:outline-none" @click="addingVitalSigns = false">
                     <i class="fas fa-times-circle"></i> Cancel </button>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md focus:outline-none ml-2" @click="saveVitalSigns">
+                <button class="bg-blue-500 text-white py-1 px-2 rounded-md focus:outline-none ml-2" @click="saveVitalSigns">
                     <i class="fas fa-save"></i> Save </button>
             </div>
         </div>
@@ -44,6 +44,10 @@
 </template>
 
 <script>
+import { getResponseError } from "@/helpers/api" 
+import VitalSignsService from '@/services/VitalSignsService'
+import { useConsultationStore } from '@/stores'
+
 export default {
     name: "VitalSigns",
     props: [],
@@ -51,23 +55,34 @@ export default {
         return {
             activeTab: "last",
             addingVitalSigns: false,
-            vitalSigns: [
-                { name: "Heartbeat", unit: "bpm", icon: "fas fa-heartbeat" },
-                { name: "Temperature", unit: "°C", icon: "fas fa-thermometer-half" },
-                { name: "Pressure", unit: "mmHg", icon: "fas fa-tachometer-alt" },
-                { name: "Breathing rate", unit: "breaths/min", icon: "fas fa-lungs" },
-                { name: "Peak flow", unit: "L/min", icon: "fas fa-wind" },
-                { name: "Saturation", unit: "%", icon: "fas fa-lungs" },
-                { name: "PT", unit: "sec", icon: "fas fa-stopwatch" },
-                { name: "Glucose", unit: "mg/dL", icon: "fas fa-flask" },
-                { name: "HbA1c", unit: "%", icon: "fas fa-notes-medical" },
-            ],
+            vitalSigns: [],
         }
     },
+
+    async mounted() {
+        try {
+            const response = await this.vitalSignsService.getUnits()
+            this.vitalSigns = response.data
+        } catch (error) {
+            console.error(error)
+        }
+    },
+
     methods: {
         saveVitalSigns() {
             this.addingVitalSigns = false
         },
     },
+
+    setup() {
+
+        const consultationStore = useConsultationStore()
+        const vitalSignsService = new VitalSignsService()
+
+        return {
+            consultationStore,
+            vitalSignsService,
+        }
+    }
 }
 </script>

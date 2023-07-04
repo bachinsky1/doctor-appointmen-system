@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('unit');
             $table->string('icon')->nullable();
+            $table->boolean('is_vitalsign')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

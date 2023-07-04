@@ -27,7 +27,7 @@ export default class ProblemService extends ModelService {
 
         return this.post(`${this.url}/problems/${consultationId}`, data)
             .finally(() => {
-                this.globalStateStore.loadingElements['icd10diagnosis'] = true
+                this.globalStateStore.loadingElements['icd10diagnosis'] = false
             })
     }
 
@@ -38,7 +38,7 @@ export default class ProblemService extends ModelService {
 
         return this.delete(`problems/${consultationId}/${problemId}`)
             .finally(() => {
-                this.globalStateStore.loadingElements['icd10diagnosis'] = true
+                this.globalStateStore.loadingElements['icd10diagnosis'] = false
             })
     }
 }

@@ -209,21 +209,48 @@ class ConsultationController extends Controller
     }
 
 
+    /**
+     * Summary of getProblems
+     * @param mixed $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function getProblems($id): JsonResponse
     {
         $result = $this->consultationService->getProblems($id);
         return response()->json($result);
     }
 
+    /**
+     * Summary of storeProblem
+     * @param \App\Http\Requests\ConsultationProblemRequest $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function storeProblem(ConsultationProblemRequest $request): JsonResponse
     {
         $result = $this->consultationService->storeProblem($request);
         return response()->json($result);
     }
 
+    /**
+     * Summary of deleteProblem
+     * @param mixed $consultationId
+     * @param mixed $problemId
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
     public function deleteProblem($consultationId, $problemId)
     {
         $result = $this->consultationService->deleteProblem($consultationId, $problemId);
+
+        return response()->json($result);
+    }
+
+    /**
+     * Summary of getVitalsignsUnits
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function getVitalsignsUnits(): JsonResponse
+    {
+        $result = $this->consultationService->getVitalSignsUnits();
 
         return response()->json($result);
     }

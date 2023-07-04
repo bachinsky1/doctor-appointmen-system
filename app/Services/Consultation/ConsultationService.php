@@ -11,6 +11,7 @@ use App\Models\ConsultationMedicalNote;
 use App\Models\ConsultationNote;
 use App\Models\ConsultationPatientNote;
 use App\Models\ConsultationProblem;
+use App\Models\Unit;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -385,5 +386,14 @@ class ConsultationService
             ['id', '=', (int) $problemId],
             ['consultation_id', '=', $consultation->id]
         ])->delete();
+    }
+
+    /**
+     * Summary of getVitalsignsUnits
+     * @return mixed
+     */
+    public function getVitalSignsUnits()
+    {
+        return Unit::where('is_vitalsign', true)->get();
     }
 }
