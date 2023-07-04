@@ -16,6 +16,17 @@ return [
         ],
         "new_appointment" => "Appointment",
     ],
+    "units" => [
+        "heartbeat" => "Heartbeat",
+        "temperature" => "Temperature",
+        "pressure" => "Pressure",
+        "breathing_rate" => "Breathing rate",
+        "peak_flow" => "Peak flow",
+        "saturation" => "Saturation",
+        "pt" => "PT",
+        "glucose" => "Glucose",
+        "hba1c" => "HbA1c",
+    ],
     "users" => [
         "status" => [
             "verified" => "Verified",

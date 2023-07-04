@@ -13,7 +13,19 @@ return [
     "agenda" => [
         "labels" => [
             "appointment_title" => "Title"
-        ]
+        ],
+        "new_appointment" => "Appointment",
+    ],
+    "units" => [
+        "heartbeat" => "Heartbeat",
+        "temperature" => "Temperature",
+        "pressure" => "Pressure",
+        "breathing_rate" => "Breathing rate",
+        "peak_flow" => "Peak flow",
+        "saturation" => "Saturation",
+        "pt" => "PT",
+        "glucose" => "Glucose",
+        "hba1c" => "HbA1c",
     ],
     "users" => [
         "status" => [
@@ -68,6 +80,7 @@ return [
     "global" => [
         "pages" => [
             "home" => "Dashboard",
+            "appointment" => "Appointments",
             "agenda" => "Agenda",
             "billing" => "Billing",
             "tasks" => "Tasks",
@@ -81,7 +94,8 @@ return [
             "login" => "Login",
             "logout" => "Logout",
             "forgot_password" => "Forgot Password",
-            "reset_password" => "Reset Password"
+            "reset_password" => "Reset Password",
+            "consultation" => "Consultation"
         ],
         "phrases" => [
             'clear_filters' => 'Clear all',
@@ -140,6 +154,9 @@ return [
             "delete" => "Delete",
             "add" => "Add",
             "change_avatar" => "Change Avatar",
+            "approve" => "Approve",
+            "consultation" => "Consultation",
+            "close_consultation" => "Close Consultation",
         ],
         "actions" => [
             "name" => "Actions",
@@ -153,5 +170,6 @@ return [
             "confirm" => "Confirm!",
             "confirm_action_message" => "Are you sure you want to perform this action?",
         ]
+
     ]
 ];

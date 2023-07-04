@@ -28,7 +28,7 @@
             <ul class="border-t border-gray-200 overflow-auto p-3">
                 <li v-for="(vitalSign, index) in vitalSigns" :key="index" class="p-2 border-b flex items-center">
                     <i :class="vitalSign.icon" class="mr-1"></i>
-                    <span class="mr-2">{{ vitalSign.name }}</span>
+                    <span class="mr-2">{{ trans(vitalSign.name) }} </span>
                     <input type="text" class="w-12 border border-gray-300 rounded-sm text-sm py-1 px-2 ml-auto" />
                     <span class="ml-2 text-gray-400 text-xs">{{ vitalSign.unit }}</span>
                 </li>
@@ -45,6 +45,7 @@
 
 <script>
 import { getResponseError } from "@/helpers/api" 
+import { trans } from "@/helpers/i18n"
 import VitalSignsService from '@/services/VitalSignsService'
 import { useConsultationStore } from '@/stores'
 
@@ -82,6 +83,7 @@ export default {
         return {
             consultationStore,
             vitalSignsService,
+            trans,
         }
     }
 }
