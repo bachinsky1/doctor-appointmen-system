@@ -246,13 +246,12 @@ class ConsultationController extends Controller
     }
 
     /**
-     * Summary of getVitalsignsUnits
+     * Summary of getVitalSignUnits
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function getVitalsignsUnits(): JsonResponse
+    public function getVitalSignUnits(): JsonResponse
     {
-        $result = $this->consultationService->getVitalSignsUnits();
-
+        $result = $this->consultationService->getVitalSignUnits();
         return response()->json($result);
     }
 
@@ -264,6 +263,12 @@ class ConsultationController extends Controller
     public function storeVitalSign(VitalSignsStoreRequest $request): JsonResponse
     {
         $result = $this->consultationService->storeVitalSign($request);
+        return response()->json($result);
+    }
+
+    public function getVitalSigns($patientId): JsonResponse
+    {
+        $result = $this->consultationService->getVitalSigns($patientId);
         return response()->json($result);
     }
 

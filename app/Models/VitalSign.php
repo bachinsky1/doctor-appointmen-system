@@ -18,4 +18,19 @@ class VitalSign extends Model
         'patient_id',
         'consultation_id',
     ];
+
+    public function consultation()
+    {
+        return $this->belongsTo(Consultation::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

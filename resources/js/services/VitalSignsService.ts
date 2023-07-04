@@ -20,6 +20,14 @@ export default class VitalSignsService extends ModelService {
             })
     }
 
+    public getVitalSigns(patientId) {
+        this.globalStateStore.loadingElements['vitalSigns'] = true
+        return this.get(`${this.url}/vitalsigns/${patientId}`)
+            .finally(() => {
+                this.globalStateStore.loadingElements['vitalSigns'] = false
+            })
+    }
+
     public saveVitalSigns(data) {     
         this.globalStateStore.loadingElements['vitalSigns'] = true
         

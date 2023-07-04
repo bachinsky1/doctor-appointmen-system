@@ -392,10 +392,10 @@ class ConsultationService
     }
 
     /**
-     * Summary of getVitalsignsUnits
+     * Summary of getVitalSignUnits
      * @return mixed
      */
-    public function getVitalSignsUnits()
+    public function getVitalSignUnits()
     {
         return Unit::where('is_vitalsign', true)->get();
     }
@@ -428,5 +428,25 @@ class ConsultationService
         $vitalSign->patient_id = $patientId; 
 
         return $vitalSign->save();
+    }
+
+    public function getVitalSigns($patientId) 
+    {
+        $vitalSigns = VitalSign::where('patient_id', $patientId)->latest()->get();
+
+        if ($vitalSigns->isEmpty()) {
+            return [
+                'last' => null,
+                'history' => collect(),
+            ];
+        }
+
+        $last = $vitalSigns->shift();
+        $history = $vitalSigns;
+
+        return [
+            'last' => $last,
+            'history' => $history,
+        ];
     }
 }
