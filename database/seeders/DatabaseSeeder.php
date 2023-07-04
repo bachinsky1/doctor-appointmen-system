@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             UserMedicalestablishmentSeeder::class,
             SymptomSeeder::class,
             SymptomSpecialitySeeder::class,
+            UnitsSeeder::class,
         ]);
     }
 }
