@@ -312,14 +312,26 @@ class ConsultationService
         return $note;
     }
 
-    public function getProblems($publicId)
+     
+    /**
+     * Summary of getProblems
+     * @param mixed $publicId
+     * @return array
+     */
+    public function getProblems($publicId): array
     {
         return ConsultationProblem::whereHas('consultation', function ($query) use ($publicId) {
             $query->where('public_id', $publicId);
         })->get();
     }
 
-    public function storeProblem(ConsultationProblemRequest $request): bool
+    
+    /**
+     * Summary of storeProblem
+     * @param \App\Http\Requests\ConsultationProblemRequest $request
+     * @return \App\Models\ConsultationProblem
+     */
+    public function storeProblem(ConsultationProblemRequest $request): ConsultationProblem
     {
         $publicId = $request->input('public_id');
         $problemData = $request->input('problem');
@@ -349,12 +361,22 @@ class ConsultationService
         $problem->reference4 = $problemData['reference4'];
         $problem->reference5 = $problemData['reference5'];
         $problem->reference6 = $problemData['reference6'];
-        $result = $problem->save();
+        $problem->save();
 
-        return $result; 
+        $problemId = $problem->id;
+        $newProblem = ConsultationProblem::find($problemId);
+
+        return $newProblem;
     }
 
-    public function deleteProblem(string $consultationId, int $problemId)
+    
+    /**
+     * Summary of deleteProblem
+     * @param string $consultationId
+     * @param int $problemId
+     * @return bool
+     */
+    public function deleteProblem(string $consultationId, int $problemId): bool
     {  
         $consultation = Consultation::where('public_id', $consultationId)->first();
 

@@ -127,7 +127,7 @@ export default {
                 const response = await this.problemService.storeProblem(data)
                 const result = response.data
                 if (result) {
-                    this.items.push(item)
+                    this.items.push(result)
                     this.showSuccess('Success!', 'Note saved successfully!')
                 }
             } catch (error) {
@@ -139,6 +139,7 @@ export default {
         async removeItem(item) {
             if (confirm('Are you sure you want to delete this record?')) {
                 const index = this.items.indexOf(item)
+                console.log(this.items[index])
                 const data = {
                     public_id: this.consultationStore.currentConsultation.public_id,
                     problem_id: this.items[index].id
