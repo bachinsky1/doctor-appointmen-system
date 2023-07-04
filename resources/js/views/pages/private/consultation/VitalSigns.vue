@@ -20,7 +20,8 @@
                 <div v-else>History of vital signs</div>
             </div>
             <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md focus:outline-none" @click="addingVitalSigns = true"> Add vital signs </button>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md focus:outline-none" @click="addingVitalSigns = true">
+                    <i class="fas fa-plus-circle"></i> Add vital signs </button>
             </div>
         </div>
         <div v-else>
@@ -32,8 +33,10 @@
                 </li>
             </ul>
             <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
-                <button class="bg-gray-500 text-white px-4 py-2 rounded-md focus:outline-none" @click="addingVitalSigns = false"> Cancel </button>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md focus:outline-none ml-2" @click="saveVitalSigns"> Save </button>
+                <button class="bg-gray-500 text-white px-4 py-2 rounded-md focus:outline-none" @click="addingVitalSigns = false">
+                    <i class="fas fa-times-circle"></i> Cancel </button>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md focus:outline-none ml-2" @click="saveVitalSigns">
+                    <i class="fas fa-save"></i> Save </button>
             </div>
         </div>
     </div>
