@@ -24,16 +24,12 @@
             </div>
         </div>
         <div v-else>
-            <ul class="border-t border-b border-gray-200 overflow-auto p-3">
-                <li>Heartbeat</li>
-                <li>Temperature</li>
-                <li>Pressure</li>
-                <li>Breathing rate</li>
-                <li>Peak flow</li>
-                <li>Saturation</li>
-                <li>PT</li>
-                <li>Glucose</li>
-                <li>HbA1c</li>
+            <ul class="border-t border-gray-200 overflow-auto p-3">
+                <li v-for="(vitalSign, index) in vitalSigns" :key="index" class="p-2 border-b flex items-center">
+                    <span class="mr-2">{{ vitalSign.name }}</span>
+                    <input type="text" class="w-12 border border-gray-300 rounded-sm text-sm py-1 px-2 ml-auto" />
+                    <span class="ml-2 text-gray-400 text-xs">{{ vitalSign.unit }}</span>
+                </li>
             </ul>
             <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
                 <button class="bg-gray-500 text-white px-4 py-2 rounded-md focus:outline-none" @click="addingVitalSigns = false"> Cancel </button>
@@ -45,17 +41,27 @@
 
 <script>
 export default {
-    name: 'VitalSigns',
+    name: "VitalSigns",
     props: [],
     data() {
         return {
-            activeTab: 'today',
+            activeTab: "today",
             addingVitalSigns: false,
-        };
+            vitalSigns: [
+                { name: "Heartbeat", unit: "bpm" },
+                { name: "Temperature", unit: "°C" },
+                { name: "Pressure", unit: "mmHg" },
+                { name: "Breathing rate", unit: "breaths/min" },
+                { name: "Peak flow", unit: "L/min" },
+                { name: "Saturation", unit: "%" },
+                { name: "PT", unit: "sec" },
+                { name: "Glucose", unit: "mg/dL" },
+                { name: "HbA1c", unit: "%" },
+            ],
+        }
     },
     methods: {
         saveVitalSigns() {
-
             this.addingVitalSigns = false
         },
     },
