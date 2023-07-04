@@ -12,11 +12,11 @@
         </div>
         <div v-if="!addingVitalSigns">
             <div class="flex justify-between border-b border-gray-200">
-                <button :class="{ 'bg-blue-500 text-white': activeTab === 'today' }" class="w-1/2 py-1 focus:outline-none" @click="activeTab = 'today'"> Today </button>
+                <button :class="{ 'bg-blue-500 text-white': activeTab === 'last' }" class="w-1/2 py-1 focus:outline-none" @click="activeTab = 'last'"> Last </button>
                 <button :class="{ 'bg-blue-500 text-white': activeTab === 'history' }" class="w-1/2 py-1 focus:outline-none" @click="activeTab = 'history'"> History </button>
             </div>
             <div class="border-t border-b border-gray-200 overflow-auto p-3">
-                <div v-if="activeTab === 'today'">Today's vital signs</div>
+                <div v-if="activeTab === 'last'">Last's vital signs</div>
                 <div v-else>History of vital signs</div>
             </div>
             <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
@@ -45,7 +45,7 @@ export default {
     props: [],
     data() {
         return {
-            activeTab: "today",
+            activeTab: "last",
             addingVitalSigns: false,
             vitalSigns: [
                 { name: "Heartbeat", unit: "bpm" },
