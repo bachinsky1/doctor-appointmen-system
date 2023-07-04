@@ -76,6 +76,7 @@ Route::middleware(['auth:sanctum', 'apply_locale'])->group(function () {
     Route::delete('/consultation/problems/{id}/{problem_id}', [ConsultationController::class, 'deleteProblem']);
 
     Route::get('/consultation/vitalsigns/units', [ConsultationController::class, 'getVitalsignsUnits'])->middleware('throttle:400,1');
+    Route::post('/consultation/vitalsigns/store', [ConsultationController::class, 'storeVitalSign']);
     
     /**
      * Auth related

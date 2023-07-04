@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ConsultationProblemRequest;
 use App\Http\Requests\ConsultationPublicIdRequest;
+use App\Http\Requests\VitalSignsStoreRequest;
 use App\Models\Consultation;
 use App\Models\ConsultationProblem;
 use App\Models\Consultations;
@@ -252,6 +253,12 @@ class ConsultationController extends Controller
     {
         $result = $this->consultationService->getVitalSignsUnits();
 
+        return response()->json($result);
+    }
+
+    public function storeVitalSign(VitalSignsStoreRequest $request): JsonResponse
+    {
+        $result = $this->consultationService->storeVitalSign($request);
         return response()->json($result);
     }
 

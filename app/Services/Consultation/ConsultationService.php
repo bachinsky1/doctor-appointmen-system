@@ -5,6 +5,7 @@ namespace App\Services\Consultation;
 use App\Http\Requests\ConsultationProblemRequest;
 use App\Http\Requests\ConsultationPublicIdRequest;
 use App\Http\Requests\PreviousConsultationRequest;
+use App\Http\Requests\VitalSignsStoreRequest;
 use App\Models\Appointment;
 use App\Models\Consultation;
 use App\Models\ConsultationMedicalNote;
@@ -14,6 +15,7 @@ use App\Models\ConsultationProblem;
 use App\Models\Unit;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 /**
  * Class ConsultationService.
@@ -395,5 +397,10 @@ class ConsultationService
     public function getVitalSignsUnits()
     {
         return Unit::where('is_vitalsign', true)->get();
+    }
+
+    public function storeVitalSign(VitalSignsStoreRequest $request)
+    {
+        return $request->all();
     }
 }

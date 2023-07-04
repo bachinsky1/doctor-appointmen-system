@@ -25,20 +25,23 @@
             </div>
         </div>
         <div v-else>
-            <ul class="border-t border-gray-200 overflow-auto p-3">
-                <li v-for="(vitalSign, index) in vitalSigns" :key="index" class="p-2 border-b flex items-center">
-                    <i :class="vitalSign.icon" class="mr-1"></i>
-                    <span class="mr-2">{{ trans(vitalSign.name) }} </span>
-                    <input type="text" class="w-12 border border-gray-300 rounded-sm text-sm py-1 px-2 ml-auto" />
-                    <span class="ml-2 text-gray-400 text-xs">{{ vitalSign.unit }}</span>
-                </li>
-            </ul>
-            <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
-                <button class="bg-orange-500 text-white py-1 px-2 rounded-md focus:outline-none" @click="addingVitalSigns = false">
-                    <i class="fas fa-times-circle"></i> Cancel </button>
-                <button class="bg-blue-500 text-white py-1 px-2 rounded-md focus:outline-none ml-2" @click="saveVitalSigns">
-                    <i class="fas fa-save"></i> Save </button>
-            </div>
+            <Form id="vitalSignsForm" @submit.prevent="onSubmitForm">
+                <ul class="border-t border-gray-200 overflow-auto p-3">
+                    <li v-for="(vitalSign, index) in vitalSigns" :key="index" class="p-2 border-b flex items-center">
+                        <i :class="vitalSign.icon" class="mr-1"></i>
+                        <span class="mr-2">{{ trans(vitalSign.name) }} </span>
+                        <input :name="vitalSign.name" type="text" class="w-12 border border-gray-300 rounded-sm text-sm py-1 px-2 ml-auto" />
+                        <span class="ml-2 text-gray-400 text-xs">{{ vitalSign.unit }}</span>
+                    </li>
+                </ul>
+                
+                <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
+                    <button class="bg-orange-500 text-white py-1 px-2 rounded-md focus:outline-none" @click="addingVitalSigns = false">
+                        <i class="fas fa-times-circle"></i> Cancel </button>
+                    <button class="bg-blue-500 text-white py-1 px-2 rounded-md focus:outline-none ml-2" @click="onSubmitForm">
+                        <i class="fas fa-save"></i> Save </button>
+                </div>
+            </Form>
         </div>
     </div>
 </template>
@@ -48,10 +51,14 @@ import { getResponseError } from "@/helpers/api"
 import { trans } from "@/helpers/i18n"
 import VitalSignsService from '@/services/VitalSignsService'
 import { useConsultationStore } from '@/stores'
+import Form from "@/views/components/Form"
 
 export default {
     name: "VitalSigns",
     props: [],
+    components: {
+        Form,
+    },
     data() {
         return {
             activeTab: "last",
@@ -70,7 +77,25 @@ export default {
     },
 
     methods: {
-        saveVitalSigns() {
+        async onSubmitForm() {
+            try {
+                console.log(document.querySelector('#vitalSignsForm'))
+                const formData = new FormData(document.querySelector('#vitalSignsForm'))
+
+                // Convert the form data to an object
+                const vitalSignsData = {}
+                for (const [key, value] of formData.entries()) {
+                    vitalSignsData[key] = value
+                }
+                
+                // Save the vital signs data
+                const response = await this.vitalSignsService.saveVitalSigns(vitalSignsData)
+                console.log(response.data)
+                // Update the consultation store with the new vital signs data
+                // this.consultationStore.updateVitalSigns(vitalSignsData)
+            } catch (error) {
+                console.error(error)
+            }
             this.addingVitalSigns = false
         },
     },

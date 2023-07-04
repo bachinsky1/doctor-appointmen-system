@@ -19,4 +19,13 @@ export default class VitalSignsService extends ModelService {
                 this.globalStateStore.loadingElements['vitalSigns'] = false
             })
     }
+
+    public saveVitalSigns(data) {     
+        this.globalStateStore.loadingElements['vitalSigns'] = true
+        
+        return this.post(`${this.url}/vitalsigns/store`, data)
+            .finally(() => {
+                this.globalStateStore.loadingElements['vitalSigns'] = false
+            })
+    }
 }
