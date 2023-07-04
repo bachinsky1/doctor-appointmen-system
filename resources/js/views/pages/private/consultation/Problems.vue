@@ -11,9 +11,9 @@
             </h2>
         </div>
         <div v-if="!showSearch" class="max-h-30vh border-t border-b overflow-auto p-3">
-            <div class="grid grid-cols-1 sm:grid-cols-1">
+            <div v-if="items.length > 0" class="grid grid-cols-1 sm:grid-cols-1">
                 <ul id="icd10diagnosis">
-                    <li v-for="result in items" :key="result.id" class="px-3 py-2 border-b border-gray-300">
+                    <li v-for="result in items" :key="result.id" class="px-3 py-2 border-b border-gray-300 last:border-b-0">
                         {{ result.code1 }}: {{ result.title1 }}
                         <button class="float-right text-red-500 hover:text-red-700 focus:outline-none" @click="removeItem(result)">
                             <i class="fas fa-trash"></i>
@@ -21,12 +21,13 @@
                     </li>
                 </ul>
             </div>
+            <div v-else class="flex justify-center items-center">No problems and diagnosis here</div>
         </div>
         <div v-if="showSearch" class="max-h-30vh overflow-auto p-3">
             <div class="flex items-center mb-3">
                 <input type="text" v-model="searchTerm" @input="search" placeholder="Search diagnosis in ICD-10..." class="border border-gray-300 rounded-md py-2 px-3 w-full">
             </div>
-            <ul id="icd10Diagnosis" v-show="!hideList" class="absolute top-100 right-0 z-50 w-full bg-white border border-gray-300 rounded-b-lg overflow-auto shadow-lg mb-3">
+            <ul v-show="!hideList" class="absolute top-100 right-0 z-50 w-full bg-white border border-gray-300 rounded-b-lg overflow-auto shadow-lg mb-3">
                 <li v-for="result in searchItems" :key="result.id" class="px-3 py-2 cursor-pointer border-b border-gray-300" @click="handleItemClick(result)">
                     {{ result.code1 }}: {{ result.title1 }}
                 </li>
