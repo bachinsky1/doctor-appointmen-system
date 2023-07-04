@@ -27,6 +27,7 @@
         <div v-else>
             <ul class="border-t border-gray-200 overflow-auto p-3">
                 <li v-for="(vitalSign, index) in vitalSigns" :key="index" class="p-2 border-b flex items-center">
+                    <i :class="vitalSign.icon" class="mr-1"></i>
                     <span class="mr-2">{{ vitalSign.name }}</span>
                     <input type="text" class="w-12 border border-gray-300 rounded-sm text-sm py-1 px-2 ml-auto" />
                     <span class="ml-2 text-gray-400 text-xs">{{ vitalSign.unit }}</span>
@@ -51,15 +52,15 @@ export default {
             activeTab: "last",
             addingVitalSigns: false,
             vitalSigns: [
-                { name: "Heartbeat", unit: "bpm" },
-                { name: "Temperature", unit: "°C" },
-                { name: "Pressure", unit: "mmHg" },
-                { name: "Breathing rate", unit: "breaths/min" },
-                { name: "Peak flow", unit: "L/min" },
-                { name: "Saturation", unit: "%" },
-                { name: "PT", unit: "sec" },
-                { name: "Glucose", unit: "mg/dL" },
-                { name: "HbA1c", unit: "%" },
+                { name: "Heartbeat", unit: "bpm", icon: "fas fa-heartbeat" },
+                { name: "Temperature", unit: "°C", icon: "fas fa-thermometer-half" },
+                { name: "Pressure", unit: "mmHg", icon: "fas fa-tachometer-alt" },
+                { name: "Breathing rate", unit: "breaths/min", icon: "fas fa-lungs" },
+                { name: "Peak flow", unit: "L/min", icon: "fas fa-wind" },
+                { name: "Saturation", unit: "%", icon: "fas fa-lungs" },
+                { name: "PT", unit: "sec", icon: "fas fa-stopwatch" },
+                { name: "Glucose", unit: "mg/dL", icon: "fas fa-flask" },
+                { name: "HbA1c", unit: "%", icon: "fas fa-notes-medical" },
             ],
         }
     },
