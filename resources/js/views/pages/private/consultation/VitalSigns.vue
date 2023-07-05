@@ -66,7 +66,7 @@
                             </div>
                         </div>
                     </ul>
-                    <div v-if="!!lastVitalSigns === false" class="flex justify-center items-center"> No last vital signs </div>
+                    <div v-if="!!lastVitalSigns === false" class="flex justify-center items-center"> List is empty </div>
                 </div>
                 <div v-else>
                     <template v-if="historyVitalSigns.length > 0">
@@ -122,7 +122,7 @@
                             </ul>
                         </div>
                     </template>
-                    <div v-else class="flex justify-center items-center"> No history about vital signs </div>
+                    <div v-else class="flex justify-center items-center"> List is empty </div>
                 </div>
             </div>
             <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
