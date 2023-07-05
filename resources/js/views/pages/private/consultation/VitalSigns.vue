@@ -118,7 +118,7 @@
                                             </li>
                                         </template>
                                     </div>
-                                </div> 
+                                </div>
                             </ul>
                         </div>
                     </template>
@@ -133,12 +133,18 @@
         <div v-else>
             <Form id="vitalSignsForm" @submit.prevent="onSubmitForm">
                 <ul class="border-t border-gray-200 overflow-auto p-3">
-                    <li v-for="(vitalSignUnit, index) in vitalSignsUnits" :key="index" class="p-2 border-b flex items-center">
-                        <i :class="vitalSignUnit.icon" class="mr-1"></i>
-                        <span class="mr-2">{{ trans(vitalSignUnit.name) }} </span>
-                        <input :name="`${vitalSignUnit.name}[value]`" type="text" autocomplete="off" class="w-12 border border-gray-300 rounded-sm text-sm py-1 px-2 ml-auto" />
-                        <input :name="`${vitalSignUnit.name}[unit]`" type="hidden" :value="vitalSignUnit.unit" />
-                        <span class="ml-2 text-gray-400 text-xs">{{ vitalSignUnit.unit }}</span>
+                    <li v-for="(vitalSignUnit, index) in vitalSignsUnits" :key="index" class="p-2 border-b">
+                        <div class="flex items-center">
+                            <div class="w-9/12 flex items-center mr-auto">
+                                <i :class="vitalSignUnit.icon" class="mr-1"></i>
+                                <span>{{ trans(vitalSignUnit.name) }}</span>
+                            </div>
+                            <div class="w-3/12 flex items-center">
+                                <input :name="`${vitalSignUnit.name}[value]`" type="text" autocomplete="off" class="w-12 border border-gray-300 rounded-sm text-sm py-1 px-2" />
+                                <input :name="`${vitalSignUnit.name}[unit]`" type="hidden" :value="vitalSignUnit.unit" />
+                                <span class="ml-2 text-gray-400 text-xs">{{ vitalSignUnit.unit }}</span>
+                            </div>
+                        </div>
                     </li>
                 </ul>
                 <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
