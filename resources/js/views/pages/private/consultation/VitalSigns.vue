@@ -155,21 +155,24 @@
                 </div>
             </Form>
         </div>
+        <BlockAlert :show="show" :type="type" :message="message" :description="description" @close="show = false" ref="alert" />
     </div>
 </template>
 
 <script>
 import { getResponseError } from "@/helpers/api"
 import { trans } from "@/helpers/i18n"
-import VitalSignsService from '@/services/VitalSignsService'
-import { useConsultationStore } from '@/stores'
+import VitalSignsService from "@/services/VitalSignsService"
+import { useConsultationStore } from "@/stores"
 import Form from "@/views/components/Form"
+import BlockAlert from "@/views/components/BlockAlert.vue"
 
 export default {
     name: "VitalSigns",
     props: [],
     components: {
         Form,
+        BlockAlert,
     },
     data() {
         return {
@@ -181,6 +184,10 @@ export default {
             lastVitalSignsUser: {},
             lastVitalSignsDate: '',
             historyVitalSigns: [],
+            show: false,
+            type: '',
+            message: '',
+            description: '',
         }
     },
 
@@ -192,6 +199,26 @@ export default {
     },
 
     methods: {
+        showSuccess(message, description) {
+            const alert = {
+                type: 'success',
+                message: message || 'Success!',
+                description: description,
+                show: true
+            }
+
+            this.$refs.alert.addAlert(alert)
+        },
+        showError(message, description) {
+            const alert = {
+                type: 'error',
+                message: message || 'Error!',
+                description: description,
+                show: true
+            }
+
+            this.$refs.alert.addAlert(alert)
+        },
         async getVitalSigns() {
             try {
                 const patientId = this.consultationStore.currentConsultation.patient_id
@@ -232,12 +259,17 @@ export default {
                 vitalSignsData.public_id = this.consultationStore.currentConsultation.public_id
 
                 // Save the vital signs data
-                await this.vitalSignsService.saveVitalSigns(vitalSignsData)
-                this.getVitalSigns()
-                this.activeTab = 'last'
-
+                const response = await this.vitalSignsService.saveVitalSigns(vitalSignsData)
+                if (!!response.data === true) {
+                    this.showSuccess('Success!', 'Record saved successfully!')
+                    this.getVitalSigns()
+                    this.activeTab = 'last'
+                } else {
+                    throw new Error(); 
+                }
             } catch (error) {
-                console.error(error)
+                const { message, description } = getResponseError(error)
+                this.showError(message, description)
             }
             this.addingVitalSigns = false
         },
