@@ -439,7 +439,7 @@ class ConsultationService
     {
         $vitalSigns = VitalSign::with(['consultation', 'user'])
             ->where('patient_id', $patientId)
-            ->latest()
+            ->oldest()
             ->get();
 
         if ($vitalSigns->isEmpty()) {
@@ -449,7 +449,7 @@ class ConsultationService
             ];
         }
 
-        $last = $vitalSigns->shift();
+        $last = $vitalSigns->pop();
         $history = $vitalSigns;
 
         // Loading related models for last measurement

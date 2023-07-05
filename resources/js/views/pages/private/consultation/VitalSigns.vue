@@ -15,17 +15,56 @@
                 <button :class="{ 'bg-blue-500 text-white': activeTab === 'last' }" class="w-1/2 py-1 focus:outline-none" @click="activeTab = 'last'"> Last </button>
                 <button :class="{ 'bg-blue-500 text-white': activeTab === 'history' }" class="w-1/2 py-1 focus:outline-none" @click="activeTab = 'history'"> History </button>
             </div>
-            <div class="border-t border-b border-gray-200 overflow-auto p-3">
+            <div class="border-b border-gray-200 overflow-auto p-3">
                 <div v-if="activeTab === 'last'">
-                    
                     <ul>
-                        <template v-for="(value, key) in lastVitalSigns">
-                            <li v-if="value !== null" :key="key">{{ trans(key) }}: {{ value }}</li>
-                        </template>
-                        <li class="border-t border-gray-200"><span class="font-semibold">Measurement date:</span> {{ lastVitalSignsDate  }}</li>
-                        <li><span class="font-semibold">Consultation created at:</span> {{ lastVitalSignsConsultation.created_at }}</li>  
-                        <li><span class="font-semibold">Created by:</span> {{ lastVitalSignsUser.full_name }}</li>
-                        <li><span class="font-semibold">Phone:</span> {{ lastVitalSignsUser.phone1 }}</li>
+                        <div class="grid grid-cols-2">
+                            <div>
+                                <template v-for="(v, k) in lastVitalSigns">
+                                    <li v-if="v.value !== null" :key="k" class="py-2 border-b border-gray-300 last:border-b-0">
+                                        {{ trans(k) }}
+                                    </li>
+                                </template>
+                            </div>
+                            <div>
+                                <template v-for="(v, k) in lastVitalSigns">
+                                    <li v-if="v.value !== null" :key="k" class="py-2 border-b border-gray-300 last:border-b-0">
+                                        {{ v.value }}
+                                        <span class="ml-1 text-gray-400 text-sm">{{ v.unit }}</span>
+                                    </li>
+                                </template>
+                            </div>
+                        </div>
+                        <div v-if="lastVitalSignsDate !== null" class="grid grid-cols-2 border-t border-gray-200 py-2">
+                            <div>
+                                <li>
+                                    <span> Measurement date: </span>
+                                </li>
+                                <li>
+                                    <span> Consultation created at: </span>
+                                </li>
+                                <li>
+                                    <span> Created by: </span>
+                                </li>
+                                <li>
+                                    <span> Phone: </span>
+                                </li>
+                            </div>
+                            <div>
+                                <li>
+                                    {{ lastVitalSignsDate }}
+                                </li>
+                                <li>
+                                    {{ lastVitalSignsConsultation.created_at }}
+                                </li>
+                                <li>
+                                    {{ lastVitalSignsUser.full_name }}
+                                </li>
+                                <li>
+                                    {{ lastVitalSignsUser.phone1 }}
+                                </li>
+                            </div>
+                        </div>
                     </ul>
                     <div v-if="!!lastVitalSigns === false" class="flex justify-center items-center"> No last vital signs </div>
                 </div>
@@ -51,7 +90,8 @@
                     <li v-for="(vitalSignUnit, index) in vitalSignsUnits" :key="index" class="p-2 border-b flex items-center">
                         <i :class="vitalSignUnit.icon" class="mr-1"></i>
                         <span class="mr-2">{{ trans(vitalSignUnit.name) }} </span>
-                        <input :name="vitalSignUnit.name" type="text" autocomplete="off" class="w-12 border border-gray-300 rounded-sm text-sm py-1 px-2 ml-auto" />
+                        <input :name="`${vitalSignUnit.name}[value]`" type="text" autocomplete="off" class="w-12 border border-gray-300 rounded-sm text-sm py-1 px-2 ml-auto" />
+                        <input :name="`${vitalSignUnit.name}[unit]`" type="hidden" :value="vitalSignUnit.unit" />
                         <span class="ml-2 text-gray-400 text-xs">{{ vitalSignUnit.unit }}</span>
                     </li>
                 </ul>
@@ -124,7 +164,17 @@ export default {
                 // Convert the form data to an object
                 const vitalSignsData = {}
                 for (const [key, value] of formData.entries()) {
-                    vitalSignsData[key] = value
+                    const matches = key.match(/^(.+)\[(.+)\]$/)
+                    if (matches) {
+                        const name = matches[1]
+                        const property = matches[2]
+                        if (!vitalSignsData[name]) {
+                            vitalSignsData[name] = {}
+                        }
+                        vitalSignsData[name][property] = value
+                    } else {
+                        vitalSignsData[key] = value
+                    }
                 }
 
                 vitalSignsData.public_id = this.consultationStore.currentConsultation.public_id
@@ -139,6 +189,7 @@ export default {
             }
             this.addingVitalSigns = false
         },
+
     },
 
     setup() {

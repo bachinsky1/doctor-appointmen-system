@@ -13,7 +13,7 @@
         <div v-if="!showSearch" class="max-h-30vh border-t border-b overflow-auto p-3">
             <div v-if="items.length > 0" class="grid grid-cols-1 sm:grid-cols-1">
                 <ul id="icd10diagnosis">
-                    <li v-for="result in items" :key="result.id" class="px-3 py-2 border-b border-gray-300 last:border-b-0">
+                    <li v-for="result in items" :key="result.id" class="py-2 border-b border-gray-300 last:border-b-0">
                         {{ result.code1 }}: {{ result.title1 }}
                         <button class="float-right text-red-500 hover:text-red-700 focus:outline-none" @click="removeItem(result)">
                             <i class="fas fa-trash"></i>
