@@ -22,7 +22,7 @@ class VitalSign extends Model
         'updated_at',
     ];
 
-    protected $dateFormat = 'Y-m-d';
+    protected $dateFormat = 'd.m.Y H:i';
 
     public function consultation()
     {

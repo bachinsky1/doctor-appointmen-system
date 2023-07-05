@@ -18,36 +18,19 @@
             <div class="border-b border-gray-200 overflow-auto p-3">
                 <div v-if="activeTab === 'last'">
                     <ul>
-                        <div class="grid grid-cols-2">
-                            <div>
-                                <template v-for="(v, k) in lastVitalSigns">
-                                    <li v-if="v.value !== null" :key="k" class="py-2 border-b border-gray-300 last:border-b-0">
-                                        {{ trans(k) }}
-                                    </li>
-                                </template>
-                            </div>
-                            <div>
-                                <template v-for="(v, k) in lastVitalSigns">
-                                    <li v-if="v.value !== null" :key="k" class="py-2 border-b border-gray-300 last:border-b-0">
-                                        {{ v.value }}
-                                        <span class="ml-1 text-gray-400 text-sm">{{ v.unit }}</span>
-                                    </li>
-                                </template>
-                            </div>
-                        </div>
-                        <div v-if="lastVitalSignsDate !== null" class="grid grid-cols-2 border-t border-gray-200 py-2">
+                        <div v-if="lastVitalSignsDate !== null" class="grid grid-cols-2 border-b border-gray-300 py-2">
                             <div>
                                 <li>
-                                    <span> Measurement date: </span>
+                                    <span> Measurement date </span>
                                 </li>
                                 <li>
-                                    <span> Consultation created at: </span>
+                                    <span> Consultation created at </span>
                                 </li>
                                 <li>
-                                    <span> Created by: </span>
+                                    <span> Created by </span>
                                 </li>
                                 <li>
-                                    <span> Phone: </span>
+                                    <span> Phone </span>
                                 </li>
                             </div>
                             <div>
@@ -65,16 +48,79 @@
                                 </li>
                             </div>
                         </div>
+                        <div class="grid grid-cols-2">
+                            <div>
+                                <template v-for="(v, k) in lastVitalSigns">
+                                    <li v-if="v.value !== null" :key="k" class="py-2 border-b border-gray-300 last:border-b-0">
+                                        {{ trans(k) }}
+                                    </li>
+                                </template>
+                            </div>
+                            <div>
+                                <template v-for="(v, k) in lastVitalSigns">
+                                    <li v-if="v.value !== null" :key="k" class="py-2 border-b border-gray-300 last:border-b-0">
+                                        {{ v.value }}
+                                        <span class="ml-1 text-gray-400 text-sm">{{ v.unit }}</span>
+                                    </li>
+                                </template>
+                            </div>
+                        </div>
                     </ul>
                     <div v-if="!!lastVitalSigns === false" class="flex justify-center items-center"> No last vital signs </div>
                 </div>
                 <div v-else>
                     <template v-if="historyVitalSigns.length > 0">
-                        <ul v-for="historyItem in historyVitalSigns">
-                            <template v-for="(value, key) in JSON.parse(historyItem.data)">
-                                <li v-if="value !== null" :key="key">{{ trans(key) }}: {{ value }}</li>
-                            </template>
-                        </ul>
+                        <div>
+                            <ul v-for="historyItem in historyVitalSigns" :key="historyItem.id">
+                                <div v-if="lastVitalSignsDate !== null" class="grid grid-cols-2 border-t border-b border-t-gray-400 border-b-gray-300 py-2">
+                                    <div>
+                                        <li>
+                                            <span> Measurement date </span>
+                                        </li>
+                                        <li>
+                                            <span> Consultation created at </span>
+                                        </li>
+                                        <li>
+                                            <span> Created by </span>
+                                        </li>
+                                        <li>
+                                            <span> Phone </span>
+                                        </li>
+                                    </div>
+                                    <div>
+                                        <li>
+                                            {{ historyItem.created_at }}
+                                        </li>
+                                        <li>
+                                            {{ historyItem.consultation.created_at }}
+                                        </li>
+                                        <li>
+                                            {{ historyItem.user.full_name }}
+                                        </li>
+                                        <li>
+                                            {{ historyItem.user.phone1 }}
+                                        </li>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <div>
+                                        <template v-for="(v, k) in JSON.parse(historyItem.data)">
+                                            <li v-if="v.value !== null" :key="k" class="py-2 border-b border-gray-300 last:border-b-0">
+                                                {{ trans(k) }}
+                                            </li>
+                                        </template>
+                                    </div>
+                                    <div>
+                                        <template v-for="(v, k) in JSON.parse(historyItem.data)">
+                                            <li v-if="v.value !== null" :key="k" class="py-2 border-b border-gray-300 last:border-b-0">
+                                                {{ v.value }}
+                                                <span class="ml-1 text-gray-400 text-sm">{{ v.unit }}</span>
+                                            </li>
+                                        </template>
+                                    </div>
+                                </div> 
+                            </ul>
+                        </div>
                     </template>
                     <div v-else class="flex justify-center items-center"> No history about vital signs </div>
                 </div>
