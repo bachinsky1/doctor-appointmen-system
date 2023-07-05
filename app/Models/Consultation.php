@@ -28,7 +28,7 @@ class Consultation extends Model
         'deleted_at',
     ];
 
-    protected $dateFormat = 'Y-m-d';
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     public function type()
     {
