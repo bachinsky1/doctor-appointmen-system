@@ -430,9 +430,17 @@ class ConsultationService
         return $vitalSign->save();
     }
 
-    public function getVitalSigns($patientId) 
+    /**
+     * Summary of getVitalSigns
+     * @param mixed $patientId
+     * @return array
+     */
+    public function getVitalSigns($patientId)
     {
-        $vitalSigns = VitalSign::where('patient_id', $patientId)->latest()->get();
+        $vitalSigns = VitalSign::with(['consultation', 'user'])
+            ->where('patient_id', $patientId)
+            ->latest()
+            ->get();
 
         if ($vitalSigns->isEmpty()) {
             return [
@@ -444,9 +452,13 @@ class ConsultationService
         $last = $vitalSigns->shift();
         $history = $vitalSigns;
 
+        // Loading related models for last measurement
+        $last->load(['consultation', 'user']);
+
         return [
             'last' => $last,
             'history' => $history,
         ];
     }
+
 }

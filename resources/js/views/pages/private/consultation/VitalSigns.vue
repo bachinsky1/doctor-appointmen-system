@@ -17,14 +17,17 @@
             </div>
             <div class="border-t border-b border-gray-200 overflow-auto p-3">
                 <div v-if="activeTab === 'last'">
+                    
                     <ul>
                         <template v-for="(value, key) in lastVitalSigns">
                             <li v-if="value !== null" :key="key">{{ trans(key) }}: {{ value }}</li>
                         </template>
+                        <li class="border-t border-gray-200"><span class="font-semibold">Measurement date:</span> {{ lastVitalSignsDate  }}</li>
+                        <li><span class="font-semibold">Consultation created at:</span> {{ lastVitalSignsConsultation.created_at }}</li>  
+                        <li><span class="font-semibold">Created by:</span> {{ lastVitalSignsUser.full_name }}</li>
+                        <li><span class="font-semibold">Phone:</span> {{ lastVitalSignsUser.phone1 }}</li>
                     </ul>
-                    <div v-if="!!lastVitalSigns === false" class="flex justify-center items-center">
-                        No last vital signs
-                    </div>
+                    <div v-if="!!lastVitalSigns === false" class="flex justify-center items-center"> No last vital signs </div>
                 </div>
                 <div v-else>
                     <template v-if="historyVitalSigns.length > 0">
@@ -34,9 +37,7 @@
                             </template>
                         </ul>
                     </template>
-                    <div v-else class="flex justify-center items-center">
-                        No history about vital signs
-                    </div>
+                    <div v-else class="flex justify-center items-center"> No history about vital signs </div>
                 </div>
             </div>
             <div class="bg-white rounded-b-lg p-4 flex justify-center items-center">
@@ -84,6 +85,9 @@ export default {
             addingVitalSigns: false,
             vitalSignsUnits: [],
             lastVitalSigns: {},
+            lastVitalSignsConsultation: {},
+            lastVitalSignsUser: {},
+            lastVitalSignsDate: '',
             historyVitalSigns: [],
         }
     },
@@ -102,6 +106,9 @@ export default {
                 const vitalSignsResponse = await this.vitalSignsService.getVitalSigns(patientId)
 
                 this.lastVitalSigns = vitalSignsResponse.data.last ? JSON.parse(vitalSignsResponse.data.last.data) : null
+                this.lastVitalSignsConsultation = vitalSignsResponse.data.last ? vitalSignsResponse.data.last.consultation : null
+                this.lastVitalSignsUser = vitalSignsResponse.data.last ? vitalSignsResponse.data.last.user : null
+                this.lastVitalSignsDate = vitalSignsResponse.data.last ? vitalSignsResponse.data.last.created_at : null
                 this.historyVitalSigns = vitalSignsResponse.data.history
 
                 const unitsResponse = await this.vitalSignsService.getUnits()
