@@ -15,7 +15,7 @@
                 <button :class="{ 'bg-blue-500 text-white': activeTab === 'last' }" class="w-1/2 py-1 focus:outline-none" @click="activeTab = 'last'"> Last </button>
                 <button :class="{ 'bg-blue-500 text-white': activeTab === 'history' }" class="w-1/2 py-1 focus:outline-none" @click="activeTab = 'history'"> History </button>
             </div>
-            <div class="border-b border-gray-200 overflow-auto p-3">
+            <div class="border-b border-gray-200 overflow-auto p-3 max-h-40vh  overflow-auto p-3">
                 <div v-if="activeTab === 'last'">
                     <ul>
                         <div v-if="lastVitalSignsDate !== null" class="grid grid-cols-2 border-b border-gray-300 py-2">

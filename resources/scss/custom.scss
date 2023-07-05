@@ -55,6 +55,10 @@
     max-height: 30vh;
 }
 
+.max-h-40vh {
+    max-height: 40vh;
+}
+
 @media (max-width: 768px) {
     .flex-wrap>* {
         width: 100% !important;
